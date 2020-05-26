@@ -60,5 +60,15 @@ public class QuChenColumn extends IdEntity{
 	public void setAnCount(int anCount) {
 		this.anCount = anCount;
 	}
-	
+
+	private String copyFromId;
+
+	@Transient
+	public String getCopyFromId() {
+		return copyFromId;
+	}
+
+	public void setCopyFromId(String copyFromId) {
+		this.copyFromId = copyFromId;
+	}
 }

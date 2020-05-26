@@ -90,5 +90,15 @@ public class QuScore extends IdEntity {
 	public void setAvgScore(float avgScore) {
 		this.avgScore = avgScore;
 	}
-	
+
+	private String copyFromId;
+
+	@Transient
+	public String getCopyFromId() {
+		return copyFromId;
+	}
+
+	public void setCopyFromId(String copyFromId) {
+		this.copyFromId = copyFromId;
+	}
 }

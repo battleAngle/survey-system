@@ -130,7 +130,7 @@ button {
 										<th align="center" >创建时间</th>
 										<th align="center" >答卷</th>
 										<th align="center" width="80">状态</th>
-										<th align="center" width="260" style="padding-left: 10px;">操作</th>
+										<th align="center" width="300" style="padding-left: 10px;">操作</th>
 									</tr>
 									<c:choose>
 									<c:when test="${page.totalItems > 0}">
@@ -146,7 +146,7 @@ button {
 										</td>
 										<td align="center">${empty(en.answerNum) ? '0':en.answerNum  }&nbsp;</td>
 										<td align="center" >
-											${en.surveyState eq 0 ? '设计':en.surveyState eq 1?'收集':en.surveyState eq 2?'收集完成':'' }
+											${en.surveyState eq 0 ? '设计':en.surveyState eq 1?'收集':en.surveyState eq 2?'收集完成':'暂停发布' }
 										</td>
 										<td align="center">
 											<div class="btn-group surveyLeftBtnGroup">
@@ -156,6 +156,17 @@ button {
 											  <a class="btn btn-default copySurvey" href="#${en.id}" title="复制一份" data-toggle="tooltip" data-placement="top" ><i class="fa fa-files-o"></i></a>
 											  <a class="btn btn-default deleteSurvey" href="${ctx}/design/my-survey!delete.action?id=${en.id}" title="删除问卷" data-toggle="tooltip" data-placement="top" ><i class="fa fa-trash-o fa-fw"></i></a>
 											  <a class="btn btn-default copytofileSurvey" href="${ctx}/design/my-survey!exportsurvey.action?id=${en.id}" title="导出问卷" data-toggle="tooltip" data-placement="top" ><i class="fa fa-download"></i></a>
+											  <c:choose>
+												  <c:when test="${en.surveyState == 1}">
+													  <a class="btn btn-default pauseSurvey" href="${ctx}/design/my-survey!surveyState.action" title="暂停发布" data-toggle="tooltip" data-placement="top" ><i class="fa fa-pause"></i></a>
+												  </c:when>
+												  <c:when test="${en.surveyState == 3}">
+													  <a class="btn btn-default reopenSurvey" href="${ctx}/design/my-survey!surveyState.action" title="重新发布" data-toggle="tooltip" data-placement="top" ><i class="fa fa-play"></i></a>
+												  </c:when>
+												  <c:otherwise>
+													  <a class="btn btn-default pauseSurvey" style="pointer-events: none;opacity: 0.5"href="${ctx}/design/my-survey!surveyState.action" title="暂停发布" data-toggle="tooltip" data-placement="top" ><i class="fa fa-pause"></i></a>
+												  </c:otherwise>
+											  </c:choose>
 											</div>&nbsp;
 											<div class="btn-group" style="display: none;">
 												<!-- <a class="btn btn-default" href="#"><i class="fa fa-eye"></i></a> -->
@@ -252,6 +263,49 @@ $(".deleteSurvey").click(function(){
 					th.parents("tr").remove();
 				}else{
 					alert("删除失败，未登录或没有权限！");
+				}
+			}
+		});
+	}
+	return false;
+});
+
+$(".pauseSurvey").click(function(){
+	if(confirm("暂停发布后，用户将不能提交问卷，确认暂停发布该问卷吗？")){
+		var th=$(this);
+		var url=$(this).attr("href");
+		var surveyId=$(this).parents("tr").find("input[name='surveyId']").val();
+		var data="id="+surveyId+"&surveyState=3";
+		$.ajax({
+			url:url,
+			data:data,
+			type:"post",
+			success:function(msg){
+				if(msg==="true"){
+					window.location.reload();
+				}else{
+					alert("暂停发布失败，未登录或没有权限！");
+				}
+			}
+		});
+	}
+	return false;
+});
+$(".reopenSurvey").click(function(){
+	if(confirm("确认重新发布该问卷吗？")){
+		var th=$(this);
+		var url=$(this).attr("href");
+		var surveyId=$(this).parents("tr").find("input[name='surveyId']").val();
+		var data="id="+surveyId+"&surveyState=1";
+		$.ajax({
+			url:url,
+			data:data,
+			type:"post",
+			success:function(msg){
+				if(msg==="true"){
+					window.location.reload();
+				}else{
+					alert("重新发布失败，未登录或没有权限！");
 				}
 			}
 		});

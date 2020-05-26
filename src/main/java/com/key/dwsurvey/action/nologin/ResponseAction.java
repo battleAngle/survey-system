@@ -35,9 +35,11 @@ import com.key.dwsurvey.entity.SurveyUser;
 import com.key.dwsurvey.service.SurveyDirectoryManager;
 
 import org.apache.commons.httpclient.util.DateUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.util.WebUtils;
 
@@ -105,6 +107,9 @@ import com.opensymphony.xwork2.ActionSupport;
 	"ajaxCheckRuleCode","ajaxCheckSurveyUser","checkIsSubmit"})
 public class ResponseAction extends ActionSupport {
 	private static final long serialVersionUID = -2289729314160067840L;
+
+	// 问卷用户登录过期时间，默认两小时
+	private final Integer LOGIN_EXPIRED_MINUTES = 60 * 2;
 
 	protected static final String RESULT_FREQUENCY = "resultFrequency";
 	protected final static String INPUT_IFRAME = "input_iframe";
@@ -218,6 +223,19 @@ public class ResponseAction extends ActionSupport {
 
 		return NONE;
 	}
+
+	private void clearLoginUser(String username, String password) {
+		ServletContext application = Struts2Utils.getSession().getServletContext();
+		List<SurveyUser> surveyUserList = (List<SurveyUser>) (application.getAttribute("surveyUsers") == null ? new ArrayList<SurveyUser>() : application.getAttribute("surveyUsers"));
+		List<SurveyUser> removeUsers = new ArrayList<SurveyUser>();
+		for (SurveyUser surveyUser : surveyUserList) {
+			if (StringUtils.equals(surveyUser.getUserName(), username) &&
+					StringUtils.equals(surveyUser.getPassWord(), password)) {
+				removeUsers.add(surveyUser);
+			}
+		}
+		surveyUserList.removeAll(removeUsers);
+	}
 	
 	//将文件插入指定行的方法
 	public void insertStringInFile(File inFile, int lineno, String lineToBeInserted)
@@ -294,8 +312,10 @@ public class ResponseAction extends ActionSupport {
 			}
 			
 			//这边可能要新增用户过期的逻辑
-			 if(surveyAnswer != null){
-					return RELOAD_ANSER_ERROR;
+		 	if(surveyAnswer != null){
+				// 用户已经回答过问卷，清除登录
+				clearLoginUser(surveyuser_username, surveyuser_password);
+				return RELOAD_ANSER_ERROR;
 			} else if(surveyUser == null || new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(surveyUser.getEndTime()).before(new Date())){
 				request.setAttribute("directory", directory);
 				return  ANSWER_INPUT_UP;
@@ -360,6 +380,12 @@ public class ResponseAction extends ActionSupport {
 			String ipAddr = ipService.getIp(request);
 			long ipNum = surveyAnswerManager.getCountByIp(surveyId, ipAddr);
 			SurveyDirectory directory = directoryManager.getSurvey(surveyId);
+
+			// 校验是否暂停发布
+			if (directory.getSurveyState().equals(3)) {
+				request.setAttribute("msg", "目前该问卷已暂停收集，请稍后再试");
+				return RESPONSE_MSG;
+			}
 			SurveyDetail surveyDetail = directory.getSurveyDetail();
 			int refreshNum = surveyDetail.getRefreshNum();
 			
@@ -794,21 +820,27 @@ public class ResponseAction extends ActionSupport {
 		String sid=request.getParameter("sid");
 		SurveyDirectory surveyDirectory=directoryManager.getSurveyBySid(sid);
 		String directoryId=surveyDirectory.getId();
+		// 数据库用户名密码
 		List<SurveyUser> surveyUsers=surveyuserdao.findByNamePassByDirId(surveyuser_username, surveyuser_password, directoryId);
+		// 正在登录的用户
 		List<SurveyUser> surveyUserList=(List<SurveyUser>) (application.getAttribute("surveyUsers")==null?new ArrayList<SurveyUser>():application.getAttribute("surveyUsers"));
 		if(surveyUsers == null || surveyUsers.size() == 0){
+			// 用户名密码错误
 			response.getWriter().write("0");
 		}else if(containsSurveyUser(surveyUserList,surveyUsers.get(0))){
+			// 用户正在答题
 			response.getWriter().write("-2");
-		}
-		else{
+		} else{
 			SurveyUser surveyUser=surveyUsers.get(0);
 			SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			
 			if(simpleDateFormat.parse(surveyUser.getEndTime()).before(new Date())){
+				// 答题时间已经结束
 				response.getWriter().write("-1");
 			}else{
+				// 登录
 				List<SurveyUser> temp=(List<SurveyUser>) (application.getAttribute("surveyUsers")==null?new ArrayList<SurveyUser>():application.getAttribute("surveyUsers"));
+				surveyUser.setLoginTime(new Date());
 				temp.add(surveyUser);
 				application.setAttribute("surveyUsers", temp);
  				response.getWriter().write("1");
@@ -841,16 +873,32 @@ public class ResponseAction extends ActionSupport {
 	}
 	
 	public boolean containsSurveyUser(List<SurveyUser> surveyList,SurveyUser surveyUser){
-		
 		boolean flag=false;
 		for(SurveyUser temp:surveyList){
 			if(temp.getUserName().equals(surveyUser.getUserName())&&temp.getPassWord().equals(surveyUser.getPassWord())){
-				flag=true;
+				if (calcTimeDiffMinutes(temp.getLoginTime(), new Date()) >= LOGIN_EXPIRED_MINUTES) {
+					// 登录两小时
+					flag = false;
+					clearLoginUser(temp.getUserName(), temp.getPassWord());
+				} else {
+					flag=true;
+				}
+				break;
 			}
 		}
 		
 		return flag;
 		
+	}
+
+	/**
+	 * 计算时间差，返回分钟
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	private int calcTimeDiffMinutes(Date start, Date end) {
+		return (int) (end.getTime() - start.getTime()) / (1000 * 60);
 	}
 
 	public String getSid() {

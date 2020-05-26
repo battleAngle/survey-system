@@ -3,13 +3,18 @@ package com.key.dwsurvey.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.key.dwsurvey.dao.QuestionDao;
 import com.key.dwsurvey.entity.QuOrderby;
 import com.key.dwsurvey.entity.QuestionLogic;
 import com.key.common.QuType;
+import com.key.dwsurvey.support.IdMapThreadLocal;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.key.common.dao.BaseDaoImpl;
@@ -62,6 +67,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 	}
 	private void saveQuestion(Question entity, Session session) {
 		boolean isnew=false;
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		String id=entity.getId();
 		String belongId=entity.getBelongId();
 		int orderById=entity.getOrderById();
@@ -70,6 +76,8 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 		}
 		//保存题目的题干部分
 		session.saveOrUpdate(entity);
+		if (StringUtils.isNotEmpty(entity.copyFromId))
+			idMap.put(entity.copyFromId, entity.getId());
 		//判断题目类型
 		QuType quType=entity.getQuType();
 		if(quType==QuType.RADIO || quType==QuType.COMPRADIO){
@@ -97,6 +105,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 		}
 		//更新排序号--如果是新增
 		List<QuestionLogic> questionLogics=entity.getQuestionLogics();
+
 		if(questionLogics!=null){
 			for (QuestionLogic questionLogic : questionLogics) {
 				String qulogicId=questionLogic.getId();
@@ -104,6 +113,19 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 					questionLogic.setId(null);
 				}
 				questionLogic.setCkQuId(entity.getId());
+				if (!idMap.isEmpty()) {
+					String cgQuItemId = questionLogic.getCgQuItemId();
+					String ckQuItemId = questionLogic.getCkQuItemId();
+					String skQuId = questionLogic.getSkQuId();
+					for (String key : idMap.keySet()) {
+						cgQuItemId = cgQuItemId.replace(key, idMap.get(key));
+						ckQuItemId = ckQuItemId.replace(key, idMap.get(key));
+						skQuId = skQuId.replace(key, idMap.get(key));
+					}
+					questionLogic.setCgQuItemId(cgQuItemId);
+					questionLogic.setCkQuItemId(ckQuItemId);
+					questionLogic.setSkQuId(skQuId);
+				}
 				session.saveOrUpdate(questionLogic);
 			}
 		}
@@ -111,7 +133,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 			quOrderByIdAdd1(belongId, orderById);
 		}
 	}
-	
+
 	private void saveQuChenScore(Question entity, Session session, boolean isnew) {
 		//保存相关选项信息
 		saveRows(entity,session);
@@ -181,27 +203,36 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 	}
 	
 	private void saveOptions(Question entity, Session session) {
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<QuChenOption> options=entity.getOptions();
 		String quId=entity.getId();
 		for (QuChenOption quChenOption : options) {
 			quChenOption.setQuId(quId);
 			session.saveOrUpdate(quChenOption);
+			if (StringUtils.isNotEmpty(quChenOption.getCopyFromId()))
+				idMap.put(quChenOption.getCopyFromId(), quChenOption.getId());
 		}
 	}
 	private void saveColumns(Question entity, Session session) {
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<QuChenColumn> cols=entity.getColumns();
 		String quId=entity.getId();
 		for (QuChenColumn quChenColumn : cols) {
 			quChenColumn.setQuId(quId);
 			session.saveOrUpdate(quChenColumn);
+			if (StringUtils.isNotEmpty(quChenColumn.getCopyFromId()))
+				idMap.put(quChenColumn.getCopyFromId(), quChenColumn.getId());
 		}
 	}
 	private void saveRows(Question entity, Session session) {
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<QuChenRow> rows=entity.getRows();
 		String quId=entity.getId();
 		for (QuChenRow quChenRow : rows) {
 			quChenRow.setQuId(quId);
 			session.saveOrUpdate(quChenRow);
+			if (StringUtils.isNotEmpty(quChenRow.getCopyFromId()))
+				idMap.put(quChenRow.getCopyFromId(), quChenRow.getId());
 		}
 	}
 	/**
@@ -210,10 +241,13 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 	 * @param session
 	 */
 	private void saveQuScore(Question entity, Session session) {
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<QuScore> quScores=entity.getQuScores();
 		for (QuScore quScore : quScores) {
 			quScore.setQuId(entity.getId());
 			session.saveOrUpdate(quScore);
+			if (StringUtils.isNotEmpty(quScore.getCopyFromId()))
+				idMap.put(quScore.getCopyFromId(), quScore.getId());
 		}
 	}
 	
@@ -223,10 +257,13 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 	 * @param session
 	 */
 	private void saveQuOrderby(Question entity, Session session) {
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<QuOrderby> quOrderbys=entity.getQuOrderbys();
 		for (QuOrderby quOrderby : quOrderbys) {
 			quOrderby.setQuId(entity.getId());
 			session.saveOrUpdate(quOrderby);
+			if (StringUtils.isNotEmpty(quOrderby.getCopyFromId()))
+				idMap.put(quOrderby.getCopyFromId(), quOrderby.getId());
 		}
 	}
 	/**
@@ -235,11 +272,14 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 	 * @param session
 	 */
 	private void saveQuBig(Question entity, Session session) {
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<Question> questions=entity.getQuestions();
 		session.save(entity);
 		for (Question question : questions) {
 			question.setParentQuId(entity.getId());
 			saveQuestion(question,session);
+			if (StringUtils.isNotEmpty(question.getCopyFromId()))
+				idMap.put(question.getCopyFromId(), question.getId());
 		}
 	}
 	/**
@@ -248,6 +288,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 	 * @param session
 	 */
 	private void saveRadio(Question entity,Session session){
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<QuRadio> quRadios=entity.getQuRadios();
 		
 		for (QuRadio quRadio : quRadios) {
@@ -257,6 +298,8 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 			}
 			quRadio.setQuId(entity.getId());
 			session.saveOrUpdate(quRadio);
+			if (StringUtils.isNotEmpty(quRadio.getCopyFromId()))
+				idMap.put(quRadio.getCopyFromId(), quRadio.getId());
 		}
 	}
 	/**
@@ -265,6 +308,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 	 * @param session
 	 */
 	private void saveCheckbox(Question entity,Session session){
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<QuCheckbox> quCheckboxs=entity.getQuCheckboxs();
 		
 		for (QuCheckbox quCheckbox : quCheckboxs) {
@@ -274,6 +318,8 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 			}
 			quCheckbox.setQuId(entity.getId());
 			session.saveOrUpdate(quCheckbox);
+			if (StringUtils.isNotEmpty(quCheckbox.getCopyFromId()))
+				idMap.put(quCheckbox.getCopyFromId(), quCheckbox.getId());
 		}
 		
 	}
@@ -284,11 +330,14 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 	 * @param session
 	 */
 	private void saveMultiFillblank(Question entity,Session session){
+		Map<String, String> idMap = IdMapThreadLocal.getIdMap();
 		List<QuMultiFillblank> quMultiFillblanks=entity.getQuMultiFillblanks();
 		
 		for (QuMultiFillblank quMultiFillblank : quMultiFillblanks) {
 			quMultiFillblank.setQuId(entity.getId());
 			session.saveOrUpdate(quMultiFillblank);
+			if (StringUtils.isNotEmpty(quMultiFillblank.getCopyFromId()))
+				idMap.put(quMultiFillblank.getCopyFromId(), quMultiFillblank.getId());
 		}
 		// 执行要删除的选项
 		String[] removeOptionUuIds=entity.getRemoveOptionUuIds();
@@ -330,5 +379,11 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 			query.setInteger(1, orderById);
 			query.executeUpdate();
 		}
+	}
+
+	@Override
+	public Question findByCopyFromId(String copyFromId) {
+		Criterion criterion= Restrictions.eq("copyFromId", copyFromId);
+		return super.findFirst(criterion);
 	}
 }

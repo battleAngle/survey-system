@@ -2,8 +2,11 @@ package com.key.dwsurvey.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.key.common.base.entity.IdEntity;
+
+import java.util.Date;
 
 
 @Entity
@@ -21,6 +24,9 @@ public class SurveyUser extends IdEntity{
 	private String startTime;
 	
 	private String endTime;
+
+	@Transient
+	private Date loginTime;
 
 	public SurveyUser() {
 		super();
@@ -84,9 +90,12 @@ public class SurveyUser extends IdEntity{
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
-	
-	
-	
-	
+
+	public Date getLoginTime() {
+		return loginTime;
+	}
+
+	public void setLoginTime(Date loginTime) {
+		this.loginTime = loginTime;
+	}
 }

@@ -66,6 +66,16 @@ public class QuOrderby extends IdEntity {
 		public void setAnOrderSum(int anOrderSum) {
 			this.anOrderSum = anOrderSum;
 		}
-		
+
+	private String copyFromId;
+
+	@Transient
+	public String getCopyFromId() {
+		return copyFromId;
+	}
+
+	public void setCopyFromId(String copyFromId) {
+		this.copyFromId = copyFromId;
+	}
 		
 }

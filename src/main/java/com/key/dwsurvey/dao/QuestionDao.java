@@ -15,4 +15,6 @@ public interface QuestionDao extends BaseDao<Question, String>{
 	
 	public void update(Question entity);
 	public void quOrderByIdDel1(String belongId,Integer orderById);
+
+	public Question findByCopyFromId(String copyFromId);
 }

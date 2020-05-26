@@ -1,42 +1,21 @@
 package com.key.dwsurvey.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.key.dwsurvey.dao.QuestionDao;
-import com.key.dwsurvey.service.QuChenRowManager;
 import com.key.common.QuType;
-import com.key.dwsurvey.service.QuChenOptionManager;
-import com.key.dwsurvey.service.QuScoreManager;
-import com.key.dwsurvey.service.QuestionLogicManager;
+import com.key.common.plugs.page.Page;
+import com.key.common.plugs.page.PropertyFilter;
+import com.key.common.service.BaseServiceImpl;
+import com.key.common.utils.ReflectionUtils;
+import com.key.dwsurvey.dao.QuestionDao;
+import com.key.dwsurvey.entity.*;
+import com.key.dwsurvey.service.*;
+import com.key.dwsurvey.support.IdMapThreadLocal;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.key.common.plugs.page.Page;
-import com.key.common.plugs.page.PropertyFilter;
-import com.key.common.service.BaseServiceImpl;
-import com.key.common.utils.ReflectionUtils;
-import com.key.dwsurvey.entity.QuCheckbox;
-import com.key.dwsurvey.entity.QuChenColumn;
-import com.key.dwsurvey.entity.QuChenOption;
-import com.key.dwsurvey.entity.QuChenRow;
-import com.key.dwsurvey.entity.QuMultiFillblank;
-import com.key.dwsurvey.entity.QuOrderby;
-import com.key.dwsurvey.entity.QuRadio;
-import com.key.dwsurvey.entity.QuScore;
-import com.key.dwsurvey.entity.Question;
-import com.key.dwsurvey.entity.QuestionLogic;
-import com.key.dwsurvey.entity.SurveyDirectory;
-import com.key.dwsurvey.service.QuCheckboxManager;
-import com.key.dwsurvey.service.QuChenColumnManager;
-import com.key.dwsurvey.service.QuMultiFillblankManager;
-import com.key.dwsurvey.service.QuOrderbyManager;
-import com.key.dwsurvey.service.QuRadioManager;
-import com.key.dwsurvey.service.QuestionManager;
+import java.util.*;
 
 
 /**
@@ -269,6 +248,7 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 		for (Question question : questions) {
 			copyQu(belongId, tag, question);
 		}
+		IdMapThreadLocal.clear();
 	}
 	/**
 	 * 保存选中的题目 即从题库或从其它试卷中的题
@@ -331,9 +311,12 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 		
 		getQuestionOption(changeQuestion);
 		copyItems(belongId,changeQuestion, question);
+		List<QuestionLogic> questionLogics = changeQuestion.getQuestionLogics();
+		question.setQuestionLogics(questionLogics);
 		save(question);
 	}
-	private void copyItems(String quBankUuid,Question changeQuestion, Question question) {
+
+	private void copyItems(String quBankUuid, Question changeQuestion, Question question) {
 		QuType quType=changeQuestion.getQuType();
 		if(quType==QuType.RADIO || quType==QuType.COMPRADIO){
 			List<QuRadio> changeQuRadios=changeQuestion.getQuRadios();
@@ -343,6 +326,7 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 				ReflectionUtils.copyAttr(changeQuRadio,quRadio);
 				quRadio.setId(null);
 				quRadios.add(quRadio);
+				quRadio.setCopyFromId(changeQuRadio.getId());
 			}
 			question.setQuRadios(quRadios);
 		}else if(quType == QuType.ORDERQU){
@@ -353,6 +337,7 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 		    	ReflectionUtils.copyAttr(changequOrderby, quOrderby);
 		    	quOrderby.setId(null);
 		    	quOrderbys.add(quOrderby);
+				quOrderby.setCopyFromId(changequOrderby.getId());
 		    }
 		    question.setQuOrderbys(quOrderbys);
 		}
@@ -364,6 +349,7 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 				ReflectionUtils.copyAttr(changeQuCheckbox,quCheckbox);
 				quCheckbox.setId(null);
 				quCheckboxs.add(quCheckbox);
+				quCheckbox.setCopyFromId(changeQuCheckbox.getId());
 			}
 			question.setQuCheckboxs(quCheckboxs);
 		}else if(quType==QuType.MULTIFILLBLANK){
@@ -374,6 +360,7 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 				ReflectionUtils.copyAttr(changeQuDFillbank,quDFillbank);
 				quDFillbank.setId(null);
 				quDFillbanks.add(quDFillbank);
+				quDFillbank.setCopyFromId(changeQuDFillbank.getId());
 			}
 			question.setQuMultiFillblanks(quDFillbanks);
 		}else if(quType==QuType.SCORE){
@@ -385,6 +372,7 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 				ReflectionUtils.copyAttr(changeQuScore, quScore);
 				quScore.setId(null);
 				quScores.add(quScore);
+				quScore.setCopyFromId(changeQuScore.getId());
 			}
 			question.setQuScores(quScores);
 		}else if(quType==QuType.CHENRADIO || quType==QuType.CHENCHECKBOX || quType==QuType.CHENFBK  || quType==QuType.COMPCHENRADIO ||quType==QuType.CHENSCORE ){
@@ -397,6 +385,7 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 				ReflectionUtils.copyAttr(changeRow, quChenRow);
 				quChenRow.setId(null);
 				rows.add(quChenRow);
+				quChenRow.setCopyFromId(changeRow.getId());
 			}
 			question.setRows(rows);
 			
@@ -405,6 +394,7 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 				ReflectionUtils.copyAttr(changeColumn, quChenColumn);
 				quChenColumn.setId(null);
 				columns.add(quChenColumn);
+				quChenColumn.setCopyFromId(changeColumn.getId());
 			}
 			question.setColumns(columns);
 			
@@ -416,12 +406,13 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 					ReflectionUtils.copyAttr(changeOption, quChenColumn);
 					quChenColumn.setId(null);
 					options.add(quChenColumn);
+					quChenColumn.setCopyFromId(changeOption.getId());
 				}
 				question.setOptions(options);
 			}
 			
 		}
-		
+
 	}
 
 

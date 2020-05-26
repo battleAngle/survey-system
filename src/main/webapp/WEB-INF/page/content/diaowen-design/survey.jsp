@@ -3926,9 +3926,11 @@
 									<span style="font-size: 14px;vertical-align: middle;">用户姓名&nbsp;&nbsp;</span>
 									<input type="text" class="inputS1" name="survey_user_name_2" value="">
 									<input type="button" value="查询" class="sbtn25 sbtn25_1" style="font-size: 16px;" onclick="selectByName()"/>
+									<input type="button" value="导入" class="sbtn25 sbtn25_1" style="font-size: 16px;" onclick="importUser()"/>
 									<input type="button" value="导出" class="sbtn25 sbtn25_1" style="font-size: 16px;" onclick="exportUser()"/>
 									<input type="button" value="批量删除" class="sbtn25 sbtn25_1 " style="font-size: 16px;" onclick="bactchDelete()"/>
 									<input type="button" value="全部删除" class="sbtn25 sbtn25_1 " style="font-size: 16px;" onclick="deleteAll()"/>
+									<input type="file" id="uploadCsv" style="display:none" name="file" onchange ="uploadFile()"/>
 								</div>
 								
 		 </div>
@@ -4007,6 +4009,7 @@
 				</div>
 				<div class="dwQuDialogBtnCon" ><input type="button" value="保存" class="quDialogBtn" id="dwDialogSurveyAttrSave"/></div>
 		</div>
+
 
 
 

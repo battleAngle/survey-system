@@ -2,6 +2,7 @@ package com.key.dwsurvey.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.key.common.base.entity.IdEntity;
 
@@ -41,6 +42,16 @@ public class QuChenOption extends IdEntity {
 	public void setOrderById(Integer orderById) {
 		this.orderById = orderById;
 	}
-	
+
+	private String copyFromId;
+
+	@Transient
+	public String getCopyFromId() {
+		return copyFromId;
+	}
+
+	public void setCopyFromId(String copyFromId) {
+		this.copyFromId = copyFromId;
+	}
 	
 }

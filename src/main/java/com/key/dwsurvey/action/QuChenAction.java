@@ -107,7 +107,7 @@ public class QuChenAction extends ActionSupport{
 		String  projectName=request.getServletContext().getContextPath();
 		if(quTitle!=null){
 			quTitle=URLDecoder.decode(quTitle,"utf-8");
-			quTitle =quTitle.replace("href=\"", "href=\""+projectName);
+//			quTitle =quTitle.replace("href=\"", "href=\""+projectName);
 			entity.setQuTitle(quTitle);
 		}
 		entity.setOrderById(Integer.parseInt(orderById));

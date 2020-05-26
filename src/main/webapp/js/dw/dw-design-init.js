@@ -6300,6 +6300,37 @@ function exportUser(){
 	window.location.href=ctx+"/surveyuser/survey-user!exportuser.action?survey_id="+id;
 }
 
+function importUser() {
+	$('#uploadCsv').val("");
+	$('#uploadCsv').click();
+}
+function uploadFile() {
+	var myform = new FormData();
+	myform.append('file', $('#uploadCsv')[0].files[0]);
+	myform.append('survey_id', $("#id").val());
+	$.ajax({
+		url: ctx + "/surveyuser/import-user.action",
+		type: "post",
+		data: myform,
+		contentType: false,
+		processData: false,
+		success: function (page) {
+			console.log(page);
+			//jquery局部刷新
+			layer.close(layer.index);
+			$(".content_1").remove();
+			$("#content_2").remove();
+			tablepage(page);
+			$(".checkTotal").prop("checked",false);
+			layer.msg("导入成功");
+		},
+		error: function (data) {
+			console.log(data)
+		}
+	});
+}
+
+
 
 
 

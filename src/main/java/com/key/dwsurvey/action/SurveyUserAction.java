@@ -1,22 +1,14 @@
 package com.key.dwsurvey.action;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.struts2.convention.annotation.AllowedMethods;
-import org.apache.struts2.convention.annotation.InterceptorRef;
-import org.apache.struts2.convention.annotation.InterceptorRefs;
-import org.apache.struts2.convention.annotation.Namespace;
-import org.apache.struts2.convention.annotation.Result;
-import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSONObject;
@@ -31,10 +23,11 @@ import com.key.dwsurvey.entity.SurveyDirectory;
 import com.key.dwsurvey.entity.SurveyUser;
 import com.key.dwsurvey.service.SurveyUserService;
 import com.opensymphony.xwork2.ActionSupport;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Namespace("/surveyuser")
-@AllowedMethods({"save","list","delete","exportuser","deleteBatch","deleteAll"})
+@AllowedMethods({"save","list","delete","exportuser","deleteBatch","deleteAll","importUser"})
 @Results({	
 })
 public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
@@ -54,6 +47,17 @@ public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
 	private String alarmendtime;
    
 	private String survey_state;
+
+	private MultipartFile file;
+
+	/**
+	 * 1.不使用密码；2.唯一密码；3.随机密码；4.指定密码
+	 */
+	private String password_setting;
+
+	private String password;
+
+
 	
 	@Autowired
 	private SurveyUserService SurveyUserService;
@@ -71,22 +75,31 @@ public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
 		//判断用户是否存在
 		User user=accountManager.getCurUser();
 		if(user!=null){
-			//查看是否已经批量生成。。。
+			// 已经生成的用户
 		    java.util.List<SurveyUser> surveyusers=surveyuserdao.findBy("directory_id",survey_id);
-			if(surveyusers!=null && surveyusers.size()!=0){
-			    response.getWriter().write("不可重复批量添加");
-				return null;	
-			}else if(alarmstarttime.compareTo(alarmendtime) > 0){
+			if(alarmstarttime.compareTo(alarmendtime) > 0){
 				 response.getWriter().write("请设置有效起始时间");
 				return null;
-			}
-			else{
+			} else {
 				//做批量创建的操作
+				int index = 0;
+				TreeSet<String> existedUsernameSet = new TreeSet<String>();
+				if (surveyusers != null && !surveyusers.isEmpty()) {
+					for (SurveyUser surveyuser : surveyusers) {
+						if (surveyuser.getUserName().contains(survey_user_name)) {
+							existedUsernameSet.add(surveyuser.getUserName());
+						}
+					}
+				}
+				if (!existedUsernameSet.isEmpty()) {
+					String last = existedUsernameSet.last();
+					index = Integer.parseInt(last.replace(survey_user_name, ""));
+				}
 				int count=Integer.parseInt(survey_user_count);
 				for(int i=0;i<count;i++){
-					String username=survey_user_name+i;
+					String username = survey_user_name + (i + index + 1);
 					int len=Integer.parseInt(password_length);
-					String password=RandomUtils.randomStr(len);
+					String password = genPassword(len);
 					Date nowDate=new Date();
 					Date alarmendtimeDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(alarmendtime);
 					if(nowDate.after(alarmendtimeDate)){
@@ -105,7 +118,19 @@ public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
 			return null;
 		}
 	}
-	
+
+	private String genPassword(int len) {
+		String password = "";
+		if ("1".equals(password_setting)) {
+			// 不使用密码
+		} else if ("2".equals(password_setting) || "4".equals(password_setting)) {
+			password = this.getPassword();
+		} else {
+			password = RandomUtils.randomStr(len);
+		}
+		return password;
+	}
+
 	public  String list() throws Exception{
 		
 		//把page变量存入session作用域
@@ -179,7 +204,7 @@ public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
 		
 		return null;
 	}
-	
+
 	public String deleteBatch() throws Exception{
 		HttpServletRequest request=Struts2Utils.getRequest();
 		HttpServletResponse response=Struts2Utils.getResponse();
@@ -286,6 +311,12 @@ public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
 		}
 		return null;
 	}
+
+	public String importUser() throws IOException {
+		HttpServletResponse response = Struts2Utils.getResponse();
+		response.getWriter().write("test！");
+		return null;
+	}
 	
 	private static String getFixLenthString(int strLength) {  
 	      
@@ -366,7 +397,31 @@ public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
 	public void setSurveyuser_id(String surveyuser_id) {
 		this.surveyuser_id = surveyuser_id;
 	}
-	
+
+	public String getPassword_setting() {
+		return password_setting;
+	}
+
+	public void setPassword_setting(String password_setting) {
+		this.password_setting = password_setting;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
 	@Override
 	protected void prepareModel() throws Exception {
 	     entity=new SurveyUser();

@@ -106,5 +106,15 @@ public class QuCheckbox extends IdEntity{
 	public void setNoCheckBox(Integer noCheckBox) {
 		this.noCheckBox = noCheckBox;
 	}
-	
+
+	private String copyFromId;
+
+	@Transient
+	public String getCopyFromId() {
+		return copyFromId;
+	}
+
+	public void setCopyFromId(String copyFromId) {
+		this.copyFromId = copyFromId;
+	}
 }

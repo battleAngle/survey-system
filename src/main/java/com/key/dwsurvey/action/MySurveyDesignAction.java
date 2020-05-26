@@ -167,7 +167,7 @@ public class MySurveyDesignAction extends ActionSupport{
 				
 				if( svyNote!=null){
 					svyNote=URLDecoder.decode(svyNote,"utf-8");
-					svyNote =svyNote.replace("href=\"", "href=\""+projectName);
+//					svyNote =svyNote.replace("href=\"", "href=\""+projectName);
 					surveyDetail.setSurveyNote(svyNote);
 				}
 				if(svyName!=null && !"".equals(svyName)){
@@ -175,10 +175,10 @@ public class MySurveyDesignAction extends ActionSupport{
 					
 					//这里的路径不对,要在href后加上项目的路径
 				
-				svyName =svyName.replace("href=\"", "href=\""+projectName);
-				if(svyName.contains("</video>")){
-					svyName =svyName.replace("src=\"", "src=\""+projectName);
-				}
+//				svyName =svyName.replace("href=\"", "href=\""+projectName);
+//				if(svyName.contains("</video>")){
+//					svyName =svyName.replace("src=\"", "src=\""+projectName);
+//				}
 				System.out.println(svyName);
 				survey.setSurveyName(svyName);
 				}

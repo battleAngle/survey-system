@@ -7,14 +7,8 @@ import java.util.List;
 
 import com.key.dwsurvey.dao.SurveyDirectoryDao;
 import com.key.dwsurvey.dao.SurveyUserDao;
-import com.key.dwsurvey.entity.Question;
-import com.key.dwsurvey.entity.SurveyDetail;
-import com.key.dwsurvey.entity.SurveyStats;
-import com.key.dwsurvey.entity.SurveyUser;
-import com.key.dwsurvey.service.SurveyDirectoryManager;
-import com.key.dwsurvey.service.SurveyStatsManager;
-import com.key.dwsurvey.service.UserManager;
-import com.key.dwsurvey.entity.SurveyDirectory;
+import com.key.dwsurvey.entity.*;
+import com.key.dwsurvey.service.*;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -28,10 +22,6 @@ import com.key.common.plugs.page.Page;
 import com.key.common.service.BaseServiceImpl;
 import com.key.common.utils.RandomUtils;
 import com.key.common.QuType;
-import com.key.dwsurvey.service.QuestionBankManager;
-import com.key.dwsurvey.service.QuestionManager;
-import com.key.dwsurvey.service.SurveyAnswerManager;
-import com.key.dwsurvey.service.SurveyDetailManager;
 
 
 /**
@@ -63,6 +53,8 @@ public class SurveyDirectoryManagerImpl extends BaseServiceImpl<SurveyDirectory,
 	
 	@Autowired
 	private SurveyUserDao surveyuserdao;
+	@Autowired
+	private QuestionLogicManager questionLogicManager;
 	
 	@Override
 	public void setBaseDao() {
