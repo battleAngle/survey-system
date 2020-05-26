@@ -98,8 +98,7 @@ public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
 				int count=Integer.parseInt(survey_user_count);
 				for(int i=0;i<count;i++){
 					String username = survey_user_name + (i + index + 1);
-					int len=Integer.parseInt(password_length);
-					String password = genPassword(len);
+					String password = genPassword();
 					Date nowDate=new Date();
 					Date alarmendtimeDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(alarmendtime);
 					if(nowDate.after(alarmendtimeDate)){
@@ -119,13 +118,14 @@ public class SurveyUserAction extends CrudActionSupport<SurveyUser, String>{
 		}
 	}
 
-	private String genPassword(int len) {
+	private String genPassword() {
 		String password = "";
 		if ("1".equals(password_setting)) {
 			// 不使用密码
 		} else if ("2".equals(password_setting) || "4".equals(password_setting)) {
-			password = this.getPassword();
+			password = this.password;
 		} else {
+			int len = Integer.parseInt(password_length);
 			password = RandomUtils.randomStr(len);
 		}
 		return password;
