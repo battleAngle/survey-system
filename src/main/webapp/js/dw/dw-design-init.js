@@ -1996,7 +1996,8 @@ $(document).ready(function(){
 	$("#dwDialogQuFillOptionSave").click(function(){
 		//alert("..dwDialogObj:"+$(dwDialogObj).attr("class"));
 		var quItemBody=$(dwDialogObj).parents(".surveyQuItemBody");
-		//设置回显值 isNote checkType
+
+        //设置回显值 isNote checkType
 		var quFill_checkType=$("#modelUIDialog select[name='quFill_checkType']");
 		var qu_inputWidth=$("#modelUIDialog input[name='qu_inputWidth']");
 		var qu_inputRow=$("#modelUIDialog input[name='qu_inputRow']");
@@ -2859,7 +2860,8 @@ $(".dwQuDelete_classify").click(function(){
 		var quBody=$(this).parents(".surveyQuItemBody");
 		if(confirm("确认要删除此题吗？")){
 			var quId=quBody.find("input[name='quId']").val();
-			if(quId!=""){
+			console.log(123, quBody)
+			if(quId){
 				var url=ctx+"/design/question!ajaxDelete.action";
 				var data="quId="+quId;
 				$.ajax({
@@ -2867,6 +2869,7 @@ $(".dwQuDelete_classify").click(function(){
 					data:data,
 					type:"post",
 					success:function(msg){
+                        console.log(123, msg)
 						if(msg=="true"){
 							quBody.hide("slow",function(){$(this).parent().remove();resetQuItem();});
 						}else{
@@ -3207,7 +3210,15 @@ $(".dwQuDelete_classify").click(function(){
 		showUIDialog($(this));
 		return false;
 	});
-	
+	//多项填空题选项设置
+	$(".mFillblankTableTr td .dwFbMenuBtn").unbind();
+	$(".mFillblankTableTr td .dwFbMenuBtn").click(function(){
+		//showDialog($(this));
+
+		showUIDialog($(this));
+		return false;
+	});
+
 	$(".dwOptionUp").unbind();
 	$(".dwOptionUp").click(function(){
 		//curEditObj
@@ -3529,6 +3540,7 @@ function showUIDialog(thDialogObj){
 		checkType.val(checkType_val);
 		var qu_inputWidth=$("#modelUIDialog input[name='qu_inputWidth']");
 		var qu_inputRow=$("#modelUIDialog input[name='qu_inputRow']");
+		console.log(answerInputWidth_val);
 		if(answerInputWidth_val==""){
 			answerInputWidth_val="300";
 		}
@@ -6091,11 +6103,17 @@ function notify(msg,delayHid) {
 			$( this ).remove();
 		});
 }
+//批量导入问卷用户
+function importSurveyUser(){
+
+}
 
 //批量生成问卷用户的方法
 function saveSurveyUser(){
 	var survey_id=$("#id").val();
 	var survey_user_count=$("input[name='survey_user_count']").eq(0).val();
+	var password_setting=$("input[name='password_type']").eq(0).val();
+	var password=$("input[name='password']").eq(0).val();
 	var password_length=$("input[name='password_length']").eq(0).val();
 	var survey_user_name=$("input[name='survey_user_name']").eq(0).val();
 	var alarmstarttime=$("input[name='alarmstarttime']").eq(0).val();
@@ -6110,7 +6128,7 @@ function saveSurveyUser(){
 		alert("请将信息填写完整");
 		return false;
 	}*/
-	if(checkInput(survey_user_count,"survey_user_count")|checkInput(password_length,"password_length")|checkInput(survey_user_name,"survey_user_name")|
+	if(checkInput(survey_user_count,"survey_user_count")|checkInput(survey_user_name,"survey_user_name")|
 			checkInput(alarmstarttime,"alarmstarttime")|checkInput(alarmendtime,"alarmendtime")	){
 		return false;
 	}
@@ -6123,12 +6141,12 @@ function saveSurveyUser(){
 		return false;
 	}
 	
-	if(!endNumRexp.test(password_length)){
+	if(password_length && !endNumRexp.test(password_length)){
 		layer.msg("输入密码长度格式有误");
 		return false;
 	}
 	
-	if(password_length > 255){
+	if(password_length && password_length > 255){
 		layer.msg("密码长度过长");
 		return false;
 	}
@@ -6142,7 +6160,7 @@ function saveSurveyUser(){
 	//alert(survey_id+"-"+survey_user_count+"-"+password_length+"-"+survey_user_name+"-"+alarmstarttime+"-"+alarmendtime)
 	$.ajax({
 	   url:url,
-	   data:{"survey_id":survey_id,"survey_user_count":survey_user_count,"password_length":password_length,
+	   data:{"survey_id":survey_id,"survey_user_count":survey_user_count,"password_setting":password_setting,"password":password,"password_length":password_length,
 		   "survey_user_name":survey_user_name,"alarmstarttime":alarmstarttime,"alarmendtime":alarmendtime,
 		   "survey_state":survey_state},
 	   datatype:"json",
@@ -6165,6 +6183,19 @@ function checkInput(obj,name){
 		return true;
 	}
 }
+//处理不同的密码类型
+var handlePwdType = function (type) {
+    if(type === '3') {
+		document.getElementById('password_length_input').style.display = '';
+		document.getElementById('password_content_input').style.display = 'none';
+	}else if(type === '2' || type === '4') {
+		document.getElementById('password_content_input').style.display = '';
+		document.getElementById('password_length_input').style.display = 'none';
+	}else if(type === '1') {
+		document.getElementById('password_content_input').style.display = 'none';
+		document.getElementById('password_length_input').style.display = 'none';
+	}
+};
 
 function hideItem(obj){
 	$(".check_"+obj).hide();

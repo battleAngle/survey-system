@@ -1441,11 +1441,12 @@ $(document).ready(function(){
 								<div class="pageBorderTop nohover"  ></div>
 								<div class="surveyQuItemContent" style="padding-top: 12px;height: 30px;min-height: 30px;">
 									<!-- <div class="pageQuContent">下一页（1/2）</div> -->
-									<a href="#" class="sbtn24 sbtn24_0 nextPage_a" >下一页</a>&nbsp;&nbsp;
 									<c:if test="${pageNo > 1 }">
 									<a href="#" class="sbtn24 sbtn24_1 prevPage_a">上一页</a>
 									<input type="hidden" name="prevPageNo" value="${pageNo-1 }">
 									</c:if>
+									<a href="#" class="sbtn24 sbtn24_0 nextPage_a" >下一页</a>&nbsp;&nbsp;
+
 									<c:set var="pageNo" value="${pageNo+1 }"></c:set>
 									<input type="hidden" name="nextPageNo" value="${pageNo }">
 								</div>

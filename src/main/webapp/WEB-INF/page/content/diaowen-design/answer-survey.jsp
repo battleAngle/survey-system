@@ -166,9 +166,9 @@ $(document)
 					$(".prevPage_a")
 							.click(
 									function() {
-										if (!validateForms_2()) {
-											return false;
-										}
+										// if (!validateForms_2()) {
+										// 	return false;
+										// }
 										var thParent = $(this).parent();
 										var prevPageNo = thParent.find(
 												"input[name='prevPageNo']")
@@ -2925,6 +2925,8 @@ $(document)
 								* 100);
 						$("#resultProgressRoot .progress-label").text(
 								"完成度：" + newValue + "%");
+						$("#resultProgressRoot .progress-labelB").text(
+								"共：" + totalQuSize + "题，已答" + answerQuSize + "题");
 						$("#resultProgress").progressbar("option", "value",
 								newValue);
 					}
@@ -2999,7 +3001,7 @@ $(document)
 }
 
 #resultProgressRoot {
-	right: -80px;
+	right: -50px;
 	bottom: 100px;
 	width: 200px;
 	z-index: 200;
@@ -3008,6 +3010,15 @@ $(document)
 }
 
 .progress-label {
+	font-size: 14px;
+	font-family: "微软雅黑";
+	margin: 0px auto;
+	text-align: center;
+	line-height: 1.4em;
+	color: #83AE00;
+}
+
+.progress-labelB {
 	font-size: 14px;
 	font-family: "微软雅黑";
 	margin: 0px auto;
@@ -3699,12 +3710,12 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent"
 									style="padding-top: 12px; height: 30px; min-height: 30px;">
 									<!-- <div class="pageQuContent">下一页（1/2）</div> -->
-									<a href="#" class="sbtn24 sbtn24_0 nextPage_a">下一页</a>&nbsp;&nbsp;
 									<c:if test="${pageNo > 1 }">
 										<a href="#" class="sbtn24 sbtn24_0 prevPage_a">上一页</a>
 										<input type="hidden" name="prevPageNo"
 											value="${pageNo-1 }">
 									</c:if>
+									<a href="#" class="sbtn24 sbtn24_0 nextPage_a">下一页</a>&nbsp;&nbsp;
 									<c:set var="pageNo" value="${pageNo+1 }"></c:set>
 									<input type="hidden" name="nextPageNo" value="${pageNo }">
 								</div>
@@ -4261,6 +4272,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 				<div id="resultProgressRoot">
 					<div class="progress-label">完成度：0%</div>
 					<div id="resultProgress" class="progressbarDiv"></div>
+					<div class="progress-labelB">共0题，已答0题</div>
 				</div>
 
 			</div>

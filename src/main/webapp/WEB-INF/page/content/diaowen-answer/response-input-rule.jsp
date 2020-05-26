@@ -34,7 +34,8 @@
 		
 		<div class="footer-copyright" style="color: gray;">
 			<%--尊重开源、保留声明，感谢您的大力支持--%>
-				 <a href="#" style="text-decoration: none;color: rgb(53, 117, 136);">苏州奥科星</a> 提供支持
+<%--				 <a href="#" style="text-decoration: none;color: rgb(53, 117, 136);">苏州奥科星</a> --%>
+				<img style="vertical-align: middle;height:16px;width:16px;margin-bottom:3px;margin-right:5px" src="https://csdnimg.cn/pubfooter/images/gongan.png">苏ICP备12065536号
 		</div>
 	</div>
 	<script type="text/javascript">
