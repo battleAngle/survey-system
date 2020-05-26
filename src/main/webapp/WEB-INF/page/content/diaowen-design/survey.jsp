@@ -487,7 +487,9 @@
 								<input type="hidden" name="hv" value="2">
 								<input type="hidden" name="randOrder" value="0">
 								<input type="hidden" name="cellCount" value="0">
-								
+								<input type="hidden" name="checkType" value="NO">
+								<input type="hidden" name="answerInputWidth" value="300">
+								<input type="hidden" name="answerInputRow" value="1">
 								<input type="hidden" name="paramInt01" value="1">
 								<input type="hidden" name="paramInt02" value="5">
 								<div class="quLogicInputCase">
@@ -520,22 +522,25 @@
 									<div class="quCoItem">
 									<table class="mFillblankTable">
 										<tr class="mFillblankTableTr">
-											<td align="right" class="mFillblankTableEditTd"><label class="editAble quCoOptionEdit">选项1</label>
+											<td align="right" class="mFillblankTableEditTd"><label class="editAble quCoOptionEdit">选项11</label>
 											<div class="quItemInputCase"><input type="hidden" name="quItemId" value=""><input type="hidden" name="quItemSaveTag" value="0"></div>
 											</td>
-											<td><input type="text" style="width:200px;padding:5px;"></td>
+											<td><input type="text" style="width:200px;padding:5px;" class="quFillblankAnswerInput" />
+                                                <textarea rows="5" style="width:300px;display: none;"class="quFillblankAnswerTextarea" ></textarea><div class="dwFbMenuBtn"></div></td>
 										</tr>
 										<tr class="mFillblankTableTr">
-											<td align="right" class="mFillblankTableEditTd"><label class="editAble quCoOptionEdit">选项2</label>
+											<td align="right" class="mFillblankTableEditTd"><label class="editAble quCoOptionEdit">选项12</label>
 											<div class="quItemInputCase"><input type="hidden" name="quItemId" value=""><input type="hidden" name="quItemSaveTag" value="0"></div>
 											</td>
-											<td><input type="text" style="width:200px;padding:5px;"></td>
+											<td><input type="text" style="width:200px;padding:5px;" class="quFillblankAnswerInput" />
+                                                <textarea rows="5" style="width:300px;display: none;"class="quFillblankAnswerTextarea" ></textarea><div class="dwFbMenuBtn"></div></td>
 										</tr>
 										<tr class="mFillblankTableTr">
-											<td align="right" class="mFillblankTableEditTd"><label class="editAble quCoOptionEdit">选项3</label>
+											<td align="right" class="mFillblankTableEditTd"><label class="editAble quCoOptionEdit">选项13</label>
 											<div class="quItemInputCase"><input type="hidden" name="quItemId" value=""><input type="hidden" name="quItemSaveTag" value="0"></div>
 											</td>
-											<td><input type="text" style="width:200px;padding:5px;"></td>
+											<td><input type="text" style="width:200px;padding:5px;" class="quFillblankAnswerInput" />
+                                                <textarea rows="5" style="width:300px;display: none;"class="quFillblankAnswerTextarea" ></textarea><div class="dwFbMenuBtn"></div></td>
 										</tr>
 									</table>
 									</div>
@@ -550,6 +555,32 @@
 						</div>
 				</div>
 			</li>
+				<li id="textQuModel">
+					<%-- 文本显示题模板 --%>
+					<div class="dwToolbar_icon"></div>
+					<div class="dwQuTypeModel">
+						<div class="surveyQuItemBody quDragBody">
+                            <div class="surveyQuItemLeftTools">
+                                <ul class="surveyQuItemLeftToolsUl">
+                                    <li title="移动排序" class="dwQuMove"><div class="dwQuIcon"></div></li>
+                                    <li title="设置" class="dwQuSet"><div class=dwQuIcon></div></li>
+                                    <li title="逻辑" class="dwQuLogic"><div class="dwQuIcon"><div class="quLogicInfo"></div></div></li>
+                                    <li title="逻辑复制" class="dwQuLogicCopy"><div class="dwQuIcon"></div></li>
+                                    <li title="复制" class="dwQuCopy"><div class="dwQuIcon fa fa-files-o"></div></li>
+                                    <li title="删除" class="dwQuDelete"><div class="dwQuIcon"></div></li>
+                                </ul>
+                            </div>
+								<div class="surveyQuItemContent">
+									<div class="quCoTitle">
+<%--										<div class="quCoNum">1、</div>--%>
+										<div class="editAble quCoTitleEdit" ></div>
+										<input type="hidden" name="quTitleSaveTag" value="0">
+									</div>
+								</div>
+							</div>
+						</div>
+
+				</li>
 		    </ul>
 		</div>
 		<div class="tooltext">基本题型</div>
@@ -3033,7 +3064,7 @@
 								<input type="hidden" name="hv" value="${en.hv }">
 								<input type="hidden" name="randOrder" value="${en.randOrder }">
 								<input type="hidden" name="cellCount" value="${en.cellCount }">
-								
+
 								<input type="hidden" name="paramInt01" value="${en.paramInt01 }">
 								<input type="hidden" name="paramInt02" value="${en.paramInt02 }">
 								<div class="quLogicInputCase">
@@ -3085,7 +3116,6 @@
 										<tr class="mFillblankTableTr">
 											<td align="right" class="mFillblankTableEditTd"><label class="editAble quCoOptionEdit">${item.optionName }</label>
 											<div class="quItemInputCase"><input type="hidden" name="quItemId" value="${item.id }"><input type="hidden" name="quItemSaveTag" value="1"></div>
-											</td><td><input type="text" style="width:200px;padding:5px;"></td>
 										</tr>
 										</c:forEach>
 									</table>
@@ -3884,6 +3914,20 @@
 										<td style="color:red;" width="200">*<span style="color: red;display: none;" class="check_survey_user_count">请填写用户数量</span></td>
 									</tr>
 									<tr>
+										<td width="98" align="right">密码设置</td>
+										<td class="ac-input-td">
+											<input name="password_type" type="radio" value="1" onclick="handlePwdType('1')" checked/>不使用密码
+											<input name="password_type" type="radio" value="2"  onclick="handlePwdType('2')"/>唯一密码
+											<input name="password_type" type="radio" value="3"  onclick="handlePwdType('3')"/>随机密码
+											<input name="password_type" type="radio" value="4"  onclick="handlePwdType('4')"/>指定密码
+										</td>
+									</tr>
+									<tr id="password_content_input" style="display:none">
+										<td width="98" align="right">密码</td>
+										<td class="ac-input-td"><input type="text" name="password" value="" onchange="hideItem('password')"> </td>
+										<td style="color:red;" >*<span style="color: red;display: none;" class="check_password_length">请填写密码</span></td>
+									</tr>
+									<tr id="password_length_input" style="display:none">
 										<td width="98" align="right">密码长度</td>
 										<td class="ac-input-td"><input type="text" name="password_length" value="" onchange="hideItem('password_length')"> </td>
 										<td style="color:red;" >*<span style="color: red;display: none;" class="check_password_length">请填写密码长度</span></td>
@@ -3914,6 +3958,9 @@
 										<td width="98" align="right" style="height:43px;">
 										 <div class="dwQuDialogBtnCon" ><input type="button" value="保存用户" class="quDialogBtn" id="survey_user_save" onclick="saveSurveyUser()"/></div>
 										 </td>
+										<td width="98" align="right" style="height:43px;">
+											<div class="dwQuDialogBtnCon" ><input type="button" value="导入用户" class="quDialogBtn" id="survey_user_import" onclick="importSurveyUser()"/></div>
+										</td>
 									</tr>
 								</table>
 				</form>	

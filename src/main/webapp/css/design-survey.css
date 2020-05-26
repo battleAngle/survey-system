@@ -296,6 +296,13 @@ textarea{
 #mfillblankQuModel:hover .dwToolbar_icon,#mfillblankQuModel.hover .dwToolbar_icon{
 	background-position: -397px -74px;
 }
+
+#textQuModel .dwToolbar_icon{
+    background-position: -397px -6px;
+}
+#textQuModel:hover .dwToolbar_icon,#textQuModel.hover .dwToolbar_icon{
+    background-position: -397px -74px;
+}
 /** 矩阵题 **/
 #chenRadioQuModel .dwToolbar_icon{
 	background-position: -454px -6px;
@@ -1499,13 +1506,28 @@ li.addMoreOption .dwQuIcon,li.addMoreColumnOption .dwQuIcon,li.addMoreRowOption 
 }
 
 .surveyQuItemBody.hover .quFillblankItem .dwFbMenuBtn{
-/* 	display: inline; */
+ 	display: inline;
 }
-.quCoItemUlLi.hover .quFillblankItem .dwFbMenuBtn{
+.hover .mFillblankTableTr .dwFbMenuBtn{
+	display: inline !important;
+}
+.quCoItemUlLi.hover .mFillblankTableTr .dwFbMenuBtn{
 	display: inline;
 }
 .quFillblankItem{
 	position: relative;
+}
+.mFillblankTableTr .dwFbMenuBtn{
+	position: absolute;
+	border: 1px solid #98C5C3;
+	background: transparent url("../images/toolbar.png") 0px 0px no-repeat;
+	cursor: pointer;
+	background-color: #DBE5F1;
+	display: none;
+	width: 23px;
+	height: 27px;
+	background-position:-392px -179px;
+	margin-left: -1px;
 }
 .quFillblankItem .dwFbMenuBtn{
 	position: absolute;
@@ -1642,10 +1664,13 @@ table.quCoChenTable{
 	padding: 0px;
 	margin: 0px;
 	width: 650px;
-	border: 1px solid #dddddd;
+	border: 1px solid #FFFFFF;
 	border-collapse: separate;
 	border-left: 0;
 	border-spacing: 0;
+}
+table.quCoChenTable tr:nth-child(even){
+	background:#eeeeee;
 }
 table.quCoChenTable tr td{
 	vertical-align: middle;
@@ -1655,8 +1680,12 @@ table.quCoChenTable tr td{
 	color: #333333;
 	line-height: 1.4em;
 	text-align: center;
-	border-left: 1px solid #DDDDDD;
-	border-top: 1px solid #DDDDDD;
+	border-left: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+}
+
+label.quCoOptionEdit{
+	margin-bottom: 0px;
 }
 
 table.quCoChenTable tr td label{

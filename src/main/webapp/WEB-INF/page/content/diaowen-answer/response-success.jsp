@@ -26,7 +26,8 @@
 		
 		<div class="footer-copyright" style="color: gray;">
 			<%--尊重开源、保留声明，感谢您的大力支持--%>
-			Powered by <a href="#" style="text-decoration: none;color: rgb(53, 117, 136);">Auxing</a>
+<%--			Powered by <a href="#" style="text-decoration: none;color: rgb(53, 117, 136);">Auxing</a>--%>
+				<img style="vertical-align: middle;height:16px;width:16px;margin-bottom:3px;margin-right:5px" src="${ctx }/images/logo/gongan.png">苏ICP备12065536号
 		</div>
 	</div>
 	
