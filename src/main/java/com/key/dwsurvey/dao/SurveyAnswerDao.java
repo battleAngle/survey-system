@@ -12,4 +12,7 @@ public interface SurveyAnswerDao extends BaseDao<SurveyAnswer, String>{
 			Map<String, Map<String, Object>> quMaps);
 
 	public SurveyStats surveyStatsData(SurveyStats surveyStats);
+
+	public void tempSaveAnswer(SurveyAnswer surveyAnswer,
+							   Map<String, Map<String, Object>> quMaps);
 }

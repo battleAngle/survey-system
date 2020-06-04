@@ -24,6 +24,8 @@ public interface SurveyAnswerManager extends BaseService<SurveyAnswer, String>{
 
 	public void saveAnswer(SurveyAnswer surveyAnswer, Map<String, Map<String, Object>> quMaps);
 
+	public void tempSaveAnswer(SurveyAnswer surveyAnswer, Map<String, Map<String, Object>> quMaps);
+
 	public List<Question> findAnswerDetail(SurveyAnswer answer);
 	
 	public List<SurveyAnswer> answersByIp(String surveyId, String ip);
@@ -48,7 +50,7 @@ public interface SurveyAnswerManager extends BaseService<SurveyAnswer, String>{
 	
 	public SurveyAnswer findbyUserId(String userId);
 	
-	public SurveyAnswer findbyUsername(String userName,String directoryId);
+	public SurveyAnswer findbyUsername(String userName,String directoryId, Integer isTemp);
 	
 	public int getquestionAnswer(String surveyAnswerId, Question question);
 	

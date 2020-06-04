@@ -41,7 +41,75 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 
 	@Autowired
 	private SurveyStatsManager surveyStatsManager;
-	
+
+
+	@Override
+	public void tempSaveAnswer(SurveyAnswer surveyAnswer, Map<String, Map<String, Object>> quMaps) {
+		Date curDate=new Date();
+
+		Session session=this.getSession();
+		//保存答案信息
+		String surveyId=surveyAnswer.getSurveyId();
+		SurveyDirectory survey=(SurveyDirectory) session.get(SurveyDirectory.class, surveyId);
+		session.update(survey);//更新回答数
+
+		session.save(surveyAnswer);
+
+		int anCount=0;
+		//保存答案
+		//是非题
+		Map<String,Object> yesnoMaps=quMaps.get("yesnoMaps");
+		anCount+=saveAnYesnoMaps(surveyAnswer, yesnoMaps,session);
+		//单选题
+		Map<String,Object> radioMaps=quMaps.get("radioMaps");
+		anCount+=saveAnRadioMaps(surveyAnswer, radioMaps,session);
+		//多选题
+		Map<String,Object> checkboxMaps=quMaps.get("checkboxMaps");
+		anCount+=saveAnCheckboxMaps(surveyAnswer,checkboxMaps,session);
+		//填空题
+		Map<String,Object> fillblankMaps=quMaps.get("fillblankMaps");
+		anCount+=saveAnFillMaps(surveyAnswer, fillblankMaps,session);
+		//多项填空题
+		Map<String,Object> multifillblankMaps=quMaps.get("multifillblankMaps");
+		anCount+=saveAnMultiFillMaps(surveyAnswer, multifillblankMaps,session);
+		//问答题
+		Map<String,Object> answerMaps=quMaps.get("answerMaps");
+		anCount+=saveAnAnswerMaps(surveyAnswer, answerMaps,session);
+		//复合单选题
+		Map<String,Object> compRadioMaps=quMaps.get("compRadioMaps");
+		anCount+=saveCompAnRadioMaps(surveyAnswer, compRadioMaps,session);
+		//复合多选题
+		Map<String,Object> compCheckboxMaps=quMaps.get("compCheckboxMaps");
+		anCount+=saveCompAnCheckboxMaps(surveyAnswer, compCheckboxMaps,session);
+		//枚举题
+		Map<String, Object> enumMaps=quMaps.get("enumMaps");
+		anCount+=saveEnumMaps(surveyAnswer, enumMaps, session);
+		//评分题
+		Map<String,Object> scoreMaps=quMaps.get("scoreMaps");
+		anCount+=saveScoreMaps(surveyAnswer,scoreMaps,session);
+
+		//排序题 quOrderMaps
+		Map<String,Object> quOrderMaps=quMaps.get("quOrderMaps");
+		anCount+=saveQuOrderMaps(surveyAnswer,quOrderMaps,session);
+
+		//矩阵单选题
+		Map<String,Object> chehRadioMaps=quMaps.get("chenRadioMaps");
+		anCount+=saveChenRadioMaps(surveyAnswer,chehRadioMaps,session);
+		//矩阵多选题
+		Map<String,Object> chehCheckboxMaps=quMaps.get("chenCheckboxMaps");
+		anCount+=saveChenCheckboxMaps(surveyAnswer,chehCheckboxMaps,session);
+		//矩阵填空题
+		Map<String,Object> chenFbkMaps=quMaps.get("chenFbkMaps");
+		anCount+=saveChenFbkMaps(surveyAnswer,chenFbkMaps,session);
+		//复合矩阵单选题
+		Map<String,Object> compChehRadioMaps=quMaps.get("compChenRadioMaps");
+		anCount+=saveCompChehRadioMaps(surveyAnswer,compChehRadioMaps,session);
+
+		//矩阵填空题
+		Map<String,Object> chenScoreMaps=quMaps.get("chenScoreMaps");
+		anCount+=saveChenScoreMaps(surveyAnswer,chenScoreMaps,session);
+	}
+
 	@Override
 	public void saveAnswer(SurveyAnswer surveyAnswer,
 			Map<String, Map<String, Object>> quMaps) {
@@ -182,6 +250,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 						String colId=keyCol;
 						String answerValue=mapRow.get(keyCol).toString();
 						AnChenScore anChenScore=new AnChenScore(surveyId,surveyAnswerId,quId,rowId,colId,answerValue);
+						if (surveyAnswer.getIsTemp() == 1) {
+							anChenScore.setVisibility(0);
+						}
 						session.save(anChenScore);
 					}
 					
@@ -207,6 +278,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 					String rowId=keyRow;
 					String orderNumValue=mapRows.get(keyRow).toString();
 					AnOrder anScore=new AnOrder(surveyId,surveyAnswerId,quId,rowId,orderNumValue);
+					if (surveyAnswer.getIsTemp() == 1) {
+						anScore.setVisibility(0);
+					}
 					session.save(anScore);
 				}
 				answerQuCount++;
@@ -233,6 +307,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 						String colId=keyCol;
 						String optionId=mapRow.get(keyCol).toString();
 						AnCompChenRadio anCompChenRadio=new AnCompChenRadio(surveyId,surveyAnswerId,quId,rowId,colId,optionId);
+						if (surveyAnswer.getIsTemp() == 1) {
+							anCompChenRadio.setVisibility(0);
+						}
 						session.save(anCompChenRadio);
 					}
 				}
@@ -259,6 +336,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 						String colId=keyCol;
 						String answerValue=mapRow.get(keyCol).toString();
 						AnChenFbk anChenFbk=new AnChenFbk(surveyId,surveyAnswerId,quId,rowId,colId,answerValue);
+						if (surveyAnswer.getIsTemp() == 1) {
+							anChenFbk.setVisibility(0);
+						}
 						session.save(anChenFbk);
 					}
 				}
@@ -286,6 +366,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 						
 						String colId=keyCol;
 						AnChenCheckbox anChenCheckbox=new AnChenCheckbox(surveyId,surveyAnswerId,quId,rowId,colId);
+						if (surveyAnswer.getIsTemp() == 1) {
+							anChenCheckbox.setVisibility(0);
+						}
 						session.save(anChenCheckbox);
 					}
 				}
@@ -316,6 +399,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 					String rowId=keyRow;
 					String colId=mapRows.get(keyRow).toString();
 					AnChenRadio anChenRadio=new AnChenRadio(surveyId,surveyAnswerId,quId,rowId,colId);
+					if (surveyAnswer.getIsTemp() == 1) {
+						anChenRadio.setVisibility(0);
+					}
 					session.save(anChenRadio);
 				}
 				answerQuCount++;
@@ -343,6 +429,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 					String rowId=keyRow;
 					String scoreValue=mapRows.get(keyRow).toString();
 					AnScore anScore=new AnScore(surveyId,surveyAnswerId,quId,rowId,scoreValue);
+					if (surveyAnswer.getIsTemp() == 1) {
+						anScore.setVisibility(0);
+					}
 					session.save(anScore);
 				}
 				answerQuCount++;
@@ -370,6 +459,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 			Integer quItemNum=Integer.parseInt(splitKey[1]);
 			String answerValue=enumMaps.get(key).toString();
 			AnEnumqu anAnswer=new AnEnumqu(surveyId,surveyAnswerId,quId,quItemNum,answerValue);
+			if (surveyAnswer.getIsTemp() == 1) {
+				anAnswer.setVisibility(0);
+			}
 			session.save(anAnswer);
 		}
 		return answerQuCount;
@@ -393,6 +485,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 			String quId=key;
 			String answerValue=anAnswerMaps.get(key).toString();
 			AnAnswer anAnswer=new AnAnswer(surveyId,surveyAnswerId,quId,answerValue);
+			if (surveyAnswer.getIsTemp() == 1) {
+				anAnswer.setVisibility(0);
+			}
 			session.save(anAnswer);
 		}
 		return answerQuCount;
@@ -414,6 +509,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 			String quId=key;
 			String answerValue=fillMaps.get(key).toString();
 			AnFillblank anFillblank=new AnFillblank(surveyId,surveyAnswerId,quId,answerValue);
+			if (surveyAnswer.getIsTemp() == 1) {
+				anFillblank.setVisibility(0);
+			}
 			session.save(anFillblank);
 		}
 		return answerQuCount;
@@ -438,6 +536,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 			for (String keyMap : map.keySet()) {
 				String quItemId=map.get(keyMap).toString();
 				AnCheckbox anCheckbox=new AnCheckbox(surveyId,surveyAnswerId,quId,quItemId);
+				if (surveyAnswer.getIsTemp() == 1) {
+					anCheckbox.setVisibility(0);
+				}
 				session.save(anCheckbox);
 			}
 			answerQuCount++;
@@ -466,6 +567,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 				String otherText=tempAnCheckbox.getOtherText();
 				AnCheckbox anCheckbox=new AnCheckbox(surveyId,surveyAnswerId,quId,quItemId);
 				anCheckbox.setOtherText(otherText);
+				if (surveyAnswer.getIsTemp() == 1) {
+					anCheckbox.setVisibility(0);
+				}
 				session.save(anCheckbox);
 			}
 		}
@@ -494,6 +598,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 					String quItemId=keyMap;
 					String answerValue=map.get(keyMap).toString();
 					AnDFillblank anDFillblank=new AnDFillblank(surveyId,surveyAnswerId,quId,quItemId,answerValue);
+					if (surveyAnswer.getIsTemp() == 1) {
+						anDFillblank.setVisibility(0);
+					}
 					session.save(anDFillblank);
 				}
 				answerQuCount++;
@@ -519,6 +626,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 			String quId=key;
 			String quItemId=radioMaps.get(key).toString();
 			AnRadio anRadio=new AnRadio(surveyId,surveyAnswerId,quId,quItemId);
+			if (surveyAnswer.getIsTemp() == 1) {
+				anRadio.setVisibility(0);
+			}
 			session.save(anRadio);
 		}
 		return answerQuCount;
@@ -544,6 +654,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 			String othertext=tempAnRadio.getOtherText();
 			AnRadio anRadio=new AnRadio(surveyId,surveyAnswerId,quId,quItemId);
 			anRadio.setOtherText(othertext);
+			if (surveyAnswer.getIsTemp() == 1) {
+				anRadio.setVisibility(0);
+			}
 			session.save(anRadio);
 		}		
 		return answerQuCount;
@@ -564,6 +677,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 			String quId=key;
 			String yesnoAnswer=yesnoMaps.get(key).toString();
 			AnYesno anYesno=new AnYesno(surveyId,surveyAnswerId,quId,yesnoAnswer);
+			if (surveyAnswer.getIsTemp() == 1) {
+				anYesno.setVisibility(0);
+			}
 			session.save(anYesno);
 		}
 		return answerQuCount;
