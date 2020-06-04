@@ -68,6 +68,9 @@ public class SurveyAnswer extends IdEntity{
 	/** 不同来源数据 **/
 	//数据来源  0网调  1录入数据 2移动数据 3导入数据
 	private Integer dataSource=0;
+
+	// 是否是临时保存的
+	private Integer isTemp=0;
 	
 	
 	public String getSurveyId() {
@@ -166,7 +169,15 @@ public class SurveyAnswer extends IdEntity{
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
+
+	public Integer getIsTemp() {
+		return isTemp;
+	}
+
+	public void setIsTemp(Integer isTemp) {
+		this.isTemp = isTemp;
+	}
+
 	private SurveyDirectory surveyDirectory;
 	@Transient
 	public SurveyDirectory getSurveyDirectory() {

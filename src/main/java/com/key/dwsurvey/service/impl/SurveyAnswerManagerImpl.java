@@ -128,6 +128,11 @@ public class SurveyAnswerManagerImpl extends
 	}
 
 	@Override
+	public void tempSaveAnswer(SurveyAnswer surveyAnswer, Map<String, Map<String, Object>> quMaps) {
+		surveyAnswerDao.tempSaveAnswer(surveyAnswer, quMaps);
+	}
+
+	@Override
 	public List<Question> findAnswerDetail(SurveyAnswer answer) {
 		String surveyId = answer.getSurveyId();
 		String surveyAnswerId = answer.getId();
@@ -1363,12 +1368,13 @@ public class SurveyAnswerManagerImpl extends
 	}
 
 	@Override
-	public SurveyAnswer findbyUsername(String userName,String directoryId) {
-		
+	public SurveyAnswer findbyUsername(String userName,String directoryId, Integer isTemp) {
+
 		List<Criterion> criterions=new ArrayList<Criterion>();
 		criterions.add(Restrictions.eq("answerUserName", userName));
 		criterions.add(Restrictions.eq("surveyId", directoryId));
-		 SurveyAnswer surveyAnswer=surveyAnswerDao.findFirst(criterions);
+		criterions.add(Restrictions.eq("isTemp", isTemp));
+		SurveyAnswer surveyAnswer=surveyAnswerDao.findFirst(criterions);
 		return surveyAnswer;
 	}
 

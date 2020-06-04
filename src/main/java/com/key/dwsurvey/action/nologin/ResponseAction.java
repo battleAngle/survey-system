@@ -104,7 +104,7 @@ import com.opensymphony.xwork2.ActionSupport;
 		@Result(name = ResponseAction.RESPONSE_MOBILE, location = "response!answerMobile.action?surveyId=${surveyId}", type = Struts2Utils.REDIRECT) })
 
 @AllowedMethods({"saveMobile","answerSuccess","answerMobile","answerFailure","answerError","answerSuccessM","ajaxCheckSurvey","ajaxCheckJcaptchaInput",
-	"ajaxCheckRuleCode","ajaxCheckSurveyUser","checkIsSubmit"})
+	"ajaxCheckRuleCode","ajaxCheckSurveyUser","checkIsSubmit", "tempSave"})
 public class ResponseAction extends ActionSupport {
 	private static final long serialVersionUID = -2289729314160067840L;
 
@@ -212,7 +212,7 @@ public class ResponseAction extends ActionSupport {
 				   //只能在文件的指定行插入
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file,3035,"<input type='hidden' id='surveyuser_username' value='"+surveyuser_username+"'><br/><input type='hidden' id='surveyuser_password' value='"+surveyuser_password+"'>");
+					insertStringInFile(file,3052,"<input type='hidden' id='surveyuser_username' value='"+surveyuser_username+"'><br/><input type='hidden' id='surveyuser_password' value='"+surveyuser_password+"'>");
 					Long time=new Date().getTime();
 					request.getRequestDispatcher("/" + htmlPath+"?time="+time).forward(request,
 							response);
@@ -281,14 +281,18 @@ public class ResponseAction extends ActionSupport {
 		Date endTime = surveyDetail.getEndTime();
 		Integer anserNum = directory.getAnswerNum();
         List<SurveyUser> surveyUsers=directory.getSurveyUsers();
-        HttpSession session=Struts2Utils.getSession();	
+        HttpSession session=Struts2Utils.getSession();
+		if (directory.getSurveyState() == 3) {
+			request.setAttribute("surveyName", "目前该问卷已暂停发布，请稍后再试");
+			request.setAttribute("msg", "目前该问卷已暂停发布，请稍后再试");
+			return RESPONSE_MSG;
+		}
 		if (directory.getSurveyQuNum() <= 0
 				|| directory.getSurveyState() != 1 ||
 				(anserNum!=null && ynEndNum==1 && anserNum >= endNum ) ||
 				(endTime!=null && ynEndTime==1 && endTime.getTime() < (new Date().getTime())) ){
 			request.setAttribute("surveyName", "目前该问卷已暂停收集，请稍后再试");
 			request.setAttribute("msg", "目前该问卷已暂停收集，请稍后再试");
-			
 			return RESPONSE_MSG;
 		}
 		//重复答题的判断
@@ -308,7 +312,7 @@ public class ResponseAction extends ActionSupport {
 			SurveyUser surveyUser=surveyuserdao.findFirst(criterions);
 			SurveyAnswer surveyAnswer=null;
 			if(surveyUser !=null){
-				surveyAnswer=surveyAnswerManager.findbyUsername(surveyuser_username,directory.getId());
+				surveyAnswer=surveyAnswerManager.findbyUsername(surveyuser_username,directory.getId(), 0);
 			}
 			
 			//这边可能要新增用户过期的逻辑
@@ -354,6 +358,40 @@ public class ResponseAction extends ActionSupport {
 		return NONE;
 	}
 
+	public String tempSave() throws Exception {
+		HttpServletRequest request = Struts2Utils.getRequest();
+		HttpServletResponse response = Struts2Utils.getResponse();
+		String surveyuser_id=request.getParameter("surveyuser_id");
+
+		String surveyuser_username=request.getParameter("surveyuser_username");
+
+		//答案对象
+		SurveyAnswer entity = new SurveyAnswer();
+		User user = accountManager.getCurUser();
+		if (user != null) {
+			//entity.setUserId(user.getId());
+			entity.setUserId(surveyuser_id);
+		}
+		if(surveyuser_username != null){
+			entity.setAnswerUserName(surveyuser_username);
+		}else{
+			entity.setAnswerUserName("");
+		}
+		String ipAddr = ipService.getIp(request);
+		Map<String, Map<String, Object>> quMaps = buildSaveSurveyMap(request);
+		String addr = ipService.getCountry(ipAddr);
+		String city = ipService.getCurCityByCountry(addr);
+		entity.setIpAddr(ipAddr);
+		entity.setAddr(addr);
+		entity.setCity(city);
+		entity.setSurveyId(surveyId);
+		entity.setDataSource(0);
+		entity.setIsTemp(1);
+		surveyAnswerManager.tempSaveAnswer(entity, quMaps);
+		response.getWriter().write("保存成功");
+		return null;
+	}
+
 	public String save() throws Exception {
 		HttpServletRequest request = Struts2Utils.getRequest();
 		HttpServletResponse response = Struts2Utils.getResponse();
@@ -383,7 +421,7 @@ public class ResponseAction extends ActionSupport {
 
 			// 校验是否暂停发布
 			if (directory.getSurveyState().equals(3)) {
-				request.setAttribute("msg", "目前该问卷已暂停收集，请稍后再试");
+				request.setAttribute("msg", "目前该问卷已暂停发布，请稍后再试");
 				return RESPONSE_MSG;
 			}
 			SurveyDetail surveyDetail = directory.getSurveyDetail();
