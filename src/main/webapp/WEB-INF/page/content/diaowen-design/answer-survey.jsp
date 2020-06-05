@@ -3205,7 +3205,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 											</c:when>
 											<c:when test="${en.isSelectType eq 1 }">
 		
-												     <button  style="color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px;min-width: 160px;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
+												     <button  style="text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px;min-width: 160px;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
 													           请选择任意一项 
 													    <span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
 													  </button>
@@ -3218,7 +3218,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 																	name="qu_${en.quType }_${en.id }"
 																	value="${item.id }">
 																	
-																<label	class="editAble quCoOptionEdit quCoOptionPadding" style="margin-left:30px;" title="${item.optionName }">${item.optionName }</label>
+																<label	class="editAble quCoOptionEdit quCoOptionPadding" style="" title="${item.optionName }">${item.optionName }</label>
 																<input type='text' class='inputSytle_1'
 																	style="width:200px;padding:5px;${item.isNote eq 1 ? '':'display: none;'}"
 																	name="text_qu_${en.quType }_${en.id }_${item.id }" />

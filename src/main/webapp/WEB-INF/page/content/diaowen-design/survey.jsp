@@ -2171,9 +2171,9 @@
 			<li id="saveBtn" >
 				<div class="dwToolbar_icon"></div>
 			</li>
-			<!-- <li id="previewBtn" >
+			<li id="previewBtn" >
 				<div class="dwToolbar_icon"></div>
-			</li> -->
+			</li>
 		    </ul>
 		</div>
 	</div>

@@ -1070,7 +1070,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div class="surveyQuItem">
-								
+
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
@@ -1137,11 +1137,11 @@ $(document).ready(function(){
 									</c:choose>
 									</div>
 								</div>
-								
+
 							</div>
 					</div>
 					</c:when>
-					
+
 					<c:when test="${en.quType eq 'CHECKBOX' }">
 						<div class="surveyQuItemBody">
 							<div class="initLine"></div>
@@ -1169,7 +1169,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div class="surveyQuItem">
-								
+
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
@@ -1235,9 +1235,9 @@ $(document).ready(function(){
 										</c:otherwise>
 									</c:choose>
 									</div>
-									
+
 								</div>
-								
+
 							</div>
 					</div>
 					</c:when>
@@ -1299,7 +1299,7 @@ $(document).ready(function(){
 							</div>
 						</div>
 					</c:when>
-					
+
 					<c:when test="${en.quType eq 'SCORE' }">
 						<div class="surveyQuItemBody">
 							<div class="initLine"></div>
@@ -1348,11 +1348,11 @@ $(document).ready(function(){
 										</table>
 									</div>
 								</div>
-								
+
 							</div>
 					</div>
 					</c:when>
-					
+
 					<c:when test="${en.quType eq 'ORDERQU' }">
 						<div class="surveyQuItemBody">
 							<div class="initLine"></div>
@@ -1405,11 +1405,11 @@ $(document).ready(function(){
 										<div style="clear: both;"></div>
 									</div>
 								</div>
-								
+
 							</div>
 					</div>
 					</c:when>
-					
+
 					<%-- 分页题 --%>
 					<c:when test="${en.quType eq 'PAGETAG' }">
 						<div class="surveyQuItemBody">
@@ -1453,7 +1453,7 @@ $(document).ready(function(){
 							</div>
 					</div>
 					</c:when>
-					
+
 					<%--段落说明 --%>
 					<c:when test="${en.quType eq 'PARAGRAPH' }">
 						<div class="surveyQuItemBody">
@@ -1491,7 +1491,7 @@ $(document).ready(function(){
 							</div>
 					</div>
 					</c:when>
-					
+
 					<%--多项填空题 --%>
 					<c:when test="${en.quType eq 'MULTIFILLBLANK' }">
 						<div class="surveyQuItemBody">
@@ -1520,7 +1520,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div class="surveyQuItem">
-								
+
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
@@ -1537,14 +1537,14 @@ $(document).ready(function(){
 										</tr>
 										</c:forEach>
 									</table>
-									
+
 									</div>
 								</div>
-								
+
 							</div>
 					</div>
 					</c:when>
-					
+
 					<%-- 矩阵单选题 --%>
 					<c:when test="${en.quType eq 'CHENRADIO' }">
 						<div class="surveyQuItemBody">
@@ -1579,7 +1579,7 @@ $(document).ready(function(){
 										<div class="editAble quCoTitleEdit" >${en.quTitle}</div>
 										<input type="hidden" name="quTitleSaveTag" value="1">
 									</div>
-									
+
 									<div class="quCoItem">
 										<div class="quCoItemLeftChenTableDiv">
 										<table class="quCoChenTable" >
@@ -1605,9 +1605,9 @@ $(document).ready(function(){
 							</div>
 					</div>
 					</c:when>
-					
-					
-					
+
+
+
 					<%--矩阵多选题 --%>
 					<c:when test="${en.quType eq 'CHENCHECKBOX' }">
 						<div class="surveyQuItemBody">
@@ -1636,14 +1636,14 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div class="surveyQuItem">
-								
+
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
 										<div class="editAble quCoTitleEdit" >${en.quTitle}</div>
 										<input type="hidden" name="quTitleSaveTag" value="1">
 									</div>
-									
+
 									<div class="quCoItem">
 										<div class="quCoItemLeftChenTableDiv">
 										<table class="quCoChenTable" >
@@ -1669,7 +1669,7 @@ $(document).ready(function(){
 							</div>
 					</div>
 					</c:when>
-					
+
 					<%-- 矩阵填空题 --%>
 					<c:when test="${en.quType eq 'CHENFBK' }">
 						<div class="surveyQuItemBody">
@@ -1698,14 +1698,14 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div class="surveyQuItem">
-								
+
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
 										<div class="editAble quCoTitleEdit" >${en.quTitle}</div>
 										<input type="hidden" name="quTitleSaveTag" value="1">
 									</div>
-									
+
 									<div class="quCoItem">
 										<div class="quCoItemLeftChenTableDiv">
 										<table class="quCoChenTable" >
@@ -1731,8 +1731,8 @@ $(document).ready(function(){
 							</div>
 					</div>
 					</c:when>
-					
-					
+
+
 					<%-- 矩阵评分题 --%>
 					<c:when test="${en.quType eq 'CHENSCORE' }">
 						<div class="surveyQuItemBody">
@@ -1761,14 +1761,14 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div class="surveyQuItem">
-								
+
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
 										<div class="editAble quCoTitleEdit" >${en.quTitle}</div>
 										<input type="hidden" name="quTitleSaveTag" value="1">
 									</div>
-									
+
 									<div class="quCoItem">
 										<div class="quCoItemLeftChenTableDiv">
 										<table class="quCoChenTable" >
@@ -1788,11 +1788,11 @@ $(document).ready(function(){
 												</c:forEach>
 										</table>
 										</div>
-										
+
 									</div>
 									<div style="clear: both;"></div>
 								</div>
-								
+
 							</div>
 					</div>
 					</c:when>

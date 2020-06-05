@@ -3208,7 +3208,7 @@
 																										name="qu_${en.quType }_${en.id }"
 																										value="${item.id }">
 																										
-																									<label	class="editAble quCoOptionEdit quCoOptionPadding" style="margin-left:30px;" title="${item.optionName }">${item.optionName }</label>
+																									<label	class="editAble quCoOptionEdit quCoOptionPadding" style="" title="${item.optionName }">${item.optionName }</label>
 																									<input type='text' class='inputSytle_1'
 																										style="width:200px;padding:5px;${item.isNote eq 1 ? '':'display: none;'}"
 																										name="text_qu_${en.quType }_${en.id }_${item.id }" />

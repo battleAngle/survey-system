@@ -52,13 +52,15 @@ import com.opensymphony.xwork2.ActionSupport;
 @Results({
 	@Result(name=ActionSupport.SUCCESS,location="/WEB-INF/page/content/diaowen-design/survey.jsp",type=Struts2Utils.DISPATCHER),
 	@Result(name=MySurveyDesignAction.PREVIEWDEV,location="/WEB-INF/page/content/diaowen-design/survey_preview_dev.jsp",type=Struts2Utils.DISPATCHER),
+	@Result(name=MySurveyDesignAction.PREVIEWDEVLOGIC,location="/WEB-INF/page/content/diaowen-design/survey_preview_logic.jsp",type=Struts2Utils.DISPATCHER),
 	@Result(name=MySurveyDesignAction.COLLECTSURVEY,location="my-collect.action?surveyId=${surveyId}",type=Struts2Utils.REDIRECT),
 	@Result(name=MySurveyDesignAction.RELOADDESIGN,location="/design/my-survey-design.action?surveyId=${surveyId}",type=Struts2Utils.REDIRECT)
 })
-@AllowedMethods({"previewDev","devSurvey","ajaxSave","copySurvey"})
+@AllowedMethods({"previewDev","previewDevLogic","devSurvey","ajaxSave","copySurvey"})
 public class MySurveyDesignAction extends ActionSupport{
 	//发布设置
 	protected final static String PREVIEWDEV="previewDev";
+	protected final static String PREVIEWDEVLOGIC="previewDevLogic";
 	protected final static String COLLECTSURVEY="collectSurvey";
 	protected final static String RELOADDESIGN="reloadDesign";
 	
@@ -85,6 +87,12 @@ public class MySurveyDesignAction extends ActionSupport{
 		buildSurvey();
 		
 		return PREVIEWDEV;
+	}
+
+	public String previewDevLogic() throws Exception {
+		buildSurvey();
+
+		return PREVIEWDEVLOGIC;
 	}
 	
 	public String devSurvey() throws Exception {

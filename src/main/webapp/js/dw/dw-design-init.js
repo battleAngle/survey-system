@@ -1995,7 +1995,11 @@ $(document).ready(function(){
 	//填空题--填空框设置
 	$("#dwDialogQuFillOptionSave").click(function(){
 		//alert("..dwDialogObj:"+$(dwDialogObj).attr("class"));
-		var quItemBody=$(dwDialogObj).parents(".surveyQuItemBody");
+		if($(dwDialogObj).parents(".mFillblankTableTr")){
+			var quItemBody=$(dwDialogObj).parents("td");
+		}else{
+			var quItemBody=$(dwDialogObj).parents(".surveyQuItemBody");
+		}
 
         //设置回显值 isNote checkType
 		var quFill_checkType=$("#modelUIDialog select[name='quFill_checkType']");
@@ -2273,7 +2277,7 @@ $(document).ready(function(){
 		curEditCallback();
 		dwCommonDialogHide();
 		resetQuItemHover(null);
-		
+
 		saveSurvey(function(){
 			isSaveProgress=false;
 			window.location.href=ctx+"/design/my-survey-design!previewDev.action?surveyId="+questionBelongId;
@@ -2283,7 +2287,22 @@ $(document).ready(function(){
 		saveQus(fristQuItemBody,function(){
 			window.location.href=ctx+"/design/my-survey-design!previewDev.action?surveyId="+questionBelongId;
 		});*/
-		
+
+	});
+	$("#previewBtn").click(function(){
+		curEditCallback();
+		dwCommonDialogHide();
+		resetQuItemHover(null);
+		saveSurvey(function(){
+			isSaveProgress=false;
+			window.location.href=ctx+"/design/my-survey-design!previewDevLogic.action?surveyId="+questionBelongId;
+		});
+		/*
+		var fristQuItemBody=$("#dwSurveyQuContent .li_surveyQuItemBody").first();
+		saveQus(fristQuItemBody,function(){
+			window.location.href=ctx+"/design/my-survey-design!previewDev.action?surveyId="+questionBelongId;
+		});*/
+
 	});
 	
 	

@@ -3,6 +3,15 @@
 	margin: 0px;
 	padding: 0px;
 }
+.quCoTitle i{
+	display: block;
+	float: left;
+}
+.caret{
+	position: absolute;
+	right: 5px;
+	top: 7px;
+}
 .notification {
 		position: fixed;
 		display: inline-block;
@@ -746,7 +755,7 @@ li.dwQuLogic  .dwQuIcon  .quLogicInfo{
 	padding: 0px;
 	margin: 0px;
 	list-style: none;
-	
+	text-align: left;
 	font-size: 14px;
 	display: inline-block;
 	width: 100%;
