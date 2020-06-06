@@ -113,8 +113,6 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 	@Override
 	public void saveAnswer(SurveyAnswer surveyAnswer,
 			Map<String, Map<String, Object>> quMaps) {
-		Date curDate=new Date();
-		
 		Session session=this.getSession();
 		//保存答案信息
 		String surveyId=surveyAnswer.getSurveyId();
@@ -133,12 +131,11 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 		session.update(survey);//更新回答数
 		int surveyQuAnItemNum=survey.getAnItemLeastNum();//可以回答的最少项目数
 		
-		surveyAnswer.setBgAnDate(curDate);
 		surveyAnswer.setEndAnDate(new Date());
 		
 		//计算答卷用时
 		long time=surveyAnswer.getEndAnDate().getTime()-surveyAnswer.getBgAnDate().getTime();
-		surveyAnswer.setTotalTime(Float.parseFloat(time/(60*60)+""));
+		surveyAnswer.setTotalTime(Float.parseFloat(time/1000+""));
 		session.save(surveyAnswer);
 		
 		int anCount=0;

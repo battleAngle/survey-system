@@ -12,6 +12,7 @@ import com.key.dwsurvey.entity.SurveyDetail;
 import com.key.dwsurvey.service.AnScoreManager;
 import com.key.dwsurvey.service.SurveyDirectoryManager;
 
+import com.octo.captcha.module.taglib.QuestionTag;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -324,10 +325,11 @@ public class SurveyAnswerManagerImpl extends
 
 		XLSExportUtil exportUtil = new XLSExportUtil(fileName, savePath);
 		Criterion cri1 = Restrictions.eq("surveyId",surveyId);
+		Criterion cri2 = Restrictions.eq("isTemp",0);
 		Page<SurveyAnswer> page = new Page<SurveyAnswer>();
 		page.setPageSize(5000);
 		try {
-			page = findPage(page,cri1);
+			page = findPage(page,cri1,cri2);
 			int totalPage = page.getTotalPage();
 			List<SurveyAnswer> answers = page.getResult();
 			List<Question> questions = questionManager.findDetails(surveyId,"2");
@@ -702,10 +704,19 @@ public class SurveyAnswerManagerImpl extends
 				
 			}
 		}
-
+		int pageNum = 0;
+		for (Question question : questions) {
+			if (QuType.PAGETAG.equals(question.getQuType())) {
+				pageNum++;
+			}
+		}
+		exportUtil.setCell(cellIndex++,  ++pageNum);
+		exportUtil.setCell(cellIndex++,  surveyAnswer.getTotalTime());
 		exportUtil.setCell(cellIndex++,  surveyAnswer.getIpAddr());
 		exportUtil.setCell(cellIndex++,  surveyAnswer.getCity());
 		exportUtil.setCell(cellIndex++,  surveyAnswer.getAnswerUserName());
+		exportUtil.setCell(cellIndex++,  surveyAnswer.getAnswerPassword());
+		exportUtil.setCell(cellIndex++,  new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒").format(surveyAnswer.getBgAnDate()));
 		exportUtil.setCell(cellIndex++,  new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒").format(surveyAnswer.getEndAnDate()));
 
 
@@ -1093,10 +1104,14 @@ public class SurveyAnswerManagerImpl extends
 			}
 		}
 
+		exportUtil.setCell(cellIndex++,  "末页");
+		exportUtil.setCell(cellIndex++,  "总计时长（秒）");
 		exportUtil.setCell(cellIndex++,  "回答者IP");
 		exportUtil.setCell(cellIndex++,  "IP所在地");
 		exportUtil.setCell(cellIndex++,  "回答者姓名");
-		exportUtil.setCell(cellIndex++,  "回答时间");
+		exportUtil.setCell(cellIndex++,  "密码");
+		exportUtil.setCell(cellIndex++,  "开始时间");
+		exportUtil.setCell(cellIndex++,  "结束时间");
 
 	}
 
