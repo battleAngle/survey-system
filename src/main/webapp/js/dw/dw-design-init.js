@@ -1988,18 +1988,18 @@ $(document).ready(function(){
 		
 		$("#modelUIDialog").dialog("close");
 		//resetQuItemHover(null);
-		dwCommonDialogHide();
+		dwCommonDialogHide();p
 		return false;
 	});
 	
 	//填空题--填空框设置
 	$("#dwDialogQuFillOptionSave").click(function(){
 		//alert("..dwDialogObj:"+$(dwDialogObj).attr("class"));
-		if($(dwDialogObj).parents(".mFillblankTableTr")){
-			var quItemBody=$(dwDialogObj).parents("td");
-		}else{
-			var quItemBody=$(dwDialogObj).parents(".surveyQuItemBody");
-		}
+		// if($(dwDialogObj).parents(".mFillblankTableTr")){
+		// 	var quItemBody=$(dwDialogObj).parents("td");
+		// }else{
+		// }
+		var quItemBody=$(dwDialogObj).parents(".surveyQuItemBody");
 
         //设置回显值 isNote checkType
 		var quFill_checkType=$("#modelUIDialog select[name='quFill_checkType']");
@@ -2040,10 +2040,11 @@ $(document).ready(function(){
 			checkTypeVal="NO";
 		}
 		checkType.val(checkTypeVal);
-	
+
 		answerInputWidth.val(qu_inputWidth.val());
 		answerInputRow.val(qu_inputRow.val());
-		
+		console.log(555, answerInputWidth)
+
 		//alert(qu_inputRow);
 		if(qu_inputRow.val()>1){
 			quItemBody.find(".quFillblankAnswerTextarea").show();
@@ -2399,6 +2400,7 @@ $(document).ready(function(){
 					$("input[name='svyNoteSaveTag']").val(1);
 					$("input[name='svyAttrSaveTag']").val(1);
 					var fristQuItemBody=$("#dwSurveyQuContent .li_surveyQuItemBody").first();
+
 					saveQus(fristQuItemBody,callback);
 				}
 			});
@@ -5351,6 +5353,8 @@ function saveMultiFillblank(quItemBody,callback){
 		var orderById=quItemBody.find("input[name='orderById']").val();
 		var isRequired=quItemBody.find("input[name='isRequired']").val();
 		var hv=quItemBody.find("input[name='hv']").val();
+		var answerInputWidth=quItemBody.find("input[name='answerInputWidth']").val();
+		var answerInputRow=quItemBody.find("input[name='answerInputRow']").val();
 		var randOrder=quItemBody.find("input[name='randOrder']").val();
 		var cellCount=quItemBody.find("input[name='cellCount']").val();
 		var paramInt01=quItemBody.find("input[name='paramInt01']").val();
@@ -5361,7 +5365,8 @@ function saveMultiFillblank(quItemBody,callback){
 		var data="belongId="+questionBelongId+"&orderById="+orderById+"&tag="+svTag+"&quType="+quType+"&quId="+quId;
 		data+="&isRequired="+isRequired+"&hv="+hv+"&randOrder="+randOrder+"&cellCount="+cellCount;
 		data+="&paramInt01="+paramInt01+"&paramInt02="+paramInt02;
-		
+		data+="&answerInputWidth="+answerInputWidth+"&answerInputRow="+answerInputRow;
+		console.log(999, answerInputRow)
         if(mustAnswerNum != undefined && mustAnswerNum != ""){
 			data+="&mustAnswerNum="+mustAnswerNum;
 		}
@@ -6122,16 +6127,12 @@ function notify(msg,delayHid) {
 			$( this ).remove();
 		});
 }
-//批量导入问卷用户
-function importSurveyUser(){
-
-}
 
 //批量生成问卷用户的方法
 function saveSurveyUser(){
 	var survey_id=$("#id").val();
 	var survey_user_count=$("input[name='survey_user_count']").eq(0).val();
-	var password_setting=$("input[name='password_type']").eq(0).val();
+	var password_setting=$("input[name='password_type']:checked").val();
 	var password=$("input[name='password']").eq(0).val();
 	var password_length=$("input[name='password_length']").eq(0).val();
 	var survey_user_name=$("input[name='survey_user_name']").eq(0).val();

@@ -14,7 +14,7 @@
 			
 			<div class="middle-body-content" style="text-align: center;">
 				<p class="msg1" style="font-size: 26px;">
-					问卷提交成功，感谢您的支持！<br/>
+					问卷提交成功，感谢您的参与！<br/>
 				</p>
 				<p style="text-align: left;">
 				<c:if test="${viewAnswer eq 1 }">

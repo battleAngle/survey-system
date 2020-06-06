@@ -461,6 +461,28 @@ $(document)
 										}
 									});
 
+					$(".tempSaveSurvey").click(
+							function() {
+									if ($("#jcaptchaImgBody").is(
+											":visible")) {
+										var jcaptchaInput = $("input[name='jcaptchaInput']").val();
+										var url = "${ctx}/response!tempSave.action";
+										$.ajax({
+											url : url,
+											async:false,
+											data : {
+												"jcaptchaInput" : jcaptchaInput
+											},
+											type : "post",
+											success : function(msg) {
+											}
+										});
+									}
+							});
+					$(".quitSurvey").click(
+							function() {
+								window.close();
+							});
 					//评分题
 					$(".scoreNumTable tr td").click(
 							function() {
@@ -4250,16 +4272,20 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 					<input type="hidden" class="quType" value="submitSurveyBtn">
 					<div class="surveyQuItemContent"
 						style="padding-top: 12px; height: 30px; min-height: 30px;">
+                        <c:if test="${pageNo > 1 }">
+                            <a href="#" class="sbtn24 sbtn24_0 prevPage_a">上一页</a>
+                            <input type="hidden" name="prevPageNo" value="${pageNo-1 }">
+                        </c:if>
+                        <c:set var="pageNo" value="${pageNo+1 }"></c:set>
+                        <input type="hidden" name="nextPageNo" value="${pageNo }">
 						<a href="#" id="submitSurvey"
 							class="sbtn24 sbtn24_0 submitSurvey">提&nbsp;交</a>&nbsp;&nbsp;
 						&nbsp;&nbsp;
 						<%-- <a href="${ctx }/report.action?sid=${survey.sid}" style="color: gray;text-decoration: none;" target="_blank">查看结果</a> --%>
-						<c:if test="${pageNo > 1 }">
-							<a href="#" class="sbtn24 sbtn24_0 prevPage_a">上一页</a>
-							<input type="hidden" name="prevPageNo" value="${pageNo-1 }">
-						</c:if>
-						<c:set var="pageNo" value="${pageNo+1 }"></c:set>
-						<input type="hidden" name="nextPageNo" value="${pageNo }">
+                        <a href="#" id="tempSaveSurvey"
+                           class="sbtn24 sbtn24_0 tempSaveSurvey">临时保存</a>&nbsp;&nbsp;
+                        <a href="#" id="quitSurvey"
+                           class="sbtn24 sbtn24_0 quitSurvey">退&nbsp;出</a>&nbsp;&nbsp;
 						</div>
 					</div>
 				</div>

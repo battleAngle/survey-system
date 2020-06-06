@@ -555,32 +555,6 @@
 						</div>
 				</div>
 			</li>
-				<li id="textQuModel">
-					<%-- 文本显示题模板 --%>
-					<div class="dwToolbar_icon"></div>
-					<div class="dwQuTypeModel">
-						<div class="surveyQuItemBody quDragBody">
-                            <div class="surveyQuItemLeftTools">
-                                <ul class="surveyQuItemLeftToolsUl">
-                                    <li title="移动排序" class="dwQuMove"><div class="dwQuIcon"></div></li>
-                                    <li title="设置" class="dwQuSet"><div class=dwQuIcon></div></li>
-                                    <li title="逻辑" class="dwQuLogic"><div class="dwQuIcon"><div class="quLogicInfo"></div></div></li>
-                                    <li title="逻辑复制" class="dwQuLogicCopy"><div class="dwQuIcon"></div></li>
-                                    <li title="复制" class="dwQuCopy"><div class="dwQuIcon fa fa-files-o"></div></li>
-                                    <li title="删除" class="dwQuDelete"><div class="dwQuIcon"></div></li>
-                                </ul>
-                            </div>
-								<div class="surveyQuItemContent">
-									<div class="quCoTitle">
-<%--										<div class="quCoNum">1、</div>--%>
-										<div class="editAble quCoTitleEdit" ></div>
-										<input type="hidden" name="quTitleSaveTag" value="0">
-									</div>
-								</div>
-							</div>
-						</div>
-
-				</li>
 		    </ul>
 		</div>
 		<div class="tooltext">基本题型</div>
@@ -3958,9 +3932,7 @@
 										<td width="98" align="right" style="height:43px;">
 										 <div class="dwQuDialogBtnCon" ><input type="button" value="保存用户" class="quDialogBtn" id="survey_user_save" onclick="saveSurveyUser()"/></div>
 										 </td>
-										<td width="98" align="right" style="height:43px;">
-											<div class="dwQuDialogBtnCon" ><input type="button" value="导入用户" class="quDialogBtn" id="survey_user_import" onclick="importSurveyUser()"/></div>
-										</td>
+
 									</tr>
 								</table>
 				</form>	
