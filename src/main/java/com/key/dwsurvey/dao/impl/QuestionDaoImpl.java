@@ -15,6 +15,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import com.key.common.dao.BaseDaoImpl;
@@ -112,8 +113,10 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 				if("".equals(qulogicId)){
 					questionLogic.setId(null);
 				}
-				questionLogic.setCkQuId(entity.getId());
 				if (!idMap.isEmpty()) {
+					QuestionLogic newLogic = new QuestionLogic();
+					BeanUtils.copyProperties(questionLogic, newLogic);
+					newLogic.setCkQuId(entity.getId());
 					String cgQuItemId = questionLogic.getCgQuItemId();
 					String ckQuItemId = questionLogic.getCkQuItemId();
 					String skQuId = questionLogic.getSkQuId();
@@ -122,11 +125,16 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, String> implements Qu
 						ckQuItemId = ckQuItemId.replace(key, idMap.get(key));
 						skQuId = skQuId.replace(key, idMap.get(key));
 					}
-					questionLogic.setCgQuItemId(cgQuItemId);
-					questionLogic.setCkQuItemId(ckQuItemId);
-					questionLogic.setSkQuId(skQuId);
+					newLogic.setCgQuItemId(cgQuItemId);
+					newLogic.setCkQuItemId(ckQuItemId);
+					newLogic.setSkQuId(skQuId);
+
+					newLogic.setId(null);
+					session.save(newLogic);
+				} else {
+					questionLogic.setCkQuId(entity.getId());
+					session.saveOrUpdate(questionLogic);
 				}
-				session.saveOrUpdate(questionLogic);
 			}
 		}
 		if(isnew){

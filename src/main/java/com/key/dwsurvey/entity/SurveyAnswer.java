@@ -23,6 +23,7 @@ public class SurveyAnswer extends IdEntity{
 	private String userId;
 	
 	private String answerUserName;
+	private String answerPassword;
 	//回答时间
 	private Date bgAnDate;
 	//回答时间
@@ -34,6 +35,14 @@ public class SurveyAnswer extends IdEntity{
 	}
 	public void setAnswerUserName(String answerUserName) {
 		this.answerUserName = answerUserName;
+	}
+
+	public String getAnswerPassword() {
+		return answerPassword;
+	}
+
+	public void setAnswerPassword(String answerPassword) {
+		this.answerPassword = answerPassword;
 	}
 
 	//回答者IP

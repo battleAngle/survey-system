@@ -206,18 +206,25 @@ public class ResponseAction extends ActionSupport {
 				Struts2Utils.getSession().setAttribute("surveyuser_password", surveyuser_password);*/
 				String htmlPath = directory.getHtmlPath();
 				if(surveyuser_username.equals("")){
+					// 插入开始答题时间
+					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
+					File file=new File(realpath);
+					insertStringInFile(file, 3052, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					request.getRequestDispatcher("/" + htmlPath).forward(request,
 							response);
 				}else{
 				   //只能在文件的指定行插入
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file,3052,"<input type='hidden' id='surveyuser_username' value='"+surveyuser_username+"'><br/><input type='hidden' id='surveyuser_password' value='"+surveyuser_password+"'>");
+					insertStringInFile(file, 3052, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
+									"<br/>" +
+									"<input type='hidden' id='surveyuser_password' value='" + surveyuser_password + "'>" +
+							"<br/>" +
+							"<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					Long time=new Date().getTime();
 					request.getRequestDispatcher("/" + htmlPath+"?time="+time).forward(request,
 							response);
 				}
-				
 			}
 		}
 
@@ -401,6 +408,7 @@ public class ResponseAction extends ActionSupport {
 		
 		String surveyuser_username=request.getParameter("surveyuser_username");
 		String surveyuser_password=request.getParameter("surveyuser_password");
+		String surveystart_time=request.getParameter("surveystart_time");
 		try {
 			
 			List<SurveyUser> surveyusers=(List<SurveyUser>) application.getAttribute("surveyUsers");
@@ -440,6 +448,15 @@ public class ResponseAction extends ActionSupport {
 				entity.setAnswerUserName(surveyuser_username);
 			}else{
 				entity.setAnswerUserName("");
+			}
+			if (surveyuser_password != null) {
+				entity.setAnswerPassword(surveyuser_password);
+			} else {
+				entity.setAnswerPassword("");
+			}
+			if (StringUtils.isNotEmpty(surveystart_time)) {
+				long time = Long.parseLong(surveystart_time);
+				entity.setBgAnDate(new Date(time));
 			}
 			Cookie cookie = CookieUtils.getCookie(request, surveyId);
 			Integer effectiveIp = surveyDetail.getEffectiveIp();
