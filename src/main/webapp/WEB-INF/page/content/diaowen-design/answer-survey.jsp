@@ -463,25 +463,39 @@ $(document)
 
 					$(".tempSaveSurvey").click(
 							function() {
-									if ($("#jcaptchaImgBody").is(
-											":visible")) {
-										var jcaptchaInput = $("input[name='jcaptchaInput']").val();
-										var url = "${ctx}/response!tempSave.action";
-										$.ajax({
-											url : url,
-											async:false,
-											data : {
-												"jcaptchaInput" : jcaptchaInput
-											},
-											type : "post",
-											success : function(msg) {
-											}
-										});
+								var url = "${ctx}/response!tempSave.action"
+								$.ajax({
+									//几个参数需要注意一下
+									type: "POST",//方法类型
+									url: url ,//url
+									data: $('#surveyForm').serialize(),
+									success: function (result) {
+										if (result) {
+											window.close();
+										}
+									},
+									error : function() {
+										alert("异常！");
 									}
+								});
 							});
 					$(".quitSurvey").click(
 							function() {
-								window.close();
+								var url = "${ctx}/response!userLogout.action";
+								var username = $("#surveyuser_username").val();
+								var password = $("#surveyuser_password").val();
+								$.ajax({
+									url : url,
+									async:false,
+									data : {
+										"surveyuser_username": username,
+										"surveyuser_password": password
+									},
+									type : "post",
+									success : function(msg) {
+										window.close();
+									}
+								});
 							});
 					//评分题
 					$(".scoreNumTable tr td").click(

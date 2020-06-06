@@ -104,7 +104,7 @@ import com.opensymphony.xwork2.ActionSupport;
 		@Result(name = ResponseAction.RESPONSE_MOBILE, location = "response!answerMobile.action?surveyId=${surveyId}", type = Struts2Utils.REDIRECT) })
 
 @AllowedMethods({"saveMobile","answerSuccess","answerMobile","answerFailure","answerError","answerSuccessM","ajaxCheckSurvey","ajaxCheckJcaptchaInput",
-	"ajaxCheckRuleCode","ajaxCheckSurveyUser","checkIsSubmit", "tempSave"})
+	"ajaxCheckRuleCode","ajaxCheckSurveyUser","checkIsSubmit", "tempSave", "userLogout"})
 public class ResponseAction extends ActionSupport {
 	private static final long serialVersionUID = -2289729314160067840L;
 
@@ -209,14 +209,14 @@ public class ResponseAction extends ActionSupport {
 					// 插入开始答题时间
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file, 3052, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
+					insertStringInFile(file, 3106, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					request.getRequestDispatcher("/" + htmlPath).forward(request,
 							response);
 				}else{
 				   //只能在文件的指定行插入
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file, 3052, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
+					insertStringInFile(file, 3106, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
 									"<br/>" +
 									"<input type='hidden' id='surveyuser_password' value='" + surveyuser_password + "'>" +
 							"<br/>" +
@@ -395,7 +395,14 @@ public class ResponseAction extends ActionSupport {
 		entity.setDataSource(0);
 		entity.setIsTemp(1);
 		surveyAnswerManager.tempSaveAnswer(entity, quMaps);
+		this.clearLoginUser(surveyuser_username, surveyuser_password);
 		response.getWriter().write("保存成功");
+		return null;
+	}
+
+	public String userLogout() throws IOException {
+		this.clearLoginUser(surveyuser_username, surveyuser_password);
+		Struts2Utils.getResponse().getWriter().write("退出成功");
 		return null;
 	}
 
@@ -457,6 +464,8 @@ public class ResponseAction extends ActionSupport {
 			if (StringUtils.isNotEmpty(surveystart_time)) {
 				long time = Long.parseLong(surveystart_time);
 				entity.setBgAnDate(new Date(time));
+			} else {
+				entity.setBgAnDate(new Date());
 			}
 			Cookie cookie = CookieUtils.getCookie(request, surveyId);
 			Integer effectiveIp = surveyDetail.getEffectiveIp();
