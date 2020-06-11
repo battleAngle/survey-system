@@ -3065,11 +3065,20 @@ $(".dwQuDelete_classify").click(function(){
 	
 	
 
-	
+	var addCount = 0;
+	setInterval(()=>{
+		if(addCount > 0){
+			addCount = 0;
+		}
+	}, 1000);
 
 	//添加行选项
 	$(".addOption,.addColumnOption,.addRowOption").unbind();
 	$(".addOption,.addColumnOption,.addRowOption").click(function(){
+		addCount ++;
+		if(addCount > 3) {
+			alert('请不要频繁操作！');
+		}
 		var quItemBody=$(this).parents(".surveyQuItemBody");
 		var quItemCheckBox=$(this).parents(".quCoBottomTools").prev();
 		var quType=quItemBody.find("input[name='quType']").val();
@@ -5366,7 +5375,6 @@ function saveMultiFillblank(quItemBody,callback){
 		data+="&isRequired="+isRequired+"&hv="+hv+"&randOrder="+randOrder+"&cellCount="+cellCount;
 		data+="&paramInt01="+paramInt01+"&paramInt02="+paramInt02;
 		data+="&answerInputWidth="+answerInputWidth+"&answerInputRow="+answerInputRow;
-		console.log(999, answerInputRow)
         if(mustAnswerNum != undefined && mustAnswerNum != ""){
 			data+="&mustAnswerNum="+mustAnswerNum;
 		}

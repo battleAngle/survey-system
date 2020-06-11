@@ -2857,6 +2857,9 @@ $(document)
 
 					/**********************处理答题进度条************************/
 					//$("#resultProgress").progressbar({value: bfbFloat});
+					$("#resultProgressRoot .progress-labelB").text(
+							"共：" + $(".answerTag:enabled").size() + "题，已答" + 0 + "题");
+			
 					function answerProgressbar(thObj) {
 						var quItemBody = thObj
 								.parents(".li_surveyQuItemBody ");
