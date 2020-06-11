@@ -18,8 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author yangye
@@ -47,6 +46,7 @@ public class ImportUserAction extends CrudActionSupport<SurveyUser, String> {
 			return null;
 		}
 		List<String[]> list = ExclesUtils.readExcel(file);
+		List<SurveyUser> saveUserList = new ArrayList<SurveyUser>();
 		for (String[] row : list) {
 			String username = row[0];
 			String password = row[1];
@@ -61,6 +61,29 @@ public class ImportUserAction extends CrudActionSupport<SurveyUser, String> {
 			}
 
 			SurveyUser surveyUser = new SurveyUser(survey_id, username, password, surveyState, startTime, endTime);
+			saveUserList.add(surveyUser);
+		}
+
+		// 重复性检查
+		SurveyUser queryUser = new SurveyUser();
+		queryUser.setDirectory_id(survey_id);
+		List<SurveyUser> existUserList = surveyUserService.findByStatusBySurveyUser("1", queryUser);
+		List<String> repeatedUserList = new ArrayList<String>();
+		for (SurveyUser existUser : existUserList) {
+			for (SurveyUser saveUser : saveUserList) {
+				if (StringUtils.equals(existUser.getUserName(), saveUser.getUserName())) {
+					repeatedUserList.add(saveUser.getUserName());
+				}
+			}
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		if (!repeatedUserList.isEmpty()) {
+			result.put("success", false);
+			result.put("msg", "用户名" + repeatedUserList.toString() + "重复，请检查再导入！");
+			response.getWriter().write(JSONObject.toJSONString(result));
+			return null;
+		}
+		for (SurveyUser surveyUser : saveUserList) {
 			surveyUserService.save(surveyUser);
 		}
 
@@ -70,7 +93,9 @@ public class ImportUserAction extends CrudActionSupport<SurveyUser, String> {
 		}
 		page = surveyUserService.findByUser(page, entity);
 		String pageString= JSONObject.toJSONString(page);
-		response.getWriter().write(pageString);
+		result.put("success", true);
+		result.put("data", page);
+		response.getWriter().write(JSONObject.toJSONString(result));
 		return null;
 	}
 

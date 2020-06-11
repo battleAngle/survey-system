@@ -291,7 +291,7 @@ public class SurveyAnswerManagerImpl extends
 
 	@Override
 	public Long getCountByIp(String surveyId, String ip) {
-		String hql = "select count(*) from SurveyAnswer x where x.surveyId=? and x.ipAddr=?";
+		String hql = "select count(*) from SurveyAnswer x where x.surveyId=? and x.ipAddr=? and x.isTemp = 0";
 		Long count = (Long) surveyAnswerDao.findUniObjs(hql, surveyId, ip);
 		return count;
 	}
