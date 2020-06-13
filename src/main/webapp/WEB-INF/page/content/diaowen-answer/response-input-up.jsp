@@ -17,7 +17,7 @@
 		<div class="middle-body" style="padding-top:10px;">
 		<input type="hidden" name="sid" value="${sid }">
 		<div>
-		<h1 style="text-align: center;color: #676767;">${directory.surveyName}</h1>
+		<h1 style="text-align: center;color: #676767;display: none;">${directory.surveyName}</h1>
 		<p style="color: #676767;">${directory.surveyDetail.surveyNote }</p>
 		</div>
 		<form action="" method="post" id="submitForm">
@@ -55,6 +55,7 @@
 			success:function(msg){
 				//msg == 1 通过 msg == 0 不通过 msg== -1 用户过期
 				if(msg == 1){
+					window.sessionStorage.setItem('user', JSON.stringify({name: surveyuser_username,pwd: surveyuser_password}))
 					$("#submitForm").submit();
 				}else if(msg == -1 ){
 					layer.msg("用户已经过期");

@@ -34,13 +34,74 @@
 <link href="${ctx}/js/plugs/validate/jquery.validate.css"
 	type="text/css" rel="stylesheet" />
 <link href="${ctx }/js/plugs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet">
+	<style type="text/css">
+		.edui-editor-iframeholder {
+			display: none;
+		}
+
+		.edui-default .edui-editor-toolbarboxouter {
+			border: none ! important;
+		}
+
+		#resultProgressRoot {
+			right: 10px;
+			bottom: 10px;
+			width: 200px;
+			z-index: 200;
+			position: fixed;
+		}
+
+		.progress-label {
+			font-size: 14px;
+			font-family: "微软雅黑";
+			margin: 0px auto;
+			text-align: center;
+			line-height: 1.4em;
+			color: #83AE00;
+		}
+
+		.progress-labelB {
+			font-size: 14px;
+			font-family: "微软雅黑";
+			margin: 0px auto;
+			text-align: center;
+			line-height: 1.4em;
+			color: #83AE00;
+		}
+
+		.progressbarDiv {
+			height: 10px ! important;
+			box-shadow: none ! important;
+			border: 1px solid #83AE00;
+		}
+
+		.progressbarDiv .ui-progressbar-value {
+			background: #83AE00 ! important;
+			border: none;
+		}
+
+		.ui-progressbar .ui-progressbar-value {
+			margin: 0px;
+		}
+
+		.ui-progressbar {
+			position: relative;
+			background: none ! important;
+		}
+
+		.quOptionEditTd .editAble, .scoreNumTable tr td, .quCoItemTable {
+			font-size: 16px;
+		}
+
+		label.error {
+			font-size: 14px;
+		}
+	</style>
 <style>
 .quCoNum {
 	display: none;
 }
-.li_surveyQuItemBody .quCoChenTable tr:nth-of-type(2n+1) {
-   background-color: #EAEAEA;
-}
+
 .isSelectTypeCss:hover{
 background-color: white;
 }
@@ -57,8 +118,6 @@ td p span{
 $(document)
 		.ready(
 				function() {
-                  
-					
 					var tempUserName=$("#surveyuser_username").val();
 					var tempPassWord=$("#surveyuser_password").val();
 					if(tempUserName != undefined && tempUserName != ""){
@@ -420,7 +479,6 @@ $(document)
 
 					$(".submitSurvey").click(
 									function() {
-
 										//表单检查
 										if (validateForms()) {
 											if ($("#jcaptchaImgBody").is(
@@ -460,7 +518,126 @@ $(document)
 											return  false;
 										}
 									});
+					// 定时保存
+					window.setInterval(function() {
+						var url = "${ctx}/response!tempSave.action"
+						$.ajax({
+							//几个参数需要注意一下
+							type: "POST",//方法类型
+							url: url ,//url
+							data: $('#surveyForm').serialize(),
+							success: function (result) {
+								if (result) {
+								}
+							},
+							error : function() {
+								alert("异常！");
+							}
+						});
+					}, 180000);
 
+					//数据回显
+					$.ajax({
+						//几个参数需要注意一下
+						type: "GET",
+						//方法类型
+						url: 'http://localhost:8080/Survey_war/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val(),//url
+						success: function (result) {
+							if (result) {
+								console.log(result)
+								if (result) {
+									result = JSON.parse(result);
+									for(var i = 0; i < result.length; i++) {
+										var type = result[i].quType;
+										if(type === 'RADIO'){
+											var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
+											Array.from(inputs).forEach((item) => {
+												console.log(item.value, result[i].anRadio.quItemId)
+												if(item.value === result[i].anRadio.quItemId) {
+													item.previousElementSibling.classList.add('checked');
+													item.setAttribute('checked', 'checked')
+													console.log(item);
+												}
+											})
+										}else if(type === 'CHECKBOX'){
+											result[i].anCheckboxs.forEach((item)=>{
+												var input = $("input[name='tag_qu_CHECKBOX_" + result[i].id + '_' + item.quItemId +"']");
+												input[0].previousElementSibling.classList.add('checked');
+												input[0].setAttribute('checked', 'checked')
+											})
+											result[i].anCheckboxs.forEach((item)=>{
+												var input = $("input[name='tag_qu_CHECKBOX_" + result[i].quId + '_' + item.quItemId +"']");
+												input[0].previousElementSibling.classList.add('checked');
+												input[0].setAttribute('checked', 'checked')
+											})
+										}else if(type === 'FILLBLANK'){
+											var input = $("input[name='qu_FILLBLANK_" + result[i].anFillblank.quId +"']");
+											input[0].value = result[i].anFillblank.answer;
+										}else if(type === 'SCORE'){
+											result[i].anScores.forEach((item) => {
+												var input = $("input[name='item_qu_SCORE_" + item.quId + '_' + item.quRowId +"']");
+												for(var j =0 ; j < +item.answserScore;j++){
+													input[0].previousElementSibling.rows[0].cells[j].style = null;
+												}
+												input[0].parentNode.nextElementSibling.innerText = item.answserScore + '分';
+											});
+										}else if(type === 'ORDERQU'){
+											result[i].anOrders.forEach((item) => {
+												var input = $("input[name='qu_ORDERQU_" + item.quId + "']");
+												var surveyQuItemBody= input[0].parentNode.parentNode;
+												let rows = surveyQuItemBody.querySelector(".quOrderByTable").rows;
+												Array.from(rows).forEach((r,index) => {
+													if(+item.orderyNum === (index+1)) {
+														var c = r.querySelector(".quOrderTabConnect");
+														$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.remove('editAble');
+														$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.remove('quCoOptionEdit')
+														$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.add('quOrderItemLabel')
+														$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.style.display = 'inline-block'
+														c.append($("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode);
+													}
+												})
+											});
+										}else if(type === 'MULTIFILLBLANK'){
+											result[i].anDFillblanks.forEach((item) => {
+												var input = $("input[name='text_qu_MULTIFILLBLANK_" + item.quId + '_' + item.quItemId +"']");
+												input[0].value = item.answer;
+											});
+										}else if(type === 'CHENRADIO'){
+											result[i].anChenRadios.forEach((item) => {
+												var inputs = $("input[name='item_qu_CHENRADIO_" + item.quId + '_' + item.quRowId + "']");
+												Array.from(inputs).forEach((i) => {
+													if(i.value === item.quColId) {
+														i.previousElementSibling.previousElementSibling.classList.add('checked');
+														i.setAttribute('checked', 'checked')
+													}
+												})
+											});
+										}else if(type === 'CHENCHECKBOX'){
+											result[i].anChenCheckboxs.forEach((item) => {
+												var input = $("input[name='ck_item_qu_CHENCHECKBOX_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+												input[0].previousElementSibling.previousElementSibling.classList.add('checked');
+												input[0].setAttribute('checked', 'checked')
+											});
+										}else if(type === 'CHENSCORE'){
+											result[i].anChenScores.forEach((item) => {
+												var input = $("input[name='cs_item_qu_CHENSCORE_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+												input[0].value = +item.answserScore;
+											});
+										}else if(type === 'CHENFBK'){
+											result[i].anChenFbks.forEach((item) => {
+												var input = $("input[name='fbk_item_qu_CHENFBK_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+												input[0].value = item.answerValue;
+											});
+										}
+									}
+
+								}
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
 					$(".tempSaveSurvey").click(
 							function() {
 								var url = "${ctx}/response!tempSave.action"
@@ -470,9 +647,7 @@ $(document)
 									url: url ,//url
 									data: $('#surveyForm').serialize(),
 									success: function (result) {
-										if (result) {
-											window.close();
-										}
+
 									},
 									error : function() {
 										alert("异常！");
@@ -483,6 +658,7 @@ $(document)
 							function() {
 								var url = "${ctx}/response!userLogout.action";
 								var username = $("#surveyuser_username").val();
+								console.log('quit',username)
 								var password = $("#surveyuser_password").val();
 								$.ajax({
 									url : url,
@@ -951,7 +1127,6 @@ $(document)
 							// || quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"
 						});
 						if (firstError != null) {
-							console.log("偏移量"+firstError.offset().top);
 							$(window).scrollTop(firstError.offset().top);
 						}
 						//
@@ -1669,7 +1844,9 @@ $(document)
 															}
 
 															if (logicType == "3") {
-																target.hide();
+																// target.hide();
+																tempQestionItem
+																		.hide();
 															}
 															
 															if(logicType == "4"){
@@ -1686,7 +1863,9 @@ $(document)
 															}
 
 															if (logicType == "3") {
-																target.show();
+																// target.show();
+																tempQestionItem
+																		.show();
 															}
 															
 															if(logicType == "4"){
@@ -1743,7 +1922,9 @@ $(document)
 															}
 
 															if (logicType == "3") {
-																target.hide();
+																// target.hide();
+																tempQestionItem
+																		.hide();
 															}
 															
 															if(logicType == "4"){
@@ -1757,7 +1938,9 @@ $(document)
 															}
 
 															if (logicType == "3") {
-																target
+																// target
+																// 		.show();
+																tempQestionItem
 																		.show();
 															}
 															
@@ -3030,70 +3213,7 @@ $(document)
 				});
 
 </script>
-<style type="text/css">
-.edui-editor-iframeholder {
-	display: none;
-}
 
-.edui-default .edui-editor-toolbarboxouter {
-	border: none ! important;
-}
-
-#resultProgressRoot {
-	right: -50px;
-	bottom: 100px;
-	width: 200px;
-	z-index: 200;
-	position: fixed;
-	transform: rotate(90deg);
-}
-
-.progress-label {
-	font-size: 14px;
-	font-family: "微软雅黑";
-	margin: 0px auto;
-	text-align: center;
-	line-height: 1.4em;
-	color: #83AE00;
-}
-
-.progress-labelB {
-	font-size: 14px;
-	font-family: "微软雅黑";
-	margin: 0px auto;
-	text-align: center;
-	line-height: 1.4em;
-	color: #83AE00;
-}
-
-.progressbarDiv {
-	height: 10px ! important;
-	box-shadow: none ! important;
-	border: 1px solid #83AE00;
-}
-
-.progressbarDiv .ui-progressbar-value {
-	background: #83AE00 ! important;
-	border: none;
-}
-
-.ui-progressbar .ui-progressbar-value {
-	margin: 0px;
-}
-
-.ui-progressbar {
-	position: relative;
-	background: none ! important;
-}
-
-.quOptionEditTd .editAble, .scoreNumTable tr td, .quCoItemTable {
-	font-size: 16px;
-}
-
-label.error {
-	font-size: 14px;
-}
-</style>
 </head>
 <body>
 	<div id="wrap">
@@ -3108,8 +3228,8 @@ method="post">
 	value="${survey.id }"> <input type="hidden" id="sid"
 name="sid" value="${survey.sid }"> <input type="hidden"
 	id="surveyuser_id" name="surveyuser_id">
-<input type="hidden" name="surveyuser_username" value="${surveyuser_username }">
-<input type="hidden" name="surveyuser_password" value="${surveyuser_password }">	
+<input type="hidden"  name="surveyuser_username" value="${surveyuser_username }">
+<input type="hidden" name="surveyuser_password" value="${surveyuser_password }">
 <div id="dw_body" style="padding-top: 10px;">
 <div id="dw_body_content">
 	<div id="dwSurveyHeader">
@@ -3180,10 +3300,11 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
+
 										<div class="editAble quCoTitleEdit">
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
+											<c:if test= "${en.isRequired == 1 }">
+												<i style = "color:red">*</i>
+											</c:if>
 										 ${en.quTitle }
 										</div>
 									</div>
@@ -3244,7 +3365,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 											</c:when>
 											<c:when test="${en.isSelectType eq 1 }">
 		
-												     <button  style="text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px;min-width: 160px;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
+												     <button  style="position:relative;text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px;min-width: 160px;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
 													           请选择任意一项 
 													    <span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
 													  </button>
@@ -3310,7 +3431,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 									value="${en.orderById }" /> <input type="hidden"
 									class="isRequired" value="${en.isRequired }"> <input
 									type="hidden" class="answerTag" value="0">
-									<input type="hidden" class="minNum" value="${en.minNum }">
+<%--									<input type="hidden" class="minNum" value="${en.minNum }">--%>
 								<div class="quLogicInputCase">
 									<c:forEach items="${en.questionLogics }" var="quLogicEn"
 										varStatus="logicSts">
@@ -3340,10 +3461,12 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+
+										<div class="editAble quCoTitleEdit">
+											<c:if test= "${en.isRequired == 1 }">
+												<i style = "color:red">*</i>
+											</c:if>
+												${en.quTitle}</div>
 									</div>
 									<div class="quCoItem">
 										<c:choose>
@@ -3475,10 +3598,11 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+
+										<div class="editAble quCoTitleEdit">
+											<c:if test= "${en.isRequired == 1 }">
+												<i style = "color:red">*</i>
+											</c:if>${en.quTitle}</div>
 									</div>
 									<div class="quCoItem">
 										<ul>
@@ -3566,10 +3690,9 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
+											<i style = "color:red">*</i>
+										</c:if>${en.quTitle}</div>
 									</div>
 									<div class="quCoItem">
 										<table class="quCoItemTable" cellpadding="0"
@@ -3671,10 +3794,10 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+
+										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
+											<i style = "color:red">*</i>
+										</c:if>${en.quTitle}</div>
 									</div>
 									<div class="quCoItem quOrderByCoItem">
 										<div class="quOrderByRight">
@@ -3757,6 +3880,11 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 									<a href="#" class="sbtn24 sbtn24_0 nextPage_a">下一页</a>&nbsp;&nbsp;
 									<c:set var="pageNo" value="${pageNo+1 }"></c:set>
 									<input type="hidden" name="nextPageNo" value="${pageNo }">
+
+									<a href="#" id="tempSaveSurvey"
+									   class="sbtn24 sbtn24_0 tempSaveSurvey">临时保存</a>&nbsp;&nbsp;
+									<a href="#" id="quitSurvey"
+									   class="sbtn24 sbtn24_0 quitSurvey">退&nbsp;出</a>&nbsp;
 								</div>
 							</div>
 						</div>
@@ -3793,12 +3921,13 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent" style="min-height: 35px;">
 									<div class="quCoTitle"
 										style="background: rgb(243, 247, 247);">
-										<%-- <div class="quCoNum" >${i.count }、</div> --%>
+										 <div class="quCoNum" >${i.count }、</div>
+
 										<div class="editAble quCoTitleEdit"
 											style="padding-left: 15px;">
-											 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
+											<c:if test= "${en.isRequired == 1 }">
+												<i style = "color:red">*</i>
+											</c:if>
 											${en.quTitle}</div>
 									</div>
 								</div>
@@ -3850,10 +3979,10 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+
+										<div class="editAble quCoTitleEdit"> <c:if test= "${en.isRequired == 1 }">
+											<i style = "color:red">*</i>
+										</c:if>${en.quTitle}</div>
 									</div>
 									<div class="quCoItem">
 										<table class="mFillblankTable" cellpadding="0"
@@ -3923,10 +4052,10 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+
+										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
+											<i style = "color:red">*</i>
+										</c:if>${en.quTitle}</div>
 									</div>
 
 									<div class="quCoItem">
@@ -4014,10 +4143,10 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+
+										<div class="editAble quCoTitleEdit"> <c:if test= "${en.isRequired == 1 }">
+											<i style = "color:red">*</i>
+										</c:if>${en.quTitle}</div>
 									</div>
 
 									<div class="quCoItem">
@@ -4106,10 +4235,10 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+
+										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
+											<i style = "color:red">*</i>
+										</c:if>${en.quTitle}</div>
 									</div>
 
 									<div class="quCoItem">
@@ -4201,10 +4330,10 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 								<div class="surveyQuItemContent">
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
-										 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
-										 </c:if>
-										<div class="editAble quCoTitleEdit">${en.quTitle}</div>
+
+										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
+											<i style = "color:red">*</i>
+										</c:if>${en.quTitle}</div>
 									</div>
 
 									<div class="quCoItem">
@@ -4395,7 +4524,7 @@ height="130" style="padding: 10px; background: white; display: none;" />
 <script type="text/javascript">
 window.onunload=function(e){     
         var surveyuser_username = $("input[name='surveyuser_username']").val();
-        
+        console.log('surveyuser_username',surveyuser_username)
         var surveyuser_password=$("input[name='surveyuser_password']").val();
         var url="${ctx}/response!checkIsSubmit.action";
         

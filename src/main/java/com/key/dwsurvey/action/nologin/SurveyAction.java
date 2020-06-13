@@ -105,6 +105,7 @@ public class SurveyAction extends ActionSupport{
 	//问卷的动态访问方式
 	public String answerSurvey() throws Exception {
 		HttpServletRequest request = Struts2Utils.getRequest();
+		System.out.println(request.getParameter("surveyuser_username"));
 		surveyuser_username=request.getParameter("surveyuser_username")==null?"":request.getParameter("surveyuser_username");
 		surveyuser_password=request.getParameter("surveyuser_password") == null?"":request.getParameter("surveyuser_password");
 		SurveyDirectory survey=surveyDirectoryManager.getSurvey(surveyId);

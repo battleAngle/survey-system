@@ -6,6 +6,8 @@
 .quCoTitle i{
 	display: block;
 	float: left;
+	line-height: 30px;
+	margin-right: 10px;
 }
 .caret{
 	position: absolute;
@@ -450,6 +452,7 @@ a.centerTabbarBtn:hover{
 	padding-top: 15px;
 }
 #dwSurveyTitle{
+	display: none;
 	margin: 0px 50px;
 	margin-top: 10px;
 }
@@ -1429,10 +1432,13 @@ table.quCoChenTable{
 	padding: 0px;
 	margin: 0px;
 	width:90%;
-	border: 1px solid #dddddd;
+	border: 1px solid #FFFFFF;
 	border-collapse: separate;
 	border-left: 0;
 	border-spacing: 0;
+}
+table.quCoChenTable tr:nth-child(even){
+	background:#eeeeee;
 }
 table.quCoChenTable tr td{
 	vertical-align: middle;
@@ -1442,8 +1448,8 @@ table.quCoChenTable tr td{
 	color: #333333;
 	line-height: 1.4em;
 	text-align: center;
-	border-left: 1px solid #DDDDDD;
-	border-top: 1px solid #DDDDDD;
+	border-left: 1px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
 }
 
 table.quCoChenTable tr td label{

@@ -580,52 +580,54 @@ $(document).ready(function(){
 		
 		var quItemBody=$(dwDialogObj).parents(".li_surveyQuItemBody");
 		var quType=quItemBody.find("input[name='quType']").val();
-		var model="<select name='option_name_id'></select>";	
+		var model="<select name='option_name_id'></select>";
 		var thisParentTr=$(this).parent();
+
 		var thisVal=$(this).val();
+
 		thisParentTr.append(model);
-		if(thisVal == 3){
-			//添加select选项款
-			 if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
-				 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
-				 var quChenRowTds=quItemBody.find(".quChenRowTd");
-				 $.each(quChenColumnTds,function(){
-						//获得行的名称和id
-						var rowText=$(this).find(".quCoOptionEdit").text();
-					    var rowQuItemId=$(this).find("input[name='quItemId']").val();
-					    $.each(quChenRowTds,function(){
-					    	//获得列的名称和id
-					    	var colText=$(this).find(".quCoOptionEdit").text();
-							var colQuItemId=$(this).find("input[name='quItemId']").val();
-						
-							
-					   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
-							$("select[name='option_name_id']").prepend(optionString);
-					    })
-					});
-			 }else{
-				 if(quType==="FILLBLANK"){
-					 
-					 var optionString="<option value='1'>选项1</option>"
-					 $("select[name='option_name_id']").prepend(optionString);
-				 }else{
-					 
-				   var quItemInputCases=quItemBody.find(".quItemInputCase");
-		            	
-		           $.each(quItemInputCases,function(){
-					var optionText=$(this).parent().find("label.quCoOptionEdit").text();
-	    			var optionId=$(this).find("input[name='quItemId']").val();	
-	    				
-	    			var option="<option value='"+optionId+"'>"+optionText+"</option>";
-	    			$("select[name='option_name_id']").prepend(option); 
-		           });	
-				 }	
-			 }
-			
-		}else{
-			$("select[name='option_name_id']").remove();
-		}
-		
+		// if(thisVal == 3){
+		// 	//添加select选项款
+		// 	 if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
+		// 		 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
+		// 		 var quChenRowTds=quItemBody.find(".quChenRowTd");
+		// 		 $.each(quChenColumnTds,function(){
+		// 				//获得行的名称和id
+		// 				var rowText=$(this).find(".quCoOptionEdit").text();
+		// 			    var rowQuItemId=$(this).find("input[name='quItemId']").val();
+		// 			    $.each(quChenRowTds,function(){
+		// 			    	//获得列的名称和id
+		// 			    	var colText=$(this).find(".quCoOptionEdit").text();
+		// 					var colQuItemId=$(this).find("input[name='quItemId']").val();
+		//
+		//
+		// 			   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
+		// 					$("select[name='option_name_id']").prepend(optionString);
+		// 			    })
+		// 			});
+		// 	 }else{
+		// 		 if(quType==="FILLBLANK"){
+		//
+		// 			 var optionString="<option value='1'>选项1</option>"
+		// 			 $("select[name='option_name_id']").prepend(optionString);
+		// 		 }else{
+		//
+		// 		   var quItemInputCases=quItemBody.find(".quItemInputCase");
+		//
+		//            $.each(quItemInputCases,function(){
+		// 			var optionText=$(this).parent().find("label.quCoOptionEdit").text();
+	    // 			var optionId=$(this).find("input[name='quItemId']").val();
+	    //
+	    // 			var option="<option value='"+optionId+"'>"+optionText+"</option>";
+	    // 			$("select[name='option_name_id']").prepend(option);
+		//            });
+		// 		 }
+		// 	 }
+		//
+		// }else{
+		// 	$("select[name='option_name_id']").remove();
+		// }
+		$("select[name='option_name_id']").remove();
 	  return false;
 	})
 	
@@ -779,49 +781,51 @@ $(document).ready(function(){
 	        
 	    	//移除逻辑回显
 	    	if(logicType == 3){
-	    		
+
 	    		//最后一个td添加一个select;
 	    		var lastTd=firstTr.find("td").eq(-2);
-	    		var model="<select name='option_name_id'></select>";
-	    		lastTd.append(model);
-	    		 if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
-					 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
-					 var quChenRowTds=quItemBody.find(".quChenRowTd");
-					 $.each(quChenColumnTds,function(){
-							//获得行的名称和id
-							var rowText=$(this).find(".quCoOptionEdit").text();
-						    var rowQuItemId=$(this).find("input[name='quItemId']").val();
-						    $.each(quChenRowTds,function(){
-						    	//获得列的名称和id
-						    	var colText=$(this).find(".quCoOptionEdit").text();
-								var colQuItemId=$(this).find("input[name='quItemId']").val();
-							
-								
-						   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
-								$("select[name='option_name_id']").prepend(optionString);
-						    })
-						});
-				 }else{
-					 if(quType==="FILLBLANK"){
-						 
-						 var optionString="<option value='1'>选项1</option>"
-						 $("select[name='option_name_id']").prepend(optionString);
-					 }else{
-						 
-					   var quItemInputCases=quItemBody.find(".quItemInputCase");
-			            	
-			           $.each(quItemInputCases,function(){
-						var optionText=$(this).parent().find("label.quCoOptionEdit").text();
-		    			var optionId=$(this).find("input[name='quItemId']").val();	
-		    				
-		    			var option="<option value='"+optionId+"'>"+optionText+"</option>";
-		    			$("select[name='option_name_id']").prepend(option); 
-			           });	
-					 }	
-				 }
-	    		
+	    		// var model="<select name='option_name_id'></select>";
+	    		// lastTd.append(model);
+	    	// 	 if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
+			// 		 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
+			// 		 var quChenRowTds=quItemBody.find(".quChenRowTd");
+			// 		 $.each(quChenColumnTds,function(){
+			// 				//获得行的名称和id
+			// 				var rowText=$(this).find(".quCoOptionEdit").text();
+			// 			    var rowQuItemId=$(this).find("input[name='quItemId']").val();
+			// 			    $.each(quChenRowTds,function(){
+			// 			    	//获得列的名称和id
+			// 			    	var colText=$(this).find(".quCoOptionEdit").text();
+			// 					var colQuItemId=$(this).find("input[name='quItemId']").val();
+			//
+			//
+			// 			   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
+			// 					$("select[name='option_name_id']").prepend(optionString);
+			// 			    })
+			// 			});
+			// 	 }else{
+			// 		 if(quType==="FILLBLANK"){
+			//
+			// 			 var optionString="<option value='1'>选项1</option>"
+			// 			 $("select[name='option_name_id']").prepend(optionString);
+			// 		 }else{
+			//
+			// 		   var quItemInputCases=quItemBody.find(".quItemInputCase");
+			//
+			//            $.each(quItemInputCases,function(){
+			// 			var optionText=$(this).parent().find("label.quCoOptionEdit").text();
+		    // 			var optionId=$(this).find("input[name='quItemId']").val();
+		    //
+		    // 			var option="<option value='"+optionId+"'>"+optionText+"</option>";
+		    // 			$("select[name='option_name_id']").prepend(option);
+			//            });
+			// 		 }
+			// 	 }
+
 	    	}
-	        firstTr.find("select[name='option_event']").val(logicType);
+			$("select[name='option_name_id']").remove();
+
+			firstTr.find("select[name='option_event']").val(logicType);
 	    	
 	    }
 	  
@@ -1066,47 +1070,47 @@ $(document).ready(function(){
     		
     		//最后一个td添加一个select;
     		var lastTd=$(".dwQuDialogLogicTitle");
-    		
-    		var model="<select name='option_name_id'></select>";
-    		$(".dwQuDialogLogicTitle select[name='option_name_id']").remove();
-    		lastTd.append(model);
-    		 if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
-				 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
-				 var quChenRowTds=quItemBody.find(".quChenRowTd");
-				 $.each(quChenColumnTds,function(){
-						//获得行的名称和id
-						var rowText=$(this).find(".quCoOptionEdit").text();
-					    var rowQuItemId=$(this).find("input[name='quItemId']").val();
-					    $.each(quChenRowTds,function(){
-					    	//获得列的名称和id
-					    	var colText=$(this).find(".quCoOptionEdit").text();
-							var colQuItemId=$(this).find("input[name='quItemId']").val();
-						
-							
-					   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
-							$("select[name='option_name_id']").prepend(optionString);
-					    })
-					});
-			 }else{
-				 if(quType==="FILLBLANK"){
-					 
-					 var optionString="<option value='1'>选项1</option>"
-					 $("select[name='option_name_id']").prepend(optionString);
-				 }else{
-					 
-				   var quItemInputCases=quItemBody.find(".quItemInputCase");
-		            	
-		           $.each(quItemInputCases,function(){
-					var optionText=$(this).parent().find("label.quCoOptionEdit").text();
-	    			var optionId=$(this).find("input[name='quItemId']").val();	
-	    				
-	    			var option="<option value='"+optionId+"'>"+optionText+"</option>";
-	    			$("select[name='option_name_id']").prepend(option); 
-		           });	
-				 }	
-			 }
+			//
+    		// var model="<select name='option_name_id'></select>";
+    		// $(".dwQuDialogLogicTitle select[name='option_name_id']").remove();
+    		// lastTd.append(model);
+    		//  if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
+			// 	 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
+			// 	 var quChenRowTds=quItemBody.find(".quChenRowTd");
+			// 	 $.each(quChenColumnTds,function(){
+			// 			//获得行的名称和id
+			// 			var rowText=$(this).find(".quCoOptionEdit").text();
+			// 		    var rowQuItemId=$(this).find("input[name='quItemId']").val();
+			// 		    $.each(quChenRowTds,function(){
+			// 		    	//获得列的名称和id
+			// 		    	var colText=$(this).find(".quCoOptionEdit").text();
+			// 				var colQuItemId=$(this).find("input[name='quItemId']").val();
+			//
+			//
+			// 		   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
+			// 				$("select[name='option_name_id']").prepend(optionString);
+			// 		    })
+			// 		});
+			//  }else{
+			// 	 if(quType==="FILLBLANK"){
+			//
+			// 		 var optionString="<option value='1'>选项1</option>"
+			// 		 $("select[name='option_name_id']").prepend(optionString);
+			// 	 }else{
+			//
+			// 	   var quItemInputCases=quItemBody.find(".quItemInputCase");
+		    //
+		    //        $.each(quItemInputCases,function(){
+			// 		var optionText=$(this).parent().find("label.quCoOptionEdit").text();
+	    	// 		var optionId=$(this).find("input[name='quItemId']").val();
+	    	//
+	    	// 		var option="<option value='"+optionId+"'>"+optionText+"</option>";
+	    	// 		$("select[name='option_name_id']").prepend(option);
+		    //        });
+			// 	 }
+			//  }
     		 lastTd.find("select[name='option_event']").val(logicType);
-    		 lastTd.find("select[name='option_name_id']").val(ckQuItemId);
+    		//  lastTd.find("select[name='option_name_id']").val(ckQuItemId);
     		 //将ckquitemid的值选中
     		 
     	}else if(logicType == 4){
@@ -1215,41 +1219,41 @@ $(document).ready(function(){
 		if(logicType == 3){
 			$(".logicType_three").show();
 			//添加select选项款
-			 if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
-				 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
-				 var quChenRowTds=quItemBody.find(".quChenRowTd");
-				 $.each(quChenColumnTds,function(){
-						//获得行的名称和id
-						var rowText=$(this).find(".quCoOptionEdit").text();
-					    var rowQuItemId=$(this).find("input[name='quItemId']").val();
-					    $.each(quChenRowTds,function(){
-					    	//获得列的名称和id
-					    	var colText=$(this).find(".quCoOptionEdit").text();
-							var colQuItemId=$(this).find("input[name='quItemId']").val();
-						
-							
-					   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
-					   	    thisItemforHidden.prepend(optionString);
-					    })
-					});
-			 }else{
-				 if(quType==="FILLBLANK"){
-					 
-					 var optionString="<option value='1'>选项1</option>"
-					 thisItemforHidden.prepend(optionString);
-				 }else{
-					 
-				   var quItemInputCases=quItemBody.find(".quItemInputCase");
-		            	
-		           $.each(quItemInputCases,function(){
-					var optionText=$(this).parent().find("label.quCoOptionEdit").text();
-	    			var optionId=$(this).find("input[name='quItemId']").val();	
-	    				
-	    			var option="<option value='"+optionId+"'>"+optionText+"</option>";
-	    			thisItemforHidden.prepend(option); 
-		           });	
-				 }	
-			 }
+			//  if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
+			// 	 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
+			// 	 var quChenRowTds=quItemBody.find(".quChenRowTd");
+			// 	 $.each(quChenColumnTds,function(){
+			// 			//获得行的名称和id
+			// 			var rowText=$(this).find(".quCoOptionEdit").text();
+			// 		    var rowQuItemId=$(this).find("input[name='quItemId']").val();
+			// 		    $.each(quChenRowTds,function(){
+			// 		    	//获得列的名称和id
+			// 		    	var colText=$(this).find(".quCoOptionEdit").text();
+			// 				var colQuItemId=$(this).find("input[name='quItemId']").val();
+			//
+			//
+			// 		   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
+			// 		   	    thisItemforHidden.prepend(optionString);
+			// 		    })
+			// 		});
+			//  }else{
+			// 	 if(quType==="FILLBLANK"){
+			//
+			// 		 var optionString="<option value='1'>选项1</option>"
+			// 		 thisItemforHidden.prepend(optionString);
+			// 	 }else{
+			//
+			// 	   var quItemInputCases=quItemBody.find(".quItemInputCase");
+		    //
+		    //        $.each(quItemInputCases,function(){
+			// 		var optionText=$(this).parent().find("label.quCoOptionEdit").text();
+	    	// 		var optionId=$(this).find("input[name='quItemId']").val();
+	    	//
+	    	// 		var option="<option value='"+optionId+"'>"+optionText+"</option>";
+	    	// 		thisItemforHidden.prepend(option);
+		    //        });
+			// 	 }
+			//  }
 			
 		}else{
 			$(".logicType_three").hide();
@@ -2296,7 +2300,7 @@ $(document).ready(function(){
 		resetQuItemHover(null);
 		saveSurvey(function(){
 			isSaveProgress=false;
-			window.location.href=ctx+"/design/my-survey-design!previewDevLogic.action?surveyId="+questionBelongId;
+			window.open(ctx+"/design/my-survey-design!previewDevLogic.action?surveyId="+questionBelongId);
 		});
 		/*
 		var fristQuItemBody=$("#dwSurveyQuContent .li_surveyQuItemBody").first();
@@ -2605,41 +2609,41 @@ function bindQuHoverItem(){
 		if(logicType == 3){
 			$(".logicType_three").show();
 			//添加select选项款
-			 if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
-				 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
-				 var quChenRowTds=quItemBody.find(".quChenRowTd");
-				 $.each(quChenColumnTds,function(){
-						//获得行的名称和id
-						var rowText=$(this).find(".quCoOptionEdit").text();
-					    var rowQuItemId=$(this).find("input[name='quItemId']").val();
-					    $.each(quChenRowTds,function(){
-					    	//获得列的名称和id
-					    	var colText=$(this).find(".quCoOptionEdit").text();
-							var colQuItemId=$(this).find("input[name='quItemId']").val();
-						
-							
-					   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
-					   	    thisItemforHidden.prepend(optionString);
-					    })
-					});
-			 }else{
-				 if(quType==="FILLBLANK"){
-					 
-					 var optionString="<option value='1'>选项1</option>"
-					 thisItemforHidden.prepend(optionString);
-				 }else{
-					 
-				   var quItemInputCases=quItemBody.find(".quItemInputCase");
-		            	
-		           $.each(quItemInputCases,function(){
-					var optionText=$(this).parent().find("label.quCoOptionEdit").text();
-	    			var optionId=$(this).find("input[name='quItemId']").val();	
-	    				
-	    			var option="<option value='"+optionId+"'>"+optionText+"</option>";
-	    			thisItemforHidden.prepend(option); 
-		           });	
-				 }	
-			 }
+			//  if(quType==="CHENRADIO" || quType==="CHENCHECKBOX" || quType==="CHENSCORE" || quType==="CHENFBK"){
+			// 	 var quChenColumnTds=quItemBody.find(".quChenColumnTd");
+			// 	 var quChenRowTds=quItemBody.find(".quChenRowTd");
+			// 	 $.each(quChenColumnTds,function(){
+			// 			//获得行的名称和id
+			// 			var rowText=$(this).find(".quCoOptionEdit").text();
+			// 		    var rowQuItemId=$(this).find("input[name='quItemId']").val();
+			// 		    $.each(quChenRowTds,function(){
+			// 		    	//获得列的名称和id
+			// 		    	var colText=$(this).find(".quCoOptionEdit").text();
+			// 				var colQuItemId=$(this).find("input[name='quItemId']").val();
+			//
+			//
+			// 		   	    var optionString="<option value='"+colQuItemId+":"+rowQuItemId+"'>"+rowText+"+"+colText+"</option>";
+			// 		   	    thisItemforHidden.prepend(optionString);
+			// 		    })
+			// 		});
+			//  }else{
+			// 	 if(quType==="FILLBLANK"){
+			//
+			// 		 var optionString="<option value='1'>选项1</option>"
+			// 		 thisItemforHidden.prepend(optionString);
+			// 	 }else{
+			//
+			// 	   var quItemInputCases=quItemBody.find(".quItemInputCase");
+		    //
+		    //        $.each(quItemInputCases,function(){
+			// 		var optionText=$(this).parent().find("label.quCoOptionEdit").text();
+	    	// 		var optionId=$(this).find("input[name='quItemId']").val();
+	    	//
+	    	// 		var option="<option value='"+optionId+"'>"+optionText+"</option>";
+	    	// 		thisItemforHidden.prepend(option);
+		    //        });
+			// 	 }
+			//  }
 			
 		}else{
 			$(".logicType_three").hide();
@@ -2974,7 +2978,7 @@ $(".dwQuDelete_classify").click(function(){
 	//逻辑设置 
 	$(".dwQuLogic").unbind();
 	$(".dwQuLogic").click(function(){
-		
+		console.log('$(this)', $(this))
 		//显示弹出框
 		showDialog($(this));
 		$(".dwQuDialogAddLogic").show();

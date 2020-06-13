@@ -21,6 +21,53 @@
 <link rel="stylesheet" href="${ctx }/js/plugs/colpick-jQuery/css/colpick.css" type="text/css"/>
 
 <link href="${ctx }/js/plugs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+	<style type="text/css">
+		.edui-editor-iframeholder{
+			display: none;
+		}
+		.edui-default .edui-editor-toolbarboxouter{
+			border: none! important;
+		}
+		#resultProgressRoot .ui-slider-range { background: #B01820; }
+		#resultProgressRoot .ui-slider-handle { border-color: #B01820; }
+
+		#resultProgressRoot{
+			width: 220px;
+			z-index: 200;
+			position: absolute;
+			right: 60px;
+			/*
+            top:100px;
+            right: 20px; */
+
+			/* width:18px;
+            height: 200px;
+            border: 1px solid #83AE00; */
+		}
+		.progress-label {
+			font-size:14px;
+			font-family: "微软雅黑";
+			margin: 0px auto;
+			text-align: center;
+			line-height: 1.4em;
+			color: #83AE00;
+		}
+		.progressbarDiv {
+			height: 6px! important;
+			box-shadow: none! important;
+			border: 1px solid #83AE00;
+		}
+		.progressbarDiv .ui-progressbar-value{
+			background: #83AE00;
+			border: none;
+		}
+		.ui-progressbar .ui-progressbar-value{
+			margin: 0px;
+		}
+		.ui-progressbar {
+			position: relative;
+		}
+	</style>
 <style type="text/css">
  .quCoNum{
   display: none;
@@ -35,6 +82,11 @@
 
 							var tempUserName=$("#surveyuser_username").val();
 							var tempPassWord=$("#surveyuser_password").val();
+							let user = JSON.parse(window.sessionStorage.getItem("user"));
+							if(user) {
+								tempUserName = user.name;
+								tempPassWord = user.pwd;
+							}
 							if(tempUserName != undefined && tempUserName != ""){
 								$("input[name='surveyuser_username']").val(tempUserName);
 								$("input[name='surveyuser_password']").val(tempPassWord);
@@ -94,12 +146,16 @@
 									}
 
 								}else if(quType=="RADIO" && isSelectType == "1"){
+									console.log('quid',quId)
 									$(".dropdown_ul_"+quId).hide();
 									$(".dropdownMenu_"+quId).unbind();
 									$(".dropdownMenu_"+quId).click(function(){
 										if($(".dropdown_ul_"+quId).is(":visible")){
+											console.log(1)
 											$(".dropdown_ul_"+quId).hide();
 										}else{
+											console.log(2)
+
 											$(".dropdown_ul_"+quId).show();
 										}
 									})
@@ -1607,7 +1663,9 @@
 													}
 
 													if (logicType == "3") {
-														target.hide();
+														// target.hide();
+														tempQestionItem
+																.hide();
 													}
 
 													if(logicType == "4"){
@@ -1624,7 +1682,9 @@
 													}
 
 													if (logicType == "3") {
-														target.show();
+														// target.show();
+														tempQestionItem
+																.show();
 													}
 
 													if(logicType == "4"){
@@ -1681,7 +1741,9 @@
 													}
 
 													if (logicType == "3") {
-														target.hide();
+														// target.hide();
+														tempQestionItem
+																.hide();
 													}
 
 													if(logicType == "4"){
@@ -1695,7 +1757,9 @@
 													}
 
 													if (logicType == "3") {
-														target
+														// target
+														// 		.show();
+														tempQestionItem
 																.show();
 													}
 
@@ -3599,7 +3663,7 @@ $(document).ready(function(){
 	//做日期格式化
 	var endTimeval=$("input[name='endTime']").val();
 	var endTimeRexp=/^\d{4}-(?:0\d|1[0-2])-(?:[0-2]\d|3[01])( (?:[01]\d|2[0-3])\:[0-5]\d\:[0-5]\d)?$/;
-	if(!endTimeRexp.test(endTimeval)){
+	if(!endTimeRexp.test(endTimeval) && endTimeval){
 		endTimeval=endTimeval.substring(0,endTimeval.length-2);
 		$("input[name='endTime']").val(endTimeval);
 	}
@@ -3611,53 +3675,7 @@ $(document).ready(function(){
 	
 });
 </script>
-<style type="text/css">
-.edui-editor-iframeholder{
-	display: none;
-}
-.edui-default .edui-editor-toolbarboxouter{
-	border: none! important;
-}
-#resultProgressRoot .ui-slider-range { background: #B01820; }
-#resultProgressRoot .ui-slider-handle { border-color: #B01820; }
 
-#resultProgressRoot{
-	width: 220px;
-	z-index: 200;
-	position: absolute;
-	right: 60px;
-	/*
-	top:100px;
-	right: 20px; */
-	
-	/* width:18px;
-	height: 200px;
-	border: 1px solid #83AE00; */
-}
-.progress-label {
-	font-size:14px;
-	font-family: "微软雅黑";
-	margin: 0px auto;
-	text-align: center;
-	line-height: 1.4em;
-	color: #83AE00;
-}
-.progressbarDiv {
-	height: 6px! important;
-	box-shadow: none! important;
-	border: 1px solid #83AE00;
-}
- .progressbarDiv .ui-progressbar-value{
-	background: #83AE00;
-	border: none;
-} 
-.ui-progressbar .ui-progressbar-value{
-	margin: 0px;
-}
-.ui-progressbar {
-	position: relative;
-}
-</style>
 </head>
 <body>
 
@@ -3950,7 +3968,7 @@ $(document).ready(function(){
 	<div class="rightTabbar">
 <%--		<a id="confirgDevSuvey" href="#" class="sbtn24 sbtn24_0">确认发布</a>--%>
 <%--		<a href="#" class="sbtn24 sbtn24_0" id="saveStyleDev">保　存</a>--%>
-		<a href="${ctx }/design/my-survey-design.action?surveyId=${survey.id}" class="sbtn24 sbtn24_1">返回修改</a>
+<%--		<a href="${ctx }/design/my-survey-design.action?surveyId=${survey.id}" class="sbtn24 sbtn24_1">返回修改</a>--%>
 	</div>
 	<div style="clear: both;"></div>
 	<!-- <div class="centerTabbar">
@@ -4841,7 +4859,7 @@ $(document).ready(function(){
 													</c:when>
 													<c:when test="${en.isSelectType eq 1 }">
 
-														<button  style="color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px;min-width: 160px;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
+														<button  style="position:relative;text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px;min-width: 160px;" class="btn btn-default dropdown-toggle dropdownMenu dropdownMenu_${en.id }" type="button" data-toggle="dropdown" aria-haspopup="true">
 															请选择任意一项
 															<span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
 														</button>
