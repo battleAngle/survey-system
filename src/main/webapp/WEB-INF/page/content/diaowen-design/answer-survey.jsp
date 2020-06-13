@@ -544,93 +544,151 @@ $(document)
 						url: 'http://localhost:8080/Survey_war/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val(),//url
 						success: function (result) {
 							if (result) {
-								console.log(result)
+
 								if (result) {
 									result = JSON.parse(result);
+									var answerQuSize = 0;
 									for(var i = 0; i < result.length; i++) {
 										var type = result[i].quType;
 										if(type === 'RADIO'){
-											var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
-											Array.from(inputs).forEach((item) => {
-												console.log(item.value, result[i].anRadio.quItemId)
-												if(item.value === result[i].anRadio.quItemId) {
-													item.previousElementSibling.classList.add('checked');
-													item.setAttribute('checked', 'checked')
-													console.log(item);
-												}
-											})
+											if(result[i].anRadio.quItemId) {
+												var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
+												Array.from(inputs).forEach((item) => {
+
+													if(item.value === result[i].anRadio.quItemId) {
+														item.previousElementSibling.classList.add('checked');
+														item.setAttribute('checked', 'checked')
+
+													}
+												})
+												answerQuSize ++ ;
+											}
 										}else if(type === 'CHECKBOX'){
-											result[i].anCheckboxs.forEach((item)=>{
-												var input = $("input[name='tag_qu_CHECKBOX_" + result[i].id + '_' + item.quItemId +"']");
-												input[0].previousElementSibling.classList.add('checked');
-												input[0].setAttribute('checked', 'checked')
-											})
-											result[i].anCheckboxs.forEach((item)=>{
-												var input = $("input[name='tag_qu_CHECKBOX_" + result[i].quId + '_' + item.quItemId +"']");
-												input[0].previousElementSibling.classList.add('checked');
-												input[0].setAttribute('checked', 'checked')
-											})
+											if(result[i].anCheckboxs.length > 0) {
+												answerQuSize ++ ;
+												result[i].anCheckboxs.forEach((item)=>{
+													var input = $("input[name='tag_qu_CHECKBOX_" + result[i].id + '_' + item.quItemId +"']");
+													input[0].previousElementSibling.classList.add('checked');
+													input[0].setAttribute('checked', 'checked')
+												})
+												result[i].anCheckboxs.forEach((item)=>{
+													var input = $("input[name='tag_qu_CHECKBOX_" + result[i].quId + '_' + item.quItemId +"']");
+													if(input[0]) {
+														input[0].previousElementSibling.classList.add('checked');
+														input[0].setAttribute('checked', 'checked')
+													}
+												})
+
+											}
+
 										}else if(type === 'FILLBLANK'){
-											var input = $("input[name='qu_FILLBLANK_" + result[i].anFillblank.quId +"']");
-											input[0].value = result[i].anFillblank.answer;
+											if(result[i].anFillblank.answer) {
+												var input = $("input[name='qu_FILLBLANK_" + result[i].anFillblank.quId +"']");
+												input[0].value = result[i].anFillblank.answer;
+												answerQuSize ++ ;
+											}
+
 										}else if(type === 'SCORE'){
-											result[i].anScores.forEach((item) => {
-												var input = $("input[name='item_qu_SCORE_" + item.quId + '_' + item.quRowId +"']");
-												for(var j =0 ; j < +item.answserScore;j++){
-													input[0].previousElementSibling.rows[0].cells[j].style = null;
-												}
-												input[0].parentNode.nextElementSibling.innerText = item.answserScore + '分';
-											});
+											if(result[i].anScores.length > 0) {
+												result[i].anScores.forEach((item) => {
+													var input = $("input[name='item_qu_SCORE_" + item.quId + '_' + item.quRowId +"']");
+													for(var j =0 ; j < +item.answserScore;j++){
+														input[0].previousElementSibling.rows[0].cells[j].style = null;
+													}
+													input[0].parentNode.nextElementSibling.innerText = item.answserScore + '分';
+												});
+												answerQuSize ++ ;
+											}
+
 										}else if(type === 'ORDERQU'){
-											result[i].anOrders.forEach((item) => {
-												var input = $("input[name='qu_ORDERQU_" + item.quId + "']");
-												var surveyQuItemBody= input[0].parentNode.parentNode;
-												let rows = surveyQuItemBody.querySelector(".quOrderByTable").rows;
-												Array.from(rows).forEach((r,index) => {
-													if(+item.orderyNum === (index+1)) {
-														var c = r.querySelector(".quOrderTabConnect");
-														$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.remove('editAble');
-														$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.remove('quCoOptionEdit')
-														$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.add('quOrderItemLabel')
-														$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.style.display = 'inline-block'
-														c.append($("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode);
-													}
-												})
-											});
+											if(result[i].anOrders.length > 0) {
+												result[i].anOrders.forEach((item) => {
+													var input = $("input[name='qu_ORDERQU_" + item.quId + "']");
+													var surveyQuItemBody= input[0].parentNode.parentNode;
+													let rows = surveyQuItemBody.querySelector(".quOrderByTable").rows;
+													Array.from(rows).forEach((r,index) => {
+														if(+item.orderyNum === (index+1)) {
+															var c = r.querySelector(".quOrderTabConnect");
+															$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.remove('editAble');
+															$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.remove('quCoOptionEdit')
+															$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.add('quOrderItemLabel')
+															$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.style.display = 'inline-block'
+															c.append($("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode);
+														}
+													})
+												});
+												answerQuSize ++ ;
+
+											}
+
 										}else if(type === 'MULTIFILLBLANK'){
-											result[i].anDFillblanks.forEach((item) => {
-												var input = $("input[name='text_qu_MULTIFILLBLANK_" + item.quId + '_' + item.quItemId +"']");
-												input[0].value = item.answer;
-											});
+											if(result[i].anDFillblanks.length > 0) {
+												result[i].anDFillblanks.forEach((item) => {
+													var input = $("input[name='text_qu_MULTIFILLBLANK_" + item.quId + '_' + item.quItemId +"']");
+													input[0].value = item.answer;
+												});
+												answerQuSize ++ ;
+
+											}
+
 										}else if(type === 'CHENRADIO'){
-											result[i].anChenRadios.forEach((item) => {
-												var inputs = $("input[name='item_qu_CHENRADIO_" + item.quId + '_' + item.quRowId + "']");
-												Array.from(inputs).forEach((i) => {
-													if(i.value === item.quColId) {
-														i.previousElementSibling.previousElementSibling.classList.add('checked');
-														i.setAttribute('checked', 'checked')
-													}
-												})
-											});
+											if(result[i].anChenRadios.length > 0) {
+												result[i].anChenRadios.forEach((item) => {
+													var inputs = $("input[name='item_qu_CHENRADIO_" + item.quId + '_' + item.quRowId + "']");
+													Array.from(inputs).forEach((i) => {
+														if(i.value === item.quColId) {
+															i.previousElementSibling.previousElementSibling.classList.add('checked');
+															i.setAttribute('checked', 'checked')
+														}
+													})
+												});
+												answerQuSize ++ ;
+
+											}
+
 										}else if(type === 'CHENCHECKBOX'){
-											result[i].anChenCheckboxs.forEach((item) => {
-												var input = $("input[name='ck_item_qu_CHENCHECKBOX_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
-												input[0].previousElementSibling.previousElementSibling.classList.add('checked');
-												input[0].setAttribute('checked', 'checked')
-											});
+											if(result[i].anChenCheckboxs.length > 0) {
+												result[i].anChenCheckboxs.forEach((item) => {
+													var input = $("input[name='ck_item_qu_CHENCHECKBOX_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+													input[0].previousElementSibling.previousElementSibling.classList.add('checked');
+													input[0].setAttribute('checked', 'checked')
+												});
+												answerQuSize ++ ;
+
+											}
+
 										}else if(type === 'CHENSCORE'){
-											result[i].anChenScores.forEach((item) => {
-												var input = $("input[name='cs_item_qu_CHENSCORE_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
-												input[0].value = +item.answserScore;
-											});
+											if(result[i].anChenScores.length > 0) {
+												result[i].anChenScores.forEach((item) => {
+													var input = $("input[name='cs_item_qu_CHENSCORE_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+													input[0].value = +item.answserScore;
+												});
+												answerQuSize ++ ;
+
+											}
+
 										}else if(type === 'CHENFBK'){
-											result[i].anChenFbks.forEach((item) => {
-												var input = $("input[name='fbk_item_qu_CHENFBK_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
-												input[0].value = item.answerValue;
-											});
+											if(result[i].anChenFbks.length > 0) {
+												result[i].anChenFbks.forEach((item) => {
+													var input = $("input[name='fbk_item_qu_CHENFBK_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+													input[0].value = item.answerValue;
+												});
+												answerQuSize ++ ;
+
+											}
+
 										}
 									}
-
+									console.log('answerQuSize',answerQuSize);
+									var totalQuSize = $(".answerTag:enabled").size();
+									var newValue = parseInt(answerQuSize / totalQuSize
+											* 100);
+									$("#resultProgressRoot .progress-label").text(
+											"完成度：" + newValue + "%");
+									$("#resultProgressRoot .progress-labelB").text(
+											"共：" + totalQuSize + "题，已答" + answerQuSize + "题");
+									$("#resultProgress").progressbar("option", "value",
+											newValue);
 								}
 							}
 						},
@@ -3040,6 +3098,7 @@ $(document)
 
 					/**********************处理答题进度条************************/
 					//$("#resultProgress").progressbar({value: bfbFloat});
+
 					$("#resultProgressRoot .progress-labelB").text(
 							"共：" + $(".answerTag:enabled").size() + "题，已答" + 0 + "题");
 			
