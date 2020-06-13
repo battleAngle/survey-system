@@ -6377,18 +6377,22 @@ function uploadFile() {
 		data: myform,
 		contentType: false,
 		processData: false,
-		success: function (page) {
-			console.log(page);
-			//jquery局部刷新
-			layer.close(layer.index);
-			$(".content_1").remove();
-			$("#content_2").remove();
-			tablepage(page);
-			$(".checkTotal").prop("checked",false);
-			layer.msg("导入成功");
+		success: function (result) {
+			var resultJson = JSON.parse(result)
+			if (!resultJson.success) {
+				layer.msg(resultJson.msg);
+			} else {
+				layer.msg("导入成功");
+				//jquery局部刷新
+				layer.close(layer.index);
+				$(".content_1").remove();
+				$("#content_2").remove();
+				tablepage(JSON.stringify(resultJson.data));
+				$(".checkTotal").prop("checked",false);
+			}
 		},
 		error: function (data) {
-			console.log(data)
+			layer.msg(data.responseText);
 		}
 	});
 }

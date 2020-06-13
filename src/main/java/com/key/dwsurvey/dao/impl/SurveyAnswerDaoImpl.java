@@ -111,6 +111,12 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 	}
 
 	@Override
+	public void deleteBySurveyIdAndUsername(String surveyId, String answerUserName) {
+		String sql = "delete from SurveyAnswer where surveyId = ? and answerUserName = ? and isTemp = 1";
+		this.getSession().createQuery(sql).setString(0, surveyId).setString(1, answerUserName).executeUpdate();
+	}
+
+	@Override
 	public void saveAnswer(SurveyAnswer surveyAnswer,
 			Map<String, Map<String, Object>> quMaps) {
 		Session session=this.getSession();

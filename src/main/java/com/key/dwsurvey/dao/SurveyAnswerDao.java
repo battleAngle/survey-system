@@ -15,4 +15,6 @@ public interface SurveyAnswerDao extends BaseDao<SurveyAnswer, String>{
 
 	public void tempSaveAnswer(SurveyAnswer surveyAnswer,
 							   Map<String, Map<String, Object>> quMaps);
+
+	void deleteBySurveyIdAndUsername(String surveyId, String answerUserName);
 }
