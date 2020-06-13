@@ -130,6 +130,8 @@ public class SurveyAnswerManagerImpl extends
 
 	@Override
 	public void tempSaveAnswer(SurveyAnswer surveyAnswer, Map<String, Map<String, Object>> quMaps) {
+		// 先删除再保存新的
+		surveyAnswerDao.deleteBySurveyIdAndUsername(surveyAnswer.getSurveyId(), surveyAnswer.getAnswerUserName());
 		surveyAnswerDao.tempSaveAnswer(surveyAnswer, quMaps);
 	}
 
