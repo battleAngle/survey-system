@@ -541,7 +541,7 @@ $(document)
 						//几个参数需要注意一下
 						type: "GET",
 						//方法类型
-						url: 'http://localhost:8080/Survey_war/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val(),//url
+						url: '${ctx}/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val(),//url
 						success: function (result) {
 							if (result) {
 
@@ -679,7 +679,6 @@ $(document)
 
 										}
 									}
-									console.log('answerQuSize',answerQuSize);
 									var totalQuSize = $(".answerTag:enabled").size();
 									var newValue = parseInt(answerQuSize / totalQuSize
 											* 100);
@@ -716,7 +715,6 @@ $(document)
 							function() {
 								var url = "${ctx}/response!userLogout.action";
 								var username = $("#surveyuser_username").val();
-								console.log('quit',username)
 								var password = $("#surveyuser_password").val();
 								$.ajax({
 									url : url,
@@ -3239,7 +3237,6 @@ $(document)
 					function vaildCheckthispage() {
 						var result = true;
 						var surveyQuItemBodys = $(".li_surveyQuItemBody:visible");
-						console.log(surveyQuItemBodys);
 						var firstError = null;
 						$.each(surveyQuItemBodys, function() {
 							var quItemBody = $(this);
@@ -3424,11 +3421,11 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 											</c:when>
 											<c:when test="${en.isSelectType eq 1 }">
 		
-												     <button  style="position:relative;text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px;min-width: 160px;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
+												     <button  style="position:relative;text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px 20px 5px 5px;min-width: 160px;max-width: 500px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
 													           请选择任意一项 
 													    <span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
 													  </button>
-													 <ul class="dropdown-menu dropdown_ul_${en.id}" style="position: relative;width:160px;overflow-x: hidden;overflow-y:auto;max-height:171px;text-overflow:ellipsis;white-space: nowrap;border:1px solid #ccc;">
+													 <ul class="dropdown-menu dropdown_ul_${en.id}" style="position: relative;overflow-x: hidden;overflow-y:auto;max-height:171px;text-overflow:ellipsis;white-space: nowrap;border:1px solid #ccc;min-width: 160px;max-width: 500px;">
 													  <c:forEach items="${en.quRadios }" var="item">
 														<li class="quCoItemUlLi">
 															<div class="dwQuOptionItemContent">
@@ -4583,7 +4580,6 @@ height="130" style="padding: 10px; background: white; display: none;" />
 <script type="text/javascript">
 window.onunload=function(e){     
         var surveyuser_username = $("input[name='surveyuser_username']").val();
-        console.log('surveyuser_username',surveyuser_username)
         var surveyuser_password=$("input[name='surveyuser_password']").val();
         var url="${ctx}/response!checkIsSubmit.action";
         

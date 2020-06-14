@@ -4859,11 +4859,11 @@ $(document).ready(function(){
 													</c:when>
 													<c:when test="${en.isSelectType eq 1 }">
 
-														<button  style="position:relative;text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px;min-width: 160px;" class="btn btn-default dropdown-toggle dropdownMenu dropdownMenu_${en.id }" type="button" data-toggle="dropdown" aria-haspopup="true">
+														<button  style="position:relative;text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px 20px 5px 5px;min-width: 160px;max-width: 500px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="btn btn-default dropdown-toggle dropdownMenu dropdownMenu_${en.id }" type="button" data-toggle="dropdown" aria-haspopup="true">
 															请选择任意一项
 															<span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
 														</button>
-														<ul class="dropdown-menu dropdown_ul_${en.id}" style="position: relative;width:160px;overflow-x: hidden;overflow-y:auto;max-height:171px;text-overflow:ellipsis;white-space: nowrap;border:1px solid #ccc;">
+														<ul class="dropdown-menu dropdown_ul_${en.id}" style="position: relative;overflow-x: hidden;overflow-y:auto;max-height:171px;text-overflow:ellipsis;white-space: nowrap;border:1px solid #ccc;min-width: 160px;max-width: 500px;">
 															<c:forEach items="${en.quRadios }" var="item">
 																<li class="quCoItemUlLi">
 																	<div class="dwQuOptionItemContent">
