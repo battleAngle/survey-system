@@ -541,7 +541,7 @@ $(document)
 						//几个参数需要注意一下
 						type: "GET",
 						//方法类型
-						url: 'http://localhost:8080/Survey_war/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val(),//url
+						url: '${ctx}/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val(),//url
 						success: function (result) {
 							if (result) {
 
