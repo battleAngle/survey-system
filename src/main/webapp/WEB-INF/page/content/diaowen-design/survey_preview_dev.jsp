@@ -866,6 +866,27 @@ $(document).ready(function(){
                   		</div>
                   		<h5>黑</h5>
                 	</div>
+					<div class="themeitem" >
+						<div class="themenail">
+							<img src="${ctx }/images/style-model/1123/style1.png">
+							<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f117022d0007">
+						</div>
+						<h5>样式一</h5>
+					</div>
+					<div class="themeitem" >
+						<div class="themenail">
+							<img src="${ctx }/images/style-model/1123/style2.png">
+							<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f117022d0008">
+						</div>
+						<h5>样式二</h5>
+					</div>
+					<div class="themeitem" >
+						<div class="themenail">
+							<img src="${ctx }/images/style-model/1123/style3.png">
+							<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f117022d0009">
+						</div>
+						<h5>样式三</h5>
+					</div>
                 	
 					<%-- <div class="themeitem" >
                   		<div class="themenail">

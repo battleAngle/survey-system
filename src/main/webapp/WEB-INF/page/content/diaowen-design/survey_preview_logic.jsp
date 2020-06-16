@@ -1423,21 +1423,40 @@
 												.eq(0).val()
 												.replace(":", "_");
 										var target;
+										var targets = [];
 										//找到ckquItemId对应的选项
 										if (logicType == "3") {
 											//隐藏选中的选项
 											//不同题型的不同操作
 											//1
+											console.log('ckQuId',ckQuId)
+											console.log('ckquItemId',ckquItemId)
+
 											if (quType == 'RADIO') {
-												target = tempQestionItem
-														.find(
-																"input[name='text_qu_RADIO_"
-																+ ckQuId
-																+ "_"
-																+ ckquItemId
-																+ "']")
-														.parents(
-																".quCoItemUlLi");
+												if(ckquItemId !== 'nochoose') {
+													var ids = ckquItemId.split(',');
+													ids.forEach((id) => {
+														targets.push(tempQestionItem
+																.find(
+																		"input[name='text_qu_RADIO_"
+																		+ ckQuId
+																		+ "_"
+																		+ id
+																		+ "']")
+																.parents(
+																		".quCoItemUlLi"))
+													})
+												}
+												// target = tempQestionItem
+												// 		.find(
+												// 				"input[name='text_qu_RADIO_"
+												// 				+ ckQuId
+												// 				+ "_"
+												// 				+ ckquItemId
+												// 				+ "']")
+												// 		.parents(
+												// 				".quCoItemUlLi");
+
 											} else if (quType == 'CHECKBOX') {
 												//1
 												target = tempQestionItem
@@ -1664,8 +1683,17 @@
 
 													if (logicType == "3") {
 														// target.hide();
-														tempQestionItem
-																.hide();
+														// tempQestionItem
+														// 		.hide();
+														if(ckquItemId !== 'nochoose') {
+															console.log('targets',targets)
+															targets.forEach((item) => {
+																item.hide()
+															})
+														}else{
+															tempQestionItem
+																	.hide();
+														}
 													}
 
 													if(logicType == "4"){
@@ -1683,8 +1711,16 @@
 
 													if (logicType == "3") {
 														// target.show();
-														tempQestionItem
-																.show();
+														if(ckquItemId !== 'nochoose') {
+															console.log('targets',targets)
+															targets.forEach((item) => {
+																item.show()
+															})
+														}else{
+															tempQestionItem
+																	.show();
+														}
+
 													}
 
 													if(logicType == "4"){
@@ -1742,8 +1778,17 @@
 
 													if (logicType == "3") {
 														// target.hide();
-														tempQestionItem
-																.hide();
+														// tempQestionItem
+														// 		.hide();
+														if(ckquItemId !== 'nochoose') {
+															console.log('targets',targets)
+															targets.forEach((item) => {
+																item.hide()
+															})
+														}else{
+															tempQestionItem
+																	.hide();
+														}
 													}
 
 													if(logicType == "4"){
@@ -1759,8 +1804,17 @@
 													if (logicType == "3") {
 														// target
 														// 		.show();
-														tempQestionItem
-																.show();
+														// tempQestionItem
+														// 		.show();
+														if(ckquItemId !== 'nochoose') {
+															console.log('targets',targets)
+															targets.forEach((item) => {
+																item.show()
+															})
+														}else{
+															tempQestionItem
+																	.show();
+														}
 													}
 
 													if(logicType == "4"){
