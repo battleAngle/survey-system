@@ -229,13 +229,14 @@ public class ResponseAction extends ActionSupport {
 		return NONE;
 	}
 
-	private void clearLoginUser(String username, String password) {
+	private void clearLoginUser(SurveyUser loginUser) {
 		ServletContext application = Struts2Utils.getSession().getServletContext();
 		List<SurveyUser> surveyUserList = (List<SurveyUser>) (application.getAttribute("surveyUsers") == null ? new ArrayList<SurveyUser>() : application.getAttribute("surveyUsers"));
 		List<SurveyUser> removeUsers = new ArrayList<SurveyUser>();
 		for (SurveyUser surveyUser : surveyUserList) {
-			if (StringUtils.equals(surveyUser.getUserName(), username) &&
-					StringUtils.equals(surveyUser.getPassWord(), password)) {
+			if (StringUtils.equals(surveyUser.getDirectory_id(), loginUser.getDirectory_id()) &&
+					StringUtils.equals(surveyUser.getUserName(), loginUser.getUserName()) &&
+					StringUtils.equals(surveyUser.getPassWord(), loginUser.getPassWord())) {
 				removeUsers.add(surveyUser);
 			}
 		}
@@ -323,7 +324,8 @@ public class ResponseAction extends ActionSupport {
 			//这边可能要新增用户过期的逻辑
 		 	if(surveyAnswer != null){
 				// 用户已经回答过问卷，清除登录
-				clearLoginUser(surveyuser_username, surveyuser_password);
+				SurveyUser loginUser = new SurveyUser(surveyId, surveyuser_username, surveyuser_password);
+				clearLoginUser(loginUser);
 				return RELOAD_ANSER_ERROR;
 			} else if(surveyUser == null || new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(surveyUser.getEndTime()).before(new Date())){
 				request.setAttribute("directory", directory);
@@ -393,13 +395,16 @@ public class ResponseAction extends ActionSupport {
 		entity.setDataSource(0);
 		entity.setIsTemp(1);
 		surveyAnswerManager.tempSaveAnswer(entity, quMaps);
-		this.clearLoginUser(surveyuser_username, surveyuser_password);
+
+//		SurveyUser loginUser = new SurveyUser(surveyId, surveyuser_username, surveyuser_password);
+//		this.clearLoginUser(loginUser);
 		response.getWriter().write("保存成功");
 		return null;
 	}
 
 	public String userLogout() throws IOException {
-		this.clearLoginUser(surveyuser_username, surveyuser_password);
+		SurveyUser loginUser = new SurveyUser(surveyId, surveyuser_username, surveyuser_password);
+		this.clearLoginUser(loginUser);
 		Struts2Utils.getResponse().getWriter().write("退出成功");
 		return null;
 	}
@@ -937,11 +942,13 @@ public class ResponseAction extends ActionSupport {
 	public boolean containsSurveyUser(List<SurveyUser> surveyList,SurveyUser surveyUser){
 		boolean flag=false;
 		for(SurveyUser temp:surveyList){
-			if(temp.getUserName().equals(surveyUser.getUserName())&&temp.getPassWord().equals(surveyUser.getPassWord())){
+			if(StringUtils.equals(temp.getDirectory_id(), surveyUser.getDirectory_id()) &&
+					StringUtils.equals(temp.getUserName(), surveyUser.getUserName()) &&
+					StringUtils.equals(temp.getPassWord(), surveyUser.getPassWord())){
 				if (calcTimeDiffMinutes(temp.getLoginTime(), new Date()) >= LOGIN_EXPIRED_MINUTES) {
 					// 登录两小时
 					flag = false;
-					clearLoginUser(temp.getUserName(), temp.getPassWord());
+					clearLoginUser(temp);
 				} else {
 					flag=true;
 				}

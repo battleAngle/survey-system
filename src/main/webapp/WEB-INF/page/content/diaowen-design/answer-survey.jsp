@@ -714,12 +714,14 @@ $(document)
 					$(".quitSurvey").click(
 							function() {
 								var url = "${ctx}/response!userLogout.action";
+								var surveyId = $("#surveyId").val();
 								var username = $("#surveyuser_username").val();
 								var password = $("#surveyuser_password").val();
 								$.ajax({
 									url : url,
 									async:false,
 									data : {
+										"surveyId": surveyId,
 										"surveyuser_username": username,
 										"surveyuser_password": password
 									},
@@ -4577,24 +4579,24 @@ if (errorcode == "3") {
 height="130" style="padding: 10px; background: white; display: none;" />
 </div>
 <!-- Diaowen.net Button END -->
-<script type="text/javascript">
-window.onunload=function(e){     
-        var surveyuser_username = $("input[name='surveyuser_username']").val();
-        var surveyuser_password=$("input[name='surveyuser_password']").val();
-        var url="${ctx}/response!checkIsSubmit.action";
-        
-        $.ajax({
-url : url,
-data : {
-	"surveyuser_username" : surveyuser_username,
-	"surveyuser_password" : surveyuser_password
-},
-type : "post",
-success : function(msg) {
-	
-}
-           })
-       };
+<%--<script type="text/javascript">
+	window.onunload = function (e) {
+		var surveyuser_username = $("input[name='surveyuser_username']").val();
+		var surveyuser_password = $("input[name='surveyuser_password']").val();
+		var url = "${ctx}/response!checkIsSubmit.action";
+
+		$.ajax({
+			url: url,
+			data: {
+				"surveyuser_username": surveyuser_username,
+				"surveyuser_password": surveyuser_password
+			},
+			type: "post",
+			success: function (msg) {
+
+			}
+		})
+	};
 </script>
-</body>
+</body>--%>
 </html>
