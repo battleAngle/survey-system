@@ -32,6 +32,13 @@ public class SurveyUser extends IdEntity{
 		super();
 	}
 
+	public SurveyUser(String directory_id, String userName, String passWord) {
+		super();
+		this.directory_id = directory_id;
+		this.userName = userName;
+		this.passWord = passWord;
+	}
+
 	public SurveyUser(String directory_id, String userName, String passWord,
 			String status, String startTime, String endTime) {
 		super();
