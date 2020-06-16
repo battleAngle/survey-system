@@ -832,7 +832,7 @@ $(document).ready(function(){
 	    }
 	  
 		//获得本quItemBody之前的所有的.surveyQuItemBody
-	   // trueCallBack(quItemBody);
+	   trueCallBack(quItemBody);
 
 	}
 	
@@ -1614,7 +1614,7 @@ $(document).ready(function(){
 		var quLogicItemHtml=$("#quLogicItemModel").html();
 	   
 		//请空以前的逻辑
-		//quLogicInputCase.find(".quLogicItem").remove();
+		// quLogicInputCase.find(".quLogicItem").remove();
 		
 		var logicType=$(".dwQuDialogLogicTitle").find(".logicType").val();
 		var skQuId=$(".dwQuDialogLogicTitle").find(".logicQuSel").val();
@@ -1682,7 +1682,6 @@ $(document).ready(function(){
 		
 		//将获得的存储获得的逻辑
 		var quLogicItem=quLogicInputCase.find(".quLogicItem");
-		
 		if(quLogicItem[0]){
 			quLogicItem.find("input[name='skQuId']").val("");
 			quLogicItem.find("input[name='cgQuItemId']").val("");
@@ -1690,10 +1689,11 @@ $(document).ready(function(){
 			quLogicItem.find("input[name='scoreNum']").val("");
 			quLogicItem.find("input[name='eqAndNq']").val("");
 		}else{
+			console.log(5555)
 			quLogicInputCase.append(quLogicItemHtml);
 		}
 		quLogicItem=quLogicInputCase.find(".quLogicItem").last();
-		quLogicItem.find("input[name='quLogicId']").val("");
+		// quLogicItem.find("input[name='quLogicId']").val("");
 		quLogicItem.find("input[name='skQuId']").val(ckQuIdtotal);
 		quLogicItem.find("input[name='cgQuItemId']").val(cgQuItemIdtotal);
 		quLogicItem.find("input[name='ckQuId']").val(ckQuIdtotal);
@@ -4197,8 +4197,8 @@ function saveRadio(quItemBody,callback){
 		$.each(quLogicItems,function(i){
 			var thClass=$(this).attr("class");
 			thClass=thClass.replace("quLogicItem quLogicItem_","");
-
 			var quLogicId=$(this).find("input[name='quLogicId']").val();
+			console.log('quLogicId',this,$(this).find("input[name='quLogicId']")[0].getAttribute('value'));
 			var cgQuItemId=$(this).find("input[name='cgQuItemId']").val();
 			var ckQuId=$(this).find("input[name='ckQuId']").val();
 			var ckQuItemId=$(this).find("input[name='ckQuItemId']").val();
@@ -4231,7 +4231,6 @@ function saveRadio(quItemBody,callback){
 			data:data,
 			type:'post',
 			success:function(msg){
-				//alert(msg);// resultJson quItemId
 				if(msg!="error"){
 					var jsons=eval("("+msg+")");
 					//alert(jsons);
@@ -4248,6 +4247,8 @@ function saveRadio(quItemBody,callback){
 					var quLogics=jsons.quLogics;
 					$.each(quLogics,function(i,item){
 						var logicItem=quItemBody.find(".quLogicItem");
+						console.log('quLogicId123', item, quItemBody.find(".quLogicItem").find("input[name='quLogicId']"))
+
 						logicItem.find("input[name='quLogicId']").val(item.id);
 						logicItem.find("input[name='logicSaveTag']").val(1);
 					});
@@ -4429,8 +4430,8 @@ function saveCheckbox(quItemBody,callback){
 			
 			//设置选择的选型id
 			var cgQuItemId=$(this).find("input[name='cgQuItemId']").val();
-			
-			var  ckQuItemId=$(this).find("input[name='ckQuItemId']").val();
+
+			var ckQuItemId=$(this).find("input[name='ckQuItemId']").val();
 			//要跳转的题的ID
 			var skQuId=$(this).find("input[name='skQuId']").val();
 			
@@ -6204,7 +6205,6 @@ function saveSurveyUser(){
 		   if(result=="批量生成成功"){
 			   $("#modelUIDialog").dialog("close");  
 		   }
-		   alert(result);
 	   }
 	   
 	})

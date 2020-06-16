@@ -1659,69 +1659,141 @@ $(document)
 														.eq(0).val();
 												var ckquItemId = quLogicitem
 														.find(".ckQuItemId")
-														.eq(0).val()
-														.replace(":", "_");
+														// .eq(0).val()
+														.val()
+														.replace(new RegExp(":","g"), "_");
 												var target;
+												var targets = [];
+
 												//找到ckquItemId对应的选项
 												if (logicType == "3") {
 													//隐藏选中的选项
 													//不同题型的不同操作
 													//1
 													if (quType == 'RADIO') {
-														target = tempQestionItem
-																.find(
-																		"input[name='text_qu_RADIO_"
+														if(ckquItemId !== 'nochoose') {
+															var ids = ckquItemId.split(',');
+															ids.forEach((id) => {
+																targets.push(tempQestionItem
+																		.find(
+																				"input[name='text_qu_RADIO_"
 																				+ ckQuId
 																				+ "_"
-																				+ ckquItemId
+																				+ id
 																				+ "']")
-																.parents(
-																		".quCoItemUlLi");
+																		.parents(
+																				".quCoItemUlLi"))
+															})
+														}
+														// target = tempQestionItem
+														// 		.find(
+														// 				"input[name='text_qu_RADIO_"
+														// 						+ ckQuId
+														// 						+ "_"
+														// 						+ ckquItemId
+														// 						+ "']")
+														// 		.parents(
+														// 				".quCoItemUlLi");
 													} else if (quType == 'CHECKBOX') {
-														//1
-														target = tempQestionItem
-																.find(
-																		"input[name='tag_qu_CHECKBOX_"
+														if(ckquItemId !== 'nochoose') {
+															var ids = ckquItemId.split(',');
+															ids.forEach((id) => {
+																targets.push(tempQestionItem
+																		.find(
+																				"input[name='tag_qu_CHECKBOX_"
 																				+ ckQuId
 																				+ "_"
-																				+ ckquItemId
+																				+ id
 																				+ "']")
-																.parents(
-																		".quCoItemUlLi");
+																		.parents(
+																				".quCoItemUlLi"))
+															})
+														}
+														//1
+														// target = tempQestionItem
+														// 		.find(
+														// 				"input[name='tag_qu_CHECKBOX_"
+														// 						+ ckQuId
+														// 						+ "_"
+														// 						+ ckquItemId
+														// 						+ "']")
+														// 		.parents(
+														// 				".quCoItemUlLi");
 													} else if (quType == 'SCORE') {
-														//1
-														target = tempQestionItem
-																.find(
-																		"input[name='item_qu_SCORE_"
+														if(ckquItemId !== 'nochoose') {
+															var ids = ckquItemId.split(',');
+															ids.forEach((id) => {
+																targets.push(tempQestionItem
+																		.find(
+																				"input[name='item_qu_SCORE_"
 																				+ ckQuId
 																				+ "_"
-																				+ ckquItemId
+																				+ id
 																				+ "']")
-																.parents(
-																		".quScoreOptionTr");
+																		.parents(
+																				".quScoreOptionTr"))
+															})
+														}
+														//1
+														// target = tempQestionItem
+														// 		.find(
+														// 				"input[name='item_qu_SCORE_"
+														// 						+ ckQuId
+														// 						+ "_"
+														// 						+ ckquItemId
+														// 						+ "']")
+														// 		.parents(
+														// 				".quScoreOptionTr");
 													} else if (quType == 'MULTIFILLBLANK') {
-														//1
-														target = tempQestionItem
-																.find(
-																		"input[name='text_qu_MULTIFILLBLANK_"
+														if(ckquItemId !== 'nochoose') {
+															var ids = ckquItemId.split(',');
+															ids.forEach((id) => {
+																targets.push(tempQestionItem
+																		.find(
+																				"input[name='text_qu_MULTIFILLBLANK_"
 																				+ ckQuId
 																				+ "_"
-																				+ ckquItemId
+																				+ id
 																				+ "']")
-																.parents(
-																		".mFillblankTableTr");
+																		.parents(
+																				".mFillblankTableTr"))
+															})
+														}
+														//1
+														// target = tempQestionItem
+														// 		.find(
+														// 				"input[name='text_qu_MULTIFILLBLANK_"
+														// 						+ ckQuId
+														// 						+ "_"
+														// 						+ ckquItemId
+														// 						+ "']")
+														// 		.parents(
+														// 				".mFillblankTableTr");
 													} else if (quType == 'CHENFBK') {
-
-														//1
-														target = tempQestionItem
-																.find(
-																		"input[name='fbk_item_qu_CHENFBK_"
+														if(ckquItemId !== 'nochoose') {
+															var ids = ckquItemId.split(',');
+															ids.forEach((id) => {
+																targets.push(tempQestionItem
+																		.find(
+																				"input[name='fbk_item_qu_CHENFBK_"
 																				+ ckQuId
 																				+ "_"
-																				+ ckquItemId
+																				+ id
 																				+ "']")
-																.parents(
-																		".dwQuChenFbkOptionItemContent");
+																		.parents(
+																				".dwQuChenFbkOptionItemContent"))
+															})
+														}
+														//1
+														// target = tempQestionItem
+														// 		.find(
+														// 				"input[name='fbk_item_qu_CHENFBK_"
+														// 						+ ckQuId
+														// 						+ "_"
+														// 						+ ckquItemId
+														// 						+ "']")
+														// 		.parents(
+														// 				".dwQuChenFbkOptionItemContent");
 													} else if (quType == 'CHENRADIO') {
 
 														//1
@@ -1788,16 +1860,31 @@ $(document)
 														target = tempQestionItem
 																.find(".quFillblankItem");
 													} else if(quType= "ORDERQU") {
-                                                          
+														if(ckquItemId !== 'nochoose') {
+															var ids = ckquItemId.split(',');
+															var temp=tempQestionItem.find(".quOrderItemHidInput");
+															$.each(temp,function(){
+																var thisTemp = $(this);
+																var thisTempName=thisTemp.attr("name");
+																ids.forEach((id) => {
+																	if(thisTempName == "item_qu_ORDERQU_"+ckQuId+"_"+id){
+																		targets.push($(this).parent().parent())
+																	}
+
+																})
+
+															})
+
+														}
 														//填空
-													    var temp=tempQestionItem.find(".quOrderItemHidInput");
-														$.each(temp,function(){
-															var thisTemp = $(this);
-															var thisTempName=thisTemp.attr("name");
-															if(thisTempName == "item_qu_ORDERQU_"+ckQuId+"_"+ckquItemId){
-																target=$(this).parent().parent();	
-															}
-														})
+													    // var temp=tempQestionItem.find(".quOrderItemHidInput");
+														// $.each(temp,function(){
+														// 	var thisTemp = $(this);
+														// 	var thisTempName=thisTemp.attr("name");
+														// 	if(thisTempName == "item_qu_ORDERQU_"+ckQuId+"_"+ckquItemId){
+														// 		target=$(this).parent().parent();
+														// 	}
+														// })
 													}
 
 												}
@@ -1903,8 +1990,21 @@ $(document)
 
 															if (logicType == "3") {
 																// target.hide();
-																tempQestionItem
-																		.hide();
+																// tempQestionItem
+																// 		.hide();
+																if(ckquItemId !== 'nochoose') {
+																	console.log('targets',targets)
+																	if(target) {
+																		target.hide()
+																	}else{
+																		targets.forEach((item) => {
+																			item.hide()
+																		})
+																	}
+																}else{
+																	tempQestionItem
+																			.hide();
+																}
 															}
 															
 															if(logicType == "4"){
@@ -1922,8 +2022,22 @@ $(document)
 
 															if (logicType == "3") {
 																// target.show();
-																tempQestionItem
-																		.show();
+																// tempQestionItem
+																// 		.show();
+																if(ckquItemId !== 'nochoose') {
+																	console.log('targets',targets)
+																	if(target) {
+																		target.show()
+																	}else{
+																		targets.forEach((item) => {
+																			item.show()
+																		})
+																	}
+
+																}else{
+																	tempQestionItem
+																			.show();
+																}
 															}
 															
 															if(logicType == "4"){
@@ -1981,8 +2095,21 @@ $(document)
 
 															if (logicType == "3") {
 																// target.hide();
-																tempQestionItem
-																		.hide();
+																// tempQestionItem
+																// 		.hide();
+																if(ckquItemId !== 'nochoose') {
+																	console.log('targets',targets)
+																	if(target) {
+																		target.hide()
+																	}else{
+																		targets.forEach((item) => {
+																			item.hide()
+																		})
+																	}
+																}else{
+																	tempQestionItem
+																			.hide();
+																}
 															}
 															
 															if(logicType == "4"){
@@ -1998,8 +2125,21 @@ $(document)
 															if (logicType == "3") {
 																// target
 																// 		.show();
-																tempQestionItem
-																		.show();
+																// tempQestionItem
+																// 		.show();
+																if(ckquItemId !== 'nochoose') {
+																	console.log('targets',targets)
+																	if(target) {
+																		target.show()
+																	}else{
+																		targets.forEach((item) => {
+																			item.show()
+																		})
+																	}
+																}else{
+																	tempQestionItem
+																			.show();
+																}
 															}
 															
 															if(logicType == "4"){
