@@ -1620,8 +1620,8 @@ $(document).ready(function(){
 		var skQuId=$(".dwQuDialogLogicTitle").find(".logicQuSel").val();
 		
 		//找到移除选项的id
-		var ckQuItemId=$(".dwQuDialogLogicTitle").find("select[name='option_name_id']").val();
-		
+		var ckQuItemId=$(".dwQuDialogLogicTitle").find("select[name='option_name_id']").last().val();
+		console.log('ckQuItemId123',ckQuItemId)
 	    var cgQuItemIdtotal="";
 		var ckQuIdtotal="";
 		
@@ -1689,7 +1689,6 @@ $(document).ready(function(){
 			quLogicItem.find("input[name='scoreNum']").val("");
 			quLogicItem.find("input[name='eqAndNq']").val("");
 		}else{
-			console.log(5555)
 			quLogicInputCase.append(quLogicItemHtml);
 		}
 		quLogicItem=quLogicInputCase.find(".quLogicItem").last();
@@ -2049,7 +2048,6 @@ $(document).ready(function(){
 
 		answerInputWidth.val(qu_inputWidth.val());
 		answerInputRow.val(qu_inputRow.val());
-		console.log(555, answerInputWidth)
 
 		//alert(qu_inputRow);
 		if(qu_inputRow.val()>1){
@@ -2752,7 +2750,6 @@ $(".dwQuCopy_classify").click(function(){
     var quCoItem=noCheckBoxLi_classify.nextUntil('.noCheckBoxLi_classify');
     quCoItem.attr("class","quCoItemUlLi ui-draggable");
     
-    console.log(quCoItem.last());
     quCoItem.last().attr("class","quCoBottomTools ui-draggable");
     var checkboxClassifyContentUl=$(this).parents('.checkboxClassifyContentUl');
     checkboxClassifyContentUl.append(addSaveTag(noCheckBoxLi_classify.clone(true))).append(addSaveTag(quCoItem.clone(true)));
@@ -2887,7 +2884,6 @@ $(".dwQuDelete_classify").click(function(){
 		var quBody=$(this).parents(".surveyQuItemBody");
 		if(confirm("确认要删除此题吗？")){
 			var quId=quBody.find("input[name='quId']").val();
-			console.log(123, quBody)
 			if(quId){
 				var url=ctx+"/design/question!ajaxDelete.action";
 				var data="quId="+quId;
@@ -2896,7 +2892,6 @@ $(".dwQuDelete_classify").click(function(){
 					data:data,
 					type:"post",
 					success:function(msg){
-                        console.log(123, msg)
 						if(msg=="true"){
 							quBody.hide("slow",function(){$(this).parent().remove();resetQuItem();});
 						}else{
@@ -2980,7 +2975,6 @@ $(".dwQuDelete_classify").click(function(){
 	//逻辑设置 
 	$(".dwQuLogic").unbind();
 	$(".dwQuLogic").click(function(){
-		console.log('$(this)', $(this))
 		//显示弹出框
 		showDialog($(this));
 		$(".dwQuDialogAddLogic").show();
@@ -3782,7 +3776,6 @@ function fypage(pageNow){
 function selectByName(){
 	 
 	var survey_user_name=$("input[name='survey_user_name_2']").eq(0).val();
-	console.log(survey_user_name);
 	var url=ctx+"/surveyuser/survey-user!list.action";
 	var id=$("#id").val();
 	$.ajax({
@@ -4247,7 +4240,6 @@ function saveRadio(quItemBody,callback){
 					var quLogics=jsons.quLogics;
 					$.each(quLogics,function(i,item){
 						var logicItem=quItemBody.find(".quLogicItem");
-						console.log('quLogicId123', item, quItemBody.find(".quLogicItem").find("input[name='quLogicId']"))
 
 						logicItem.find("input[name='quLogicId']").val(item.id);
 						logicItem.find("input[name='logicSaveTag']").val(1);
@@ -4429,9 +4421,10 @@ function saveCheckbox(quItemBody,callback){
 			var quLogicId=$(this).find("input[name='quLogicId']").val();
 			
 			//设置选择的选型id
+			var ckQuItemId=$(this).find("input[name='ckQuItemId']").val();
+			console.log('ckQuItemId', ckQuItemId)
 			var cgQuItemId=$(this).find("input[name='cgQuItemId']").val();
 
-			var ckQuItemId=$(this).find("input[name='ckQuItemId']").val();
 			//要跳转的题的ID
 			var skQuId=$(this).find("input[name='skQuId']").val();
 			
@@ -6290,7 +6283,6 @@ function bactchDelete(){
 	
   
 	surveyuser_id=surveyuser_id.substring(0, surveyuser_id.length-1);
-	console.log(surveyuser_id);
 	if(surveyuser_id.length ===  0){
 		layer.confirm('请选择任意选项');
 		return false;
