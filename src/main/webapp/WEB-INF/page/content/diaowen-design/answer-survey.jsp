@@ -551,40 +551,62 @@ $(document)
 									for(var i = 0; i < result.length; i++) {
 										var type = result[i].quType;
 										if(type === 'RADIO'){
-											if(result[i].anRadio.quItemId) {
-												var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
-												Array.from(inputs).forEach((item) => {
+											if(result[i].isSelectType == '1'){
+												if(result[i].anRadio.quItemId) {
+													var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
+													Array.from(inputs).forEach((item) => {
 
-													if(item.value === result[i].anRadio.quItemId) {
-														item.previousElementSibling.classList.add('checked');
-														item.setAttribute('checked', 'checked')
+														if(item.value === result[i].anRadio.quItemId) {
+															var text = item.nextElementSibling.innerText;
+															$(".dropdownMenu_" + result[i].id)[0].firstChild.nodeValue= text;
+														}
+													});
+													var quItemBody = $("input[name='qu_RADIO_" + result[i].id + "']").parents(".li_surveyQuItemBody ");
+													quItemBody.find(".answerTag").val(1);
 
-													}
-												})
-												answerQuSize ++ ;
+													answerQuSize ++ ;
+												}
+											}else{
+												if(result[i].anRadio.quItemId) {
+													var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
+													Array.from(inputs).forEach((item) => {
+
+														if(item.value === result[i].anRadio.quItemId) {
+															item.previousElementSibling.classList.add('checked');
+															item.setAttribute('checked', 'checked')
+
+														}
+													})
+													var quItemBody = $("input[name='qu_RADIO_" + result[i].id + "']").parents(".li_surveyQuItemBody ");
+													quItemBody.find(".answerTag").val(1);
+													answerQuSize ++ ;
+												}
 											}
+
 										}else if(type === 'CHECKBOX'){
 											if(result[i].anCheckboxs.length > 0) {
 												answerQuSize ++ ;
 												result[i].anCheckboxs.forEach((item)=>{
 													var input = $("input[name='tag_qu_CHECKBOX_" + result[i].id + '_' + item.quItemId +"']");
+													input.parents(".li_surveyQuItemBody ").find(".answerTag").val(1);
 													input[0].previousElementSibling.classList.add('checked');
 													input[0].setAttribute('checked', 'checked')
 												})
 												result[i].anCheckboxs.forEach((item)=>{
 													var input = $("input[name='tag_qu_CHECKBOX_" + result[i].quId + '_' + item.quItemId +"']");
+													input.parents(".li_surveyQuItemBody ").find(".answerTag").val(1);
 													if(input[0]) {
 														input[0].previousElementSibling.classList.add('checked');
 														input[0].setAttribute('checked', 'checked')
 													}
 												})
-
 											}
 
 										}else if(type === 'FILLBLANK'){
 											if(result[i].anFillblank.answer) {
 												var input = $("input[name='qu_FILLBLANK_" + result[i].anFillblank.quId +"']");
 												input[0].value = result[i].anFillblank.answer;
+												input.parents(".li_surveyQuItemBody ").find(".answerTag").val(1);
 												answerQuSize ++ ;
 											}
 
@@ -592,6 +614,8 @@ $(document)
 											if(result[i].anScores.length > 0) {
 												result[i].anScores.forEach((item) => {
 													var input = $("input[name='item_qu_SCORE_" + item.quId + '_' + item.quRowId +"']");
+
+													input.parents(".quScoreOptionTr").find(".answerTag").val(1);
 													for(var j =0 ; j < +item.answserScore;j++){
 														input[0].previousElementSibling.rows[0].cells[j].style = null;
 													}
@@ -604,6 +628,8 @@ $(document)
 											if(result[i].anOrders.length > 0) {
 												result[i].anOrders.forEach((item) => {
 													var input = $("input[name='qu_ORDERQU_" + item.quId + "']");
+													input.parents(".quScoreOptionTr").find(".quOrderByLeftUl label").find(".answerTag").val(1);
+
 													var surveyQuItemBody= input[0].parentNode.parentNode;
 													let rows = surveyQuItemBody.querySelector(".quOrderByTable").rows;
 													Array.from(rows).forEach((r,index) => {
@@ -625,6 +651,8 @@ $(document)
 											if(result[i].anDFillblanks.length > 0) {
 												result[i].anDFillblanks.forEach((item) => {
 													var input = $("input[name='text_qu_MULTIFILLBLANK_" + item.quId + '_' + item.quItemId +"']");
+													input.parents(".mFillblankTableTr").find(".answerTag").val(1);
+
 													input[0].value = item.answer;
 												});
 												answerQuSize ++ ;
@@ -635,6 +663,8 @@ $(document)
 											if(result[i].anChenRadios.length > 0) {
 												result[i].anChenRadios.forEach((item) => {
 													var inputs = $("input[name='item_qu_CHENRADIO_" + item.quId + '_' + item.quRowId + "']");
+													inputs.parents(".dwQuCoChenRowTr").find(".answerTag").val(1);
+
 													Array.from(inputs).forEach((i) => {
 														if(i.value === item.quColId) {
 															i.previousElementSibling.previousElementSibling.classList.add('checked');
@@ -650,6 +680,7 @@ $(document)
 											if(result[i].anChenCheckboxs.length > 0) {
 												result[i].anChenCheckboxs.forEach((item) => {
 													var input = $("input[name='ck_item_qu_CHENCHECKBOX_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+													input.parents(".dwQuCoChenRowTr").find(".answerTag").val(1);
 													input[0].previousElementSibling.previousElementSibling.classList.add('checked');
 													input[0].setAttribute('checked', 'checked')
 												});
@@ -661,6 +692,8 @@ $(document)
 											if(result[i].anChenScores.length > 0) {
 												result[i].anChenScores.forEach((item) => {
 													var input = $("input[name='cs_item_qu_CHENSCORE_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+													input.parents(".dwQuScoreOptionItemContent").find(".answerTag").val(1);
+
 													input[0].value = +item.answserScore;
 												});
 												answerQuSize ++ ;
@@ -671,6 +704,7 @@ $(document)
 											if(result[i].anChenFbks.length > 0) {
 												result[i].anChenFbks.forEach((item) => {
 													var input = $("input[name='fbk_item_qu_CHENFBK_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
+													input.parents(".dwQuChenFbkOptionItemContent").find(".answerTag").val(1);
 													input[0].value = item.answerValue;
 												});
 												answerQuSize ++ ;
@@ -3292,6 +3326,7 @@ $(document)
 								quScoreOptionTr.find(".answerTag").val(0);
 							}
 						} else if (quType === "MULTIFILLBLANK") {
+
 							var mFillblankTableTr = thObj
 									.parents(".mFillblankTableTr");
 							if (thObj.val() != "") {
@@ -3501,7 +3536,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 
 										<div class="editAble quCoTitleEdit">
 											<c:if test= "${en.isRequired == 1 }">
-												<i style = "color:red">*</i>
+												<i style = "color:red;font-style: normal;">*</i>
 											</c:if>
 										 ${en.quTitle }
 										</div>
@@ -3563,20 +3598,20 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 											</c:when>
 											<c:when test="${en.isSelectType eq 1 }">
 		
-												     <button  style="position:relative;text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px 20px 5px 5px;min-width: 160px;max-width: 500px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
+												     <button  style="position:relative;text-align:left;color: rgb(134, 128, 128);display:block;font-family:'微软雅黑';border:1px solid #ccc;background-color: white;padding: 5px 20px 5px 5px;min-width: 160px;width:300px;max-width: 500px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="btn btn-default dropdown-toggle" type="button" class="dropdownMenu dropdownMenu_${en.id }" data-toggle="dropdown" aria-haspopup="true">
 													           请选择任意一项 
 													    <span class="caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
 													  </button>
-													 <ul class="dropdown-menu dropdown_ul_${en.id}" style="position: relative;overflow-x: hidden;overflow-y:auto;max-height:171px;text-overflow:ellipsis;white-space: nowrap;border:1px solid #ccc;min-width: 160px;max-width: 500px;">
+													 <ul class="dropdown-menu dropdown_ul_${en.id}" style="position: relative;overflow-x: hidden;overflow-y:auto;max-height:171px;text-overflow:ellipsis;white-space: nowrap;border:1px solid #ccc;min-width: 160px;max-width: 300px;">
 													  <c:forEach items="${en.quRadios }" var="item">
-														<li class="quCoItemUlLi">
+														<li class="quCoItemUlLi" style="margin: 0 5px">
 															<div class="dwQuOptionItemContent">
 																<label class="dwRedioStyle dwQuInputLabel" style="display:none"></label>
 																<input type="radio" 
 																	name="qu_${en.quType }_${en.id }"
 																	value="${item.id }">
 																	
-																<label	class="editAble quCoOptionEdit quCoOptionPadding" style="" title="${item.optionName }">${item.optionName }</label>
+																<label	class="editAble quCoOptionEdit quCoOptionPadding" style="font-size: 12px" title="${item.optionName }">${item.optionName }</label>
 																<input type='text' class='inputSytle_1'
 																	style="width:200px;padding:5px;${item.isNote eq 1 ? '':'display: none;'}"
 																	name="text_qu_${en.quType }_${en.id }_${item.id }" />
@@ -3662,7 +3697,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 
 										<div class="editAble quCoTitleEdit">
 											<c:if test= "${en.isRequired == 1 }">
-												<i style = "color:red">*</i>
+												<i style = "color:red;font-style: normal;">*</i>
 											</c:if>
 												${en.quTitle}</div>
 									</div>
@@ -3799,7 +3834,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 
 										<div class="editAble quCoTitleEdit">
 											<c:if test= "${en.isRequired == 1 }">
-												<i style = "color:red">*</i>
+												<i style = "color:red;font-style: normal;">*</i>
 											</c:if>${en.quTitle}</div>
 									</div>
 									<div class="quCoItem">
@@ -3889,7 +3924,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 									<div class="quCoTitle">
 										<div class="quCoNum">${i.count }、</div>
 										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
-											<i style = "color:red">*</i>
+											<i style = "color:red;font-style: normal;">*</i>
 										</c:if>${en.quTitle}</div>
 									</div>
 									<div class="quCoItem">
@@ -3994,7 +4029,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 										<div class="quCoNum">${i.count }、</div>
 
 										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
-											<i style = "color:red">*</i>
+											<i style = "color:red;font-style: normal;">*</i>
 										</c:if>${en.quTitle}</div>
 									</div>
 									<div class="quCoItem quOrderByCoItem">
@@ -4124,7 +4159,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 										<div class="editAble quCoTitleEdit"
 											style="padding-left: 15px;">
 											<c:if test= "${en.isRequired == 1 }">
-												<i style = "color:red">*</i>
+												<i style = "color:red;font-style: normal;">*</i>
 											</c:if>
 											${en.quTitle}</div>
 									</div>
@@ -4179,7 +4214,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 										<div class="quCoNum">${i.count }、</div>
 
 										<div class="editAble quCoTitleEdit"> <c:if test= "${en.isRequired == 1 }">
-											<i style = "color:red">*</i>
+											<i style = "color:red;font-style: normal;">*</i>
 										</c:if>${en.quTitle}</div>
 									</div>
 									<div class="quCoItem">
@@ -4252,7 +4287,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 										<div class="quCoNum">${i.count }、</div>
 
 										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
-											<i style = "color:red">*</i>
+											<i style = "color:red;font-style: normal;">*</i>
 										</c:if>${en.quTitle}</div>
 									</div>
 
@@ -4343,7 +4378,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 										<div class="quCoNum">${i.count }、</div>
 
 										<div class="editAble quCoTitleEdit"> <c:if test= "${en.isRequired == 1 }">
-											<i style = "color:red">*</i>
+											<i style = "color:red;font-style: normal;">*</i>
 										</c:if>${en.quTitle}</div>
 									</div>
 
@@ -4435,7 +4470,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 										<div class="quCoNum">${i.count }、</div>
 
 										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
-											<i style = "color:red">*</i>
+											<i style = "color:red;font-style: normal;">*</i>
 										</c:if>${en.quTitle}</div>
 									</div>
 
@@ -4530,7 +4565,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 										<div class="quCoNum">${i.count }、</div>
 
 										<div class="editAble quCoTitleEdit"><c:if test= "${en.isRequired == 1 }">
-											<i style = "color:red">*</i>
+											<i style = "color:red;font-style: normal;">*</i>
 										</c:if>${en.quTitle}</div>
 									</div>
 
