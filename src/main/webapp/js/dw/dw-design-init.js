@@ -1113,8 +1113,16 @@ $(document).ready(function(){
 			 }
     		 lastTd.find("select[name='option_event']").val(logicType);
     		 lastTd.find("select[name='option_name_id']").val(ckQuItemId);
-    		 //将ckquitemid的值选中
 			$("select[name='option_name_id']").prepend("<option value='nochoose'>未选择</option>");
+
+			Array.from(lastTd.find("select[name='option_name_id']").find('option')).forEach(function(item){
+    		 	console.log(item)
+					if(!!~ckQuItemId.indexOf(item.value)) {
+						item.setAttribute('selected', 'selected');
+					}
+			 });
+
+    		 //将ckquitemid的值选中
     	}else if(logicType == 4){
     		var lastTd=$(".dwQuDialogLogicTitle");
     		 lastTd.find("select[name='option_event']").val(logicType);
