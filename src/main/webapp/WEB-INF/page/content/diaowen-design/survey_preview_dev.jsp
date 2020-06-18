@@ -769,97 +769,97 @@ $(document).ready(function(){
 						<div class="pc_themeContent">
 					<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/zhi.png">
+                    		<img src="${ctx }/images/style-model/1123/style1.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f104e47d0000">
                   		</div>
-                  		<h5>植</h5>
+                  		<h5>样式一</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/ha.png">
+                    		<img src="${ctx }/images/style-model/1123/style2.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f1090d600001">
                   		</div>
-                  		<h5>果</h5>
+                  		<h5>样式二</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/zu.png">
+                    		<img src="${ctx }/images/style-model/1123/style3.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f10c0c7e0002">
                   		</div>
-                  		<h5>筑</h5>
+                  		<h5>样式三</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/rr.png">
+                    		<img src="${ctx }/images/style-model/1123/style4.jpg">
                     		<input type="hidden" class="styleModelId" value="402880ea484021d10148402e42070000">
                   		</div>
-                  		<h5>教</h5>
+                  		<h5>样式四</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/jo.png">
+                    		<img src="${ctx }/images/style-model/1123/style5.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f10edd0c0003">
                   		</div>
-                  		<h5>育1</h5>
+                  		<h5>样式五</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/ru.png">
+                    		<img src="${ctx }/images/style-model/1123/style6.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f1121f320004">
                   		</div>
-                  		<h5>育2</h5>
+                  		<h5>样式六</h5>
                 	</div>
                 	
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/kj.png">
+                    		<img src="${ctx }/images/style-model/1123/style7.jpg">
                     		<input type="hidden" class="styleModelId" value="402880eb49dcabfd0149dcb359370000">
                   		</div>
-                  		<h5>科</h5>
+                  		<h5>样式七</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/ly.png">
+                    		<img src="${ctx }/images/style-model/1123/style8.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f13f18ba0007">
                   		</div>
-                  		<h5>游</h5>
+                  		<h5>样式八</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/da.png">
+                    		<img src="${ctx }/images/style-model/1123/style9.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f141f3700008">
                   		</div>
-                  		<h5>谈</h5>
+                  		<h5>样式九</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/da1.png">
+                    		<img src="${ctx }/images/style-model/1123/style10.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f1441b000009">
                   		</div>
-                  		<h5>兰</h5>
+                  		<h5>样式十</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/da2.png">
+                    		<img src="${ctx }/images/style-model/1123/style11.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f1461613000a">
                   		</div>
-                  		<h5>花</h5>
+                  		<h5>样式十一</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/qo.png">
+                    		<img src="${ctx }/images/style-model/1123/style12.jpg">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f147530d000b">
                   		</div>
-                  		<h5>秋</h5>
+                  		<h5>样式十二</h5>
                 	</div>
                 	<div class="themeitem" >
                   		<div class="themenail">
-                    		<img src="${ctx }/images/style-model/1123/xq.png">
+                    		<img src="${ctx }/images/style-model/1123/style13.jpg">
                     		<input type="hidden" class="styleModelId" value="402880eb49dcabfd0149dcbe2db10002">
                   		</div>
-                  		<h5>庆</h5>
+                  		<h5>样式十三</h5>
                 	</div>
-                	<div class="themeitem" >
+                	<%--<div class="themeitem" >
                   		<div class="themenail">
                     		<img src="${ctx }/images/style-model/1123/g1.png">
                     		<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f117022d0006">
@@ -886,7 +886,7 @@ $(document).ready(function(){
 							<input type="hidden" class="styleModelId" value="402880e849f0f5e70149f117022d0009">
 						</div>
 						<h5>样式三</h5>
-					</div>
+					</div>--%>
                 	
 					<%-- <div class="themeitem" >
                   		<div class="themenail">

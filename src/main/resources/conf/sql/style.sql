@@ -1,0 +1,13 @@
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#EFF7FF',survey_content_bg_color_middle='#D2E0F2' where id = '402880e849f0f5e70149f104e47d0000';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#E9F0E8',survey_content_bg_color_middle='#DFDEDA' where id = '402880e849f0f5e70149f1090d600001';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#E3EEC6',survey_content_bg_color_middle='#C6DEA0' where id = '402880e849f0f5e70149f10c0c7e0002';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#DCF0F1',survey_content_bg_color_middle='#B0DCDB' where id = '402880ea484021d10148402e42070000';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#E9F0E8',survey_content_bg_color_middle='#DCF0F1' where id = '402880e849f0f5e70149f10edd0c0003';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#C5D2C4',survey_content_bg_color_middle='#E9F0E8' where id = '402880e849f0f5e70149f1121f320004';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#EEE8EA',survey_content_bg_color_middle='#E6DCDB' where id = '402880eb49dcabfd0149dcb359370000';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#D2D2D8',survey_content_bg_color_middle='#A7A7B2' where id = '402880e849f0f5e70149f13f18ba0007';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#DAD6CB',survey_content_bg_color_middle='#EAE8E1' where id = '402880e849f0f5e70149f141f3700008';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '',survey_head_bg_color='#AEBFAC',survey_content_bg_color_middle='#8FA78D' where id = '402880e849f0f5e70149f1441b000009';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '/file/images/body-bg-1.jpg',survey_head_bg_color='#DAD6CB',survey_content_bg_color_middle='#EAE8E1' where id = '402880e849f0f5e70149f1461613000a';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '/file/images/body-bg-2.jpg',survey_head_bg_color='#F8F8F6',survey_content_bg_color_middle='#D7D5C9' where id = '402880e849f0f5e70149f147530d000b';
+update t_survey_style set body_bg_color = '#FFFFFF',body_bg_image = '/file/images/body-bg-3.jpg',survey_head_bg_color='#DAD6CB',survey_content_bg_color_middle='#DFE6DE' where id = '402880eb49dcabfd0149dcbe2db10002';
