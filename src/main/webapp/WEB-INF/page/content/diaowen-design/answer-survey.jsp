@@ -3604,14 +3604,14 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 													  </button>
 													 <ul class="dropdown-menu dropdown_ul_${en.id}" style="position: relative;overflow-x: hidden;overflow-y:auto;max-height:171px;text-overflow:ellipsis;white-space: nowrap;border:1px solid #ccc;min-width: 160px;max-width: 300px;">
 													  <c:forEach items="${en.quRadios }" var="item">
-														<li class="quCoItemUlLi">
+														<li class="quCoItemUlLi" style="margin: 0 5px">
 															<div class="dwQuOptionItemContent">
 																<label class="dwRedioStyle dwQuInputLabel" style="display:none"></label>
 																<input type="radio" 
 																	name="qu_${en.quType }_${en.id }"
 																	value="${item.id }">
 																	
-																<label	class="editAble quCoOptionEdit quCoOptionPadding" style="" title="${item.optionName }">${item.optionName }</label>
+																<label	class="editAble quCoOptionEdit quCoOptionPadding" style="font-size: 12px" title="${item.optionName }">${item.optionName }</label>
 																<input type='text' class='inputSytle_1'
 																	style="width:200px;padding:5px;${item.isNote eq 1 ? '':'display: none;'}"
 																	name="text_qu_${en.quType }_${en.id }_${item.id }" />
