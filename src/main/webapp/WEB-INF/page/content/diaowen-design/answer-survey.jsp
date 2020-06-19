@@ -123,7 +123,10 @@ $(document)
 					if(tempUserName != undefined && tempUserName != ""){
 						$("input[name='surveyuser_username']").val(tempUserName);
 						$("input[name='surveyuser_password']").val(tempPassWord);
-					} 
+					}
+					if(!tempUserName) {
+						$("#tempSaveSurvey").hide();
+					}
 					
 					//监听关闭事件
 				
@@ -521,19 +524,22 @@ $(document)
 					// 定时保存
 					window.setInterval(function() {
 						var url = "${ctx}/response!tempSave.action"
-						$.ajax({
-							//几个参数需要注意一下
-							type: "POST",//方法类型
-							url: url ,//url
-							data: $('#surveyForm').serialize(),
-							success: function (result) {
-								if (result) {
+						if($("input[name='surveyuser_username']").val()) {
+							$.ajax({
+								//几个参数需要注意一下
+								type: "POST",//方法类型
+								url: url ,//url
+								data: $('#surveyForm').serialize(),
+								success: function (result) {
+									if (result) {
+									}
+								},
+								error : function() {
+									alert("异常！");
 								}
-							},
-							error : function() {
-								alert("异常！");
-							}
-						});
+							});
+						}
+
 					}, 180000);
 
 					//数据回显
@@ -559,6 +565,7 @@ $(document)
 														if(item.value === result[i].anRadio.quItemId) {
 															var text = item.nextElementSibling.innerText;
 															$(".dropdownMenu_" + result[i].id)[0].firstChild.nodeValue= text;
+															item.setAttribute('checked', 'checked')
 														}
 													});
 													var quItemBody = $("input[name='qu_RADIO_" + result[i].id + "']").parents(".li_surveyQuItemBody ");
@@ -713,7 +720,13 @@ $(document)
 
 										}
 									}
-									var totalQuSize = $(".answerTag:enabled").size();
+
+									var totalQuSize = $(".surveyQuItemBody .answerTag:enabled").size();
+									var answerTag1 = $(".surveyQuItemBody .answerTag[value='1']:enabled");
+									var answerQuSize = 0;
+									if (answerTag1[0]) {
+										answerQuSize = answerTag1.size();
+									}
 									var newValue = parseInt(answerQuSize / totalQuSize
 											* 100);
 									$("#resultProgressRoot .progress-label").text(
@@ -1922,6 +1935,8 @@ $(document)
 													}
 
 												}
+												console.log('target',target, targets, tempQestionItem)
+
 												//找到这个题目是否含有传过来的选项id 结束--
 												var skQuId = quLogicitem
 														.find(".skQuId")
@@ -2007,7 +2022,7 @@ $(document)
 														if (total_condition == cgQuItemIdArray.length) {
 															//跳转逻辑
 															if (logicType == "2") {
-																
+
 																//如果下个类型我是分页的话就不显示，翻到下一页时会重新执行逻辑条件
 														   var  pagetagQestionItem=tempQestionItem.prevAll(".li_surveyQuItemBody:visible").has("input[value$='PAGETAG']");
 																
@@ -2017,6 +2032,9 @@ $(document)
 																if (tempQestionItem
 																		.is(":hidden") && (pagetagQestionItem ==null||pagetagQestionItem == undefined ||pagetagQestionItem.length == 0  )
 																		&& "li_surveyQuItemBody surveyQu_"+pageNow ==tempQestionItem.attr("class")	) {
+																	if(tempQestionItem.find('.quInputCase').find(".answerTag")) {
+																		tempQestionItem.find('.quInputCase').find(".answerTag").attr("disabled",false)
+																	}
 																	tempQestionItem
 																			.show();
 																}
@@ -2050,6 +2068,9 @@ $(document)
                                                                
 															//不满足条件却在下一页或者下几页
 															if (logicType == "2") {
+																if(tempQestionItem.find('.quInputCase').find(".answerTag")) {
+																	tempQestionItem.find('.quInputCase').find(".answerTag").attr("disabled",true)
+																}
 																tempQestionItem
 																		.hide();
 															}
@@ -2122,6 +2143,9 @@ $(document)
 														   if (tempQestionItem
 																		.is(":hidden")  && (pagetagQestionItem ==null||pagetagQestionItem == undefined ||pagetagQestionItem.length == 0  )
 																	&& "li_surveyQuItemBody surveyQu_"+pageNow ==tempQestionItem.attr("class") 	) {
+															   if(tempQestionItem.find('.quInputCase').find(".answerTag")) {
+																   tempQestionItem.find('.quInputCase').find(".answerTag").attr("disabled",false)
+															   }
 																	tempQestionItem
 																			.show();
 																}
@@ -2152,6 +2176,9 @@ $(document)
 															}
 														} else {
 															if (logicType == "2") {
+																if(tempQestionItem.find('.quInputCase').find(".answerTag")) {
+																	tempQestionItem.find('.quInputCase').find(".answerTag").attr("disabled",true)
+																}
 																tempQestionItem
 																		.hide();
 															}
@@ -2367,7 +2394,7 @@ $(document)
 															.prop("className");
 												   
 													if (label_temp_class
-															.indexOf("checked") != -1 &&(dwQuInputLabelTemp.is(label_temp) == false) &&(label_temp.prop("className").indexOf("checked") == -1)) {
+															.indexOf("checked") != -1 &&(dwQuInputLabelTemp.is(label_temp) == false)&&label_temp.prop("className") &&(label_temp.prop("className").indexOf("checked") == -1)) {
 														if ("RADIO" === quType_temp) {
  															total_condition += score_temp_length;
  														} else {
@@ -3001,6 +3028,7 @@ $(document)
 																				}
 																			} else {
 																				//逻辑类型为“显示” quType=2
+																				console.log('logicStatus',logicStatus)
 																				if (logicStatus) {
 																					//逻辑选项被选中状态，激活状态  显示题
 
@@ -3274,7 +3302,7 @@ $(document)
 					//$("#resultProgress").progressbar({value: bfbFloat});
 
 					$("#resultProgressRoot .progress-labelB").text(
-							"共：" + $(".answerTag:enabled").size() + "题，已答" + 0 + "题");
+							"共：" + $(".answerTag").size() + "题，已答" + 0 + "题");
 			
 					function answerProgressbar(thObj) {
 						var quItemBody = thObj
@@ -3370,9 +3398,9 @@ $(document)
 										".answerTag").val(0);
 							}
 						}
-
-						var totalQuSize = $(".answerTag:enabled").size();
-						var answerTag1 = $(".answerTag[value='1']:enabled");
+						console.log('$(".answerTag:enabled")', $(".surveyQuItemBody .answerTag:enabled"))
+						var totalQuSize = $(".surveyQuItemBody .answerTag:enabled").size();
+						var answerTag1 = $(".surveyQuItemBody .answerTag[value='1']:enabled");
 						var answerQuSize = 0;
 						if (answerTag1[0]) {
 							answerQuSize = answerTag1.size();

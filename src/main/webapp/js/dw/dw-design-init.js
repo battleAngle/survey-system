@@ -4175,7 +4175,8 @@ function saveRadio(quItemBody,callback){
 		}
 
 		$.each(quItemOptions,function(i){
-			var optionValue=$(this).find("label.quCoOptionEdit").html();
+			var optionValue=$(this).find("label.quCoOptionEdit").text();
+			console.log(optionValue);
 			var optionId=$(this).find(".quItemInputCase input[name='quItemId']").val();
 			var quItemSaveTag=$(this).find(".quItemInputCase input[name='quItemSaveTag']").val();
 			var isNote=$(this).find(".quItemInputCase input[name='isNote']").val();
