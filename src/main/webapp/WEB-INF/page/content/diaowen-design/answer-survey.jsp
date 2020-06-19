@@ -79,20 +79,16 @@
 			background: #83AE00 ! important;
 			border: none;
 		}
-
 		.ui-progressbar .ui-progressbar-value {
 			margin: 0px;
 		}
-
 		.ui-progressbar {
 			position: relative;
 			background: none ! important;
 		}
-
 		.quOptionEditTd .editAble, .scoreNumTable tr td, .quCoItemTable {
 			font-size: 16px;
 		}
-
 		label.error {
 			font-size: 14px;
 		}
@@ -124,9 +120,9 @@ $(document)
 						$("input[name='surveyuser_username']").val(tempUserName);
 						$("input[name='surveyuser_password']").val(tempPassWord);
 					}
-					if(!tempUserName) {
-						$("#tempSaveSurvey").hide();
-					}
+					// if(!$("#surveyuser_username").val()) {
+					// 	$("#tempSaveSurvey").hide();
+					// }
 					
 					//监听关闭事件
 				
@@ -193,10 +189,7 @@ $(document)
 						})
 					}
 					
-				})	
-				
-				
-							
+				})
 					//分页设置 nextPage_a prevPage_a
 					$(".nextPage_a")
 							.click(
@@ -223,14 +216,14 @@ $(document)
 											var quInputCase=$(this).find(".quInputCase");
 											runlogic_2(quInputCase);
 										})
+										if(!$("#surveyuser_username").val()) {
+											$("#tempSaveSurvey").hide();
+										}
 										return false;
 									});
 					$(".prevPage_a")
 							.click(
 									function() {
-										// if (!validateForms_2()) {
-										// 	return false;
-										// }
 										var thParent = $(this).parent();
 										var prevPageNo = thParent.find(
 												"input[name='prevPageNo']")
@@ -246,9 +239,11 @@ $(document)
 											var quInputCase=$(this).find(".quInputCase");
 											runlogic_2(quInputCase);
 										})
+										if(!$("#surveyuser_username").val()) {
+											$("#tempSaveSurvey").hide();
+										}
 										return false;
 									    });
-
 					//var prevHost="http://file.diaowen.net";
 					var prevHost = $("#prevHost").val();
 					//初始化弹出窗口参数
@@ -281,7 +276,6 @@ $(document)
 						bodyBIThemeParamObj.find(".previewImage").attr(
 								"src", prevHost + bodyBgImage);
 						if (showBodyBi == 1) {
-							//$("#wrap").css({"background-image":"url("+bodyBgImage+")"});
 							$("body").css(
 									{
 										"background-image" : "url("
@@ -711,8 +705,11 @@ $(document)
 											if(result[i].anChenFbks.length > 0) {
 												result[i].anChenFbks.forEach((item) => {
 													var input = $("input[name='fbk_item_qu_CHENFBK_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
-													input.parents(".dwQuChenFbkOptionItemContent").find(".answerTag").val(1);
-													input[0].value = item.answerValue;
+													if(item.answerValue) {
+														input.parents(".dwQuChenFbkOptionItemContent").find(".answerTag").val(1);
+														input[0].value = item.answerValue;
+													}
+
 												});
 												answerQuSize ++ ;
 
@@ -745,18 +742,21 @@ $(document)
 					$(".tempSaveSurvey").click(
 							function() {
 								var url = "${ctx}/response!tempSave.action"
-								$.ajax({
-									//几个参数需要注意一下
-									type: "POST",//方法类型
-									url: url ,//url
-									data: $('#surveyForm').serialize(),
-									success: function (result) {
+								if($("#surveyuser_username").val()) {
+									$.ajax({
+										//几个参数需要注意一下
+										type: "POST",//方法类型
+										url: url ,//url
+										data: $('#surveyForm').serialize(),
+										success: function (result) {
 
-									},
-									error : function() {
-										alert("异常！");
-									}
-								});
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+								}
+
 							});
 					$(".quitSurvey").click(
 							function() {
@@ -1674,7 +1674,6 @@ $(document)
 					})
 
 					function runlogic_2(obj) {
-
 						//获得所有的逻辑选项中存在这个id的选项;
 						var thisQuestionItem = obj
 								.parents(".li_surveyQuItemBody");
@@ -1935,7 +1934,6 @@ $(document)
 													}
 
 												}
-												console.log('target',target, targets, tempQestionItem)
 
 												//找到这个题目是否含有传过来的选项id 结束--
 												var skQuId = quLogicitem
@@ -2022,7 +2020,9 @@ $(document)
 														if (total_condition == cgQuItemIdArray.length) {
 															//跳转逻辑
 															if (logicType == "2") {
-
+																if(tempQestionItem.find('.quInputCase').find(".answerTag")) {
+																	tempQestionItem.find('.quInputCase').find(".answerTag").attr("disabled",false)
+																}
 																//如果下个类型我是分页的话就不显示，翻到下一页时会重新执行逻辑条件
 														   var  pagetagQestionItem=tempQestionItem.prevAll(".li_surveyQuItemBody:visible").has("input[value$='PAGETAG']");
 																
@@ -2032,9 +2032,7 @@ $(document)
 																if (tempQestionItem
 																		.is(":hidden") && (pagetagQestionItem ==null||pagetagQestionItem == undefined ||pagetagQestionItem.length == 0  )
 																		&& "li_surveyQuItemBody surveyQu_"+pageNow ==tempQestionItem.attr("class")	) {
-																	if(tempQestionItem.find('.quInputCase').find(".answerTag")) {
-																		tempQestionItem.find('.quInputCase').find(".answerTag").attr("disabled",false)
-																	}
+
 																	tempQestionItem
 																			.show();
 																}
@@ -2133,6 +2131,9 @@ $(document)
 														if (total_condition == "1") {
 
 															if (logicType == "2") {
+																if(tempQestionItem.find('.quInputCase').find(".answerTag")) {
+																	tempQestionItem.find('.quInputCase').find(".answerTag").attr("disabled",false)
+																}
 														   //判断当前的题是不是最后一道题
 															var  pagetagQestionItem=tempQestionItem.prevAll(".li_surveyQuItemBody:visible").has("input[value$='PAGETAG']");
 									                       
@@ -2143,9 +2144,7 @@ $(document)
 														   if (tempQestionItem
 																		.is(":hidden")  && (pagetagQestionItem ==null||pagetagQestionItem == undefined ||pagetagQestionItem.length == 0  )
 																	&& "li_surveyQuItemBody surveyQu_"+pageNow ==tempQestionItem.attr("class") 	) {
-															   if(tempQestionItem.find('.quInputCase').find(".answerTag")) {
-																   tempQestionItem.find('.quInputCase').find(".answerTag").attr("disabled",false)
-															   }
+
 																	tempQestionItem
 																			.show();
 																}
@@ -3302,7 +3301,7 @@ $(document)
 					//$("#resultProgress").progressbar({value: bfbFloat});
 
 					$("#resultProgressRoot .progress-labelB").text(
-							"共：" + $(".answerTag").size() + "题，已答" + 0 + "题");
+							"共：" + $(".surveyQuItemBody .answerTag:enabled").size() + "题，已答" + 0 + "题");
 			
 					function answerProgressbar(thObj) {
 						var quItemBody = thObj
@@ -3398,9 +3397,8 @@ $(document)
 										".answerTag").val(0);
 							}
 						}
-						console.log('$(".answerTag:enabled")', $(".surveyQuItemBody .answerTag:enabled"))
-						var totalQuSize = $(".surveyQuItemBody .answerTag:enabled").size();
-						var answerTag1 = $(".surveyQuItemBody .answerTag[value='1']:enabled");
+						var totalQuSize = $(".answerTag:enabled").size();
+						var answerTag1 = $(".answerTag[value='1']:enabled");
 						var answerQuSize = 0;
 						if (answerTag1[0]) {
 							answerQuSize = answerTag1.size();
