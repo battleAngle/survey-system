@@ -3134,7 +3134,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -3292,7 +3292,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -3427,7 +3427,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -3518,7 +3518,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -3623,7 +3623,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -3746,7 +3746,7 @@
 																		<div class="quCoTitle"
 																			style="background: rgb(243, 247, 247);">
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<%-- <div class="quCoNum" >${i.count }、</div> --%>
 																			<div class="editAble quCoTitleEdit"
@@ -3802,7 +3802,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -3875,7 +3875,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -3966,7 +3966,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -4058,7 +4058,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>
@@ -4153,7 +4153,7 @@
 																		<div class="quCoTitle">
 																			<div class="quCoNum">${i.count }、</div>
 																			 <c:if test= "${en.isRequired == 1 }">
-										 <i style = "color:red">*</i>
+										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>
 																			<div class="editAble quCoTitleEdit">${en.quTitle}</div>
 																		</div>

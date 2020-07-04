@@ -8,13 +8,16 @@
 <title>${survey.surveyName }</title>
 <link href="${ctx }/js/plugs/jquery-ui-1.10.3.custom/css/mycss/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
 <%-- <link href="${ctx }/js/plugs/bootstrap-3.3.0-dist/dist/css/bootstrap.css" rel="stylesheet" type="text/css" /> --%>
+
 <script type="text/javascript"
-		src="${ctx }/js/plugs/jquery-ui-1.10.3.custom/js/jquery-1.10.1.js"></script>
+        src="${ctx }/js/plugs/jquery-ui-1.10.3.custom/js/jquery-1.10.1.js"></script>
 <script type="text/javascript"
 	src="${ctx }/js/plugs/bootstrap-3.3.0-dist/dist/js/bootstrap.min.js"></script>
 		
+<%--<script type="text/javascript"--%>
+<%--	src="${ctx }/js/plugs/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>--%>
 <script type="text/javascript"
-	src="${ctx }/js/plugs/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+        src="${ctx }/js/plugs/jquery-ui-1.9.0.custom/js/jquery-ui-1.9.0.custom.js"></script>
 <script type="text/javascript"
 	src="${ctx }/js/plugs/jquery-ui-1.10.3.custom/js/jquery.ui.touch-punch.min.js"></script>	
 <script type="text/javascript"
@@ -554,7 +557,7 @@ $(document)
 											if(result[i].isSelectType == '1'){
 												if(result[i].anRadio.quItemId) {
 													var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
-													Array.from(inputs).forEach((item) => {
+													Array.from(inputs).forEach(function(item) {
 
 														if(item.value === result[i].anRadio.quItemId) {
 															var text = item.nextElementSibling.innerText;
@@ -570,7 +573,7 @@ $(document)
 											}else{
 												if(result[i].anRadio.quItemId) {
 													var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
-													Array.from(inputs).forEach((item) => {
+													Array.from(inputs).forEach(function(item){
 
 														if(item.value === result[i].anRadio.quItemId) {
 															item.previousElementSibling.classList.add('checked');
@@ -587,13 +590,13 @@ $(document)
 										}else if(type === 'CHECKBOX'){
 											if(result[i].anCheckboxs.length > 0) {
 												answerQuSize ++ ;
-												result[i].anCheckboxs.forEach((item)=>{
+												result[i].anCheckboxs.forEach(function(item){
 													var input = $("input[name='tag_qu_CHECKBOX_" + result[i].id + '_' + item.quItemId +"']");
 													input.parents(".li_surveyQuItemBody ").find(".answerTag").val(1);
 													input[0].previousElementSibling.classList.add('checked');
 													input[0].setAttribute('checked', 'checked')
 												})
-												result[i].anCheckboxs.forEach((item)=>{
+												result[i].anCheckboxs.forEach(function(item){
 													var input = $("input[name='tag_qu_CHECKBOX_" + result[i].quId + '_' + item.quItemId +"']");
 													input.parents(".li_surveyQuItemBody ").find(".answerTag").val(1);
 													if(input[0]) {
@@ -613,7 +616,7 @@ $(document)
 
 										}else if(type === 'SCORE'){
 											if(result[i].anScores.length > 0) {
-												result[i].anScores.forEach((item) => {
+												result[i].anScores.forEach(function(item){
 													var input = $("input[name='item_qu_SCORE_" + item.quId + '_' + item.quRowId +"']");
 
 													input.parents(".quScoreOptionTr").find(".answerTag").val(1);
@@ -627,13 +630,13 @@ $(document)
 
 										}else if(type === 'ORDERQU'){
 											if(result[i].anOrders.length > 0) {
-												result[i].anOrders.forEach((item) => {
+												result[i].anOrders.forEach(function(item){
 													var input = $("input[name='qu_ORDERQU_" + item.quId + "']");
 													input.parents(".quScoreOptionTr").find(".quOrderByLeftUl label").find(".answerTag").val(1);
 
 													var surveyQuItemBody= input[0].parentNode.parentNode;
 													let rows = surveyQuItemBody.querySelector(".quOrderByTable").rows;
-													Array.from(rows).forEach((r,index) => {
+													Array.from(rows).forEach(function(r,index){
 														if(+item.orderyNum === (index+1)) {
 															var c = r.querySelector(".quOrderTabConnect");
 															$("input[name='item_qu_ORDERQU_" + item.quId + '_' + item.quRowId + "']")[0].parentNode.classList.remove('editAble');
@@ -650,7 +653,7 @@ $(document)
 
 										}else if(type === 'MULTIFILLBLANK'){
 											if(result[i].anDFillblanks.length > 0) {
-												result[i].anDFillblanks.forEach((item) => {
+												result[i].anDFillblanks.forEach(function(item){
 													var input = $("input[name='text_qu_MULTIFILLBLANK_" + item.quId + '_' + item.quItemId +"']");
 													input.parents(".mFillblankTableTr").find(".answerTag").val(1);
 
@@ -662,11 +665,11 @@ $(document)
 
 										}else if(type === 'CHENRADIO'){
 											if(result[i].anChenRadios.length > 0) {
-												result[i].anChenRadios.forEach((item) => {
+												result[i].anChenRadios.forEach(function(item){
 													var inputs = $("input[name='item_qu_CHENRADIO_" + item.quId + '_' + item.quRowId + "']");
 													inputs.parents(".dwQuCoChenRowTr").find(".answerTag").val(1);
 
-													Array.from(inputs).forEach((i) => {
+													Array.from(inputs).forEach(function(i){
 														if(i.value === item.quColId) {
 															i.previousElementSibling.previousElementSibling.classList.add('checked');
 															i.setAttribute('checked', 'checked')
@@ -679,7 +682,7 @@ $(document)
 
 										}else if(type === 'CHENCHECKBOX'){
 											if(result[i].anChenCheckboxs.length > 0) {
-												result[i].anChenCheckboxs.forEach((item) => {
+												result[i].anChenCheckboxs.forEach(function(item){
 													var input = $("input[name='ck_item_qu_CHENCHECKBOX_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
 													input.parents(".dwQuCoChenRowTr").find(".answerTag").val(1);
 													input[0].previousElementSibling.previousElementSibling.classList.add('checked');
@@ -691,7 +694,7 @@ $(document)
 
 										}else if(type === 'CHENSCORE'){
 											if(result[i].anChenScores.length > 0) {
-												result[i].anChenScores.forEach((item) => {
+												result[i].anChenScores.forEach(function(item){
 													var input = $("input[name='cs_item_qu_CHENSCORE_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
 													input.parents(".dwQuScoreOptionItemContent").find(".answerTag").val(1);
 
@@ -703,7 +706,7 @@ $(document)
 
 										}else if(type === 'CHENFBK'){
 											if(result[i].anChenFbks.length > 0) {
-												result[i].anChenFbks.forEach((item) => {
+												result[i].anChenFbks.forEach(function(item){
 													var input = $("input[name='fbk_item_qu_CHENFBK_" + item.quId + '_' + item.quRowId + '_' + item.quColId + "']");
 													if(item.answerValue) {
 														input.parents(".dwQuChenFbkOptionItemContent").find(".answerTag").val(1);
@@ -1323,6 +1326,7 @@ $(document)
 							} else if (quType === "CHECKBOX") {
 								
 								var minNum=quItemBody.find(".minNum").val();
+								console.log(123, minNum)
 								if(minNum == "1" || minNum== undefined || minNum == ""){
 									validateStatus = quItemBody
 									.find("input[type='checkbox']:checked")[0];
@@ -1401,7 +1405,9 @@ $(document)
 								$.each(quScoreOptionTrs,function() {
 													var scoreNumInput = $(this).find(".scoreNumInput");
 													if (scoreNumInput.val() === ""
-															&& scoreNumInput.is(":visible")) {
+															// && scoreNumInput.is(":visible")) {
+                                                    ) {
+
 														validateStatus = false;
 														return false;
 													}
@@ -1719,7 +1725,7 @@ $(document)
 													if (quType == 'RADIO') {
 														if(ckquItemId !== 'nochoose') {
 															var ids = ckquItemId.split(',');
-															ids.forEach((id) => {
+															ids.forEach(function(id){
 																targets.push(tempQestionItem
 																		.find(
 																				"input[name='text_qu_RADIO_"
@@ -1743,7 +1749,7 @@ $(document)
 													} else if (quType == 'CHECKBOX') {
 														if(ckquItemId !== 'nochoose') {
 															var ids = ckquItemId.split(',');
-															ids.forEach((id) => {
+															ids.forEach(function(id){
 																targets.push(tempQestionItem
 																		.find(
 																				"input[name='tag_qu_CHECKBOX_"
@@ -1768,7 +1774,7 @@ $(document)
 													} else if (quType == 'SCORE') {
 														if(ckquItemId !== 'nochoose') {
 															var ids = ckquItemId.split(',');
-															ids.forEach((id) => {
+															ids.forEach(function(id){
 																targets.push(tempQestionItem
 																		.find(
 																				"input[name='item_qu_SCORE_"
@@ -1793,7 +1799,7 @@ $(document)
 													} else if (quType == 'MULTIFILLBLANK') {
 														if(ckquItemId !== 'nochoose') {
 															var ids = ckquItemId.split(',');
-															ids.forEach((id) => {
+															ids.forEach(function(id){
 																targets.push(tempQestionItem
 																		.find(
 																				"input[name='text_qu_MULTIFILLBLANK_"
@@ -1818,7 +1824,7 @@ $(document)
 													} else if (quType == 'CHENFBK') {
 														if(ckquItemId !== 'nochoose') {
 															var ids = ckquItemId.split(',');
-															ids.forEach((id) => {
+															ids.forEach(function(id){
 																targets.push(tempQestionItem
 																		.find(
 																				"input[name='fbk_item_qu_CHENFBK_"
@@ -1912,7 +1918,7 @@ $(document)
 															$.each(temp,function(){
 																var thisTemp = $(this);
 																var thisTempName=thisTemp.attr("name");
-																ids.forEach((id) => {
+																ids.forEach(function(id){
 																	if(thisTempName == "item_qu_ORDERQU_"+ckQuId+"_"+id){
 																		targets.push($(this).parent().parent())
 																	}
@@ -2047,7 +2053,7 @@ $(document)
 																	if(target) {
 																		target.hide()
 																	}else{
-																		targets.forEach((item) => {
+																		targets.forEach(function(item){
 																			item.hide()
 																		})
 																	}
@@ -2082,7 +2088,7 @@ $(document)
 																	if(target) {
 																		target.show()
 																	}else{
-																		targets.forEach((item) => {
+																		targets.forEach(function(item){
 																			item.show()
 																		})
 																	}
@@ -2159,7 +2165,7 @@ $(document)
 																	if(target) {
 																		target.hide()
 																	}else{
-																		targets.forEach((item) => {
+																		targets.forEach(function(item){
 																			item.hide()
 																		})
 																	}
@@ -2192,7 +2198,7 @@ $(document)
 																	if(target) {
 																		target.show()
 																	}else{
-																		targets.forEach((item) => {
+																		targets.forEach(function(item){
 																			item.show()
 																		})
 																	}
@@ -3690,7 +3696,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 									value="${en.orderById }" /> <input type="hidden"
 									class="isRequired" value="${en.isRequired }"> <input
 									type="hidden" class="answerTag" value="0">
-<%--									<input type="hidden" class="minNum" value="${en.minNum }">--%>
+									<input type="hidden" class="minNum" value="${en.minNum }">
 								<div class="quLogicInputCase">
 									<c:forEach items="${en.questionLogics }" var="quLogicEn"
 										varStatus="logicSts">

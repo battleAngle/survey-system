@@ -14,6 +14,10 @@
 	right: 5px;
 	top: 7px;
 }
+.middle-body p img{
+	width: 100%;
+	height: auto;
+}
 .notification {
 		position: fixed;
 		display: inline-block;

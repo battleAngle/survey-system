@@ -3,6 +3,10 @@ body{
 	padding: 0px;
 	margin: 0px;
 }
+.middle-body p img{
+	width: 100%;
+	height: auto;
+}
 .root-body,.root-body1{
 	width: 100%;
 }

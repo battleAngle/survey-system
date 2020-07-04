@@ -3074,7 +3074,7 @@ $(".dwQuDelete_classify").click(function(){
 	
 
 	var addCount = 0;
-	setInterval(()=>{
+	setInterval(function(){
 		if(addCount > 0){
 			addCount = 0;
 		}
