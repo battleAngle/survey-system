@@ -327,11 +327,11 @@ public class SurveyAnswerManagerImpl extends
 
 		XLSExportUtil exportUtil = new XLSExportUtil(fileName, savePath);
 		Criterion cri1 = Restrictions.eq("surveyId",surveyId);
-		Criterion cri2 = Restrictions.eq("isTemp",0);
+//		Criterion cri2 = Restrictions.eq("isTemp",0);
 		Page<SurveyAnswer> page = new Page<SurveyAnswer>();
 		page.setPageSize(5000);
 		try {
-			page = findPage(page,cri1,cri2);
+			page = findPage(page,cri1);
 			int totalPage = page.getTotalPage();
 			List<SurveyAnswer> answers = page.getResult();
 			List<Question> questions = questionManager.findDetails(surveyId,"2");
