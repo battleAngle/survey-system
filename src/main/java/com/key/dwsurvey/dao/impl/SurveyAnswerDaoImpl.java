@@ -48,6 +48,9 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 	public void tempSaveAnswer(SurveyAnswer surveyAnswer, Map<String, Map<String, Object>> quMaps) {
 		Date curDate=new Date();
 
+		//计算答卷用时
+		long time=surveyAnswer.getEndAnDate().getTime()-surveyAnswer.getBgAnDate().getTime();
+		surveyAnswer.setTotalTime(Float.parseFloat(time/1000+""));
 		Session session=this.getSession();
 		session.save(surveyAnswer);
 
@@ -164,16 +167,6 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 //		Survey survey=(Survey) session.get(Survey.class, surveyId);
 		SurveyDirectory survey=(SurveyDirectory) session.get(SurveyDirectory.class, surveyId);
 //		System.out.println("survey:"+survey);
-		Integer answerNum = survey.getAnswerNum();
-		if(answerNum==null){
-			answerNum=0;
-		}
-		survey.setAnswerNum(answerNum+1);
-		Integer endNum=survey.getSurveyDetail().getEndNum();
-		if(answerNum+1 >= endNum){
-			survey.setSurveyState(2);
-		}
-		session.update(survey);//更新回答数
 		int surveyQuAnItemNum=survey.getAnItemLeastNum();//可以回答的最少项目数
 		
 		surveyAnswer.setEndAnDate(new Date());
@@ -182,6 +175,18 @@ public class SurveyAnswerDaoImpl extends BaseDaoImpl<SurveyAnswer, String> imple
 		long time=surveyAnswer.getEndAnDate().getTime()-surveyAnswer.getBgAnDate().getTime();
 		surveyAnswer.setTotalTime(Float.parseFloat(time/1000+""));
 		session.save(surveyAnswer);
+
+		List<SurveyAnswer> answers = this.findBySurveyId(surveyId);
+		Integer answerNum = answers.isEmpty() ? 0 :answers.size();
+		if(answerNum==null){
+			answerNum=0;
+		}
+		survey.setAnswerNum(answerNum);
+		Integer endNum=survey.getSurveyDetail().getEndNum();
+		if(answerNum+1 >= endNum){
+			survey.setSurveyState(2);
+		}
+		session.update(survey);//更新回答数
 		
 		int anCount=0;
 		//保存答案

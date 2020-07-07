@@ -371,6 +371,8 @@ public class ResponseAction extends ActionSupport {
 		String surveyuser_id=request.getParameter("surveyuser_id");
 
 		String surveyuser_username=request.getParameter("surveyuser_username");
+		String surveyuser_password=request.getParameter("surveyuser_password");
+		String surveystart_time=request.getParameter("surveystart_time");
 
 		//答案对象
 		SurveyAnswer entity = new SurveyAnswer();
@@ -378,6 +380,17 @@ public class ResponseAction extends ActionSupport {
 		if (user != null) {
 			//entity.setUserId(user.getId());
 			entity.setUserId(surveyuser_id);
+		}
+		if (StringUtils.isNotEmpty(surveystart_time)) {
+			long time = Long.parseLong(surveystart_time);
+			entity.setBgAnDate(new Date(time));
+		} else {
+			entity.setBgAnDate(new Date());
+		}
+		if (surveyuser_password != null) {
+			entity.setAnswerPassword(surveyuser_password);
+		} else {
+			entity.setAnswerPassword("");
 		}
 		if(surveyuser_username != null){
 			entity.setAnswerUserName(surveyuser_username);

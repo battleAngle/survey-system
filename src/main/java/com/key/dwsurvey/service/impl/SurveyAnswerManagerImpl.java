@@ -125,6 +125,7 @@ public class SurveyAnswerManagerImpl extends
 	@Override
 	public void saveAnswer(SurveyAnswer surveyAnswer,
 						   Map<String, Map<String, Object>> quMaps) {
+		surveyAnswerDao.deleteBySurveyIdAndUsername(surveyAnswer.getSurveyId(), surveyAnswer.getAnswerUserName());
 		surveyAnswerDao.saveAnswer(surveyAnswer, quMaps);
 	}
 
