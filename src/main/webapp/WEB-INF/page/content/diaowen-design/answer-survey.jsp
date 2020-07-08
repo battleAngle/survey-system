@@ -539,6 +539,11 @@ $(document)
 
 					}, 180000);
 
+					if(!Array.from){
+						Array.from = function (el) {
+							return Array.apply(this, el);
+						}
+					}
 					//数据回显
 					$.ajax({
 						//几个参数需要注意一下
@@ -557,6 +562,7 @@ $(document)
 											if(result[i].isSelectType == '1'){
 												if(result[i].anRadio.quItemId) {
 													var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
+													console.log(123,Array.from(inputs))
 													Array.from(inputs).forEach(function(item) {
 
 														if(item.value === result[i].anRadio.quItemId) {
@@ -1518,16 +1524,23 @@ $(document)
 									var tempInputs = $(this);
 									var maxSliderLength=quItemBody.find(".maxSliderLength").val();
 									var minSliderLength=quItemBody.find(".minSliderLength").val();
-									
+                                    if (tempInputs.val() === ""
+                                    ) {
+
+                                        validateStatus = false;
+                                        return false;
+                                    }
 									if(parseInt(tempInputs.val()) < parseInt(minSliderLength) || parseInt(tempInputs.val()) > parseInt(maxSliderLength) ){
-										if(tempInputs.is(":visible")){
-											validateStatus = false;
-											return false;
-										}else{
-											validateStatus = true;
-										}
-										
-									}
+										// if(tempInputs.is(":visible")){
+										// 	validateStatus = false;
+										// 	return false;
+										// }else{
+										// 	validateStatus = true;
+										// }
+                                        validateStatus = false;
+                                        return false;
+
+                                    }
 									
 								});
 
