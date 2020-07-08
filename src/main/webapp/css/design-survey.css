@@ -1275,7 +1275,7 @@ li.addMoreOption .dwQuIcon,li.addMoreColumnOption .dwQuIcon,li.addMoreRowOption 
 	left: 200px;
 	background: #FAFAFA;
 	display: none;
-	min-width: 504px;
+	min-width: 700px;
 }
 #dwCommonDialog .dwCommonRefIcon{
 	position: absolute;
