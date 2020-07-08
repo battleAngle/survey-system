@@ -199,9 +199,9 @@ public class ResponseAction extends ActionSupport {
 			if(filterStatus!=null){
 				return filterStatus;
 			}
-			if (HttpRequestDeviceUtils.isMobileDevice(request)) {
-				return RESPONSE_MOBILE;
-			} else {
+//			if (HttpRequestDeviceUtils.isMobileDevice(request)) {
+//				return RESPONSE_MOBILE;
+//			} else {
 				/*Struts2Utils.getSession().setAttribute("surveyuser_username", surveyuser_username);
 				Struts2Utils.getSession().setAttribute("surveyuser_password", surveyuser_password);*/
 				String htmlPath = directory.getHtmlPath();
@@ -223,7 +223,7 @@ public class ResponseAction extends ActionSupport {
 					request.getRequestDispatcher("/" + htmlPath+"?time="+time).forward(request,
 							response);
 				}
-			}
+//			}
 		}
 
 		return NONE;
