@@ -1,5 +1,6 @@
 package com.key.dwsurvey.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.key.common.dao.BaseDao;
@@ -17,4 +18,6 @@ public interface SurveyAnswerDao extends BaseDao<SurveyAnswer, String>{
 							   Map<String, Map<String, Object>> quMaps);
 
 	void deleteBySurveyIdAndUsername(String surveyId, String answerUserName);
+
+	List<SurveyAnswer> findBySurveyId(String surveyId);
 }

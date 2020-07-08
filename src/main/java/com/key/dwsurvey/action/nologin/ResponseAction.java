@@ -209,14 +209,14 @@ public class ResponseAction extends ActionSupport {
 					// 插入开始答题时间
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file, 3490, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
+					insertStringInFile(file, 3496, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					request.getRequestDispatcher("/" + htmlPath).forward(request,
 							response);
 				}else{
 				   //只能在文件的指定行插入
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file, 3490, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
+					insertStringInFile(file, 3496, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
 									"<input type='hidden' id='surveyuser_password' value='" + surveyuser_password + "'>" +
 							"<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					Long time=new Date().getTime();
@@ -371,6 +371,8 @@ public class ResponseAction extends ActionSupport {
 		String surveyuser_id=request.getParameter("surveyuser_id");
 
 		String surveyuser_username=request.getParameter("surveyuser_username");
+		String surveyuser_password=request.getParameter("surveyuser_password");
+		String surveystart_time=request.getParameter("surveystart_time");
 
 		//答案对象
 		SurveyAnswer entity = new SurveyAnswer();
@@ -378,6 +380,17 @@ public class ResponseAction extends ActionSupport {
 		if (user != null) {
 			//entity.setUserId(user.getId());
 			entity.setUserId(surveyuser_id);
+		}
+		if (StringUtils.isNotEmpty(surveystart_time)) {
+			long time = Long.parseLong(surveystart_time);
+			entity.setBgAnDate(new Date(time));
+		} else {
+			entity.setBgAnDate(new Date());
+		}
+		if (surveyuser_password != null) {
+			entity.setAnswerPassword(surveyuser_password);
+		} else {
+			entity.setAnswerPassword("");
 		}
 		if(surveyuser_username != null){
 			entity.setAnswerUserName(surveyuser_username);
