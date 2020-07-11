@@ -199,9 +199,9 @@ public class ResponseAction extends ActionSupport {
 			if(filterStatus!=null){
 				return filterStatus;
 			}
-			if (HttpRequestDeviceUtils.isMobileDevice(request)) {
-				return RESPONSE_MOBILE;
-			} else {
+//			if (HttpRequestDeviceUtils.isMobileDevice(request)) {
+//				return RESPONSE_MOBILE;
+//			} else {
 				/*Struts2Utils.getSession().setAttribute("surveyuser_username", surveyuser_username);
 				Struts2Utils.getSession().setAttribute("surveyuser_password", surveyuser_password);*/
 				String htmlPath = directory.getHtmlPath();
@@ -209,21 +209,21 @@ public class ResponseAction extends ActionSupport {
 					// 插入开始答题时间
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file, 3496, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
+					insertStringInFile(file, 3524, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					request.getRequestDispatcher("/" + htmlPath).forward(request,
 							response);
 				}else{
 				   //只能在文件的指定行插入
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file, 3496, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
+					insertStringInFile(file, 3524, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
 									"<input type='hidden' id='surveyuser_password' value='" + surveyuser_password + "'>" +
 							"<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					Long time=new Date().getTime();
 					request.getRequestDispatcher("/" + htmlPath+"?time="+time).forward(request,
 							response);
 				}
-			}
+//			}
 		}
 
 		return NONE;
