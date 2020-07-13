@@ -549,8 +549,9 @@ $(document)
 						//几个参数需要注意一下
 						type: "GET",
 						//方法类型
-						url: '${ctx}/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val(),//url
+						url: '${ctx}/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val() + '&timestamp=' +  new Date().getTime(),//url
 						success: function (result) {
+							console.log(123, result);
 							if (result) {
 
 								if (result) {
@@ -760,7 +761,7 @@ $(document)
 										url: url ,//url
 										data: $('#surveyForm').serialize(),
 										success: function (result) {
-
+											alert("保存成功！");
 										},
 										error : function() {
 											alert("异常！");
