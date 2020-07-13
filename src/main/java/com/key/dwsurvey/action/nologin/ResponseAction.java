@@ -209,14 +209,14 @@ public class ResponseAction extends ActionSupport {
 					// 插入开始答题时间
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file, 3524, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
+					insertStringInFile(file, 3516, "<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					request.getRequestDispatcher("/" + htmlPath).forward(request,
 							response);
 				}else{
 				   //只能在文件的指定行插入
 					String realpath=request.getServletContext().getRealPath("/")+htmlPath;
 					File file=new File(realpath);
-					insertStringInFile(file, 3524, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
+					insertStringInFile(file, 3516, "<input type='hidden' id='surveyuser_username' value='" + surveyuser_username + "'>" +
 									"<input type='hidden' id='surveyuser_password' value='" + surveyuser_password + "'>" +
 							"<input type='hidden' id='surveystart_time' name='surveystart_time' value='" + new Date().getTime() + "'>");
 					Long time=new Date().getTime();
@@ -345,7 +345,7 @@ public class ResponseAction extends ActionSupport {
 	}
 
 	public String answerMobile() throws Exception {
-		HttpServletRequest request = Struts2Utils.getRequest();
+		/*HttpServletRequest request = Struts2Utils.getRequest();
 		HttpServletResponse response = Struts2Utils.getResponse();
 		SurveyDirectory directory = directoryManager.getSurvey(surveyId);
 		if (directory != null) {
@@ -362,7 +362,8 @@ public class ResponseAction extends ActionSupport {
 			return NONE;
 		}
 
-		return NONE;
+		return NONE;*/
+		return this.execute();
 	}
 
 	public String tempSave() throws Exception {
