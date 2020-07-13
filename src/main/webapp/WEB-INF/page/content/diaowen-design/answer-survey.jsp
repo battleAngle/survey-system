@@ -627,7 +627,9 @@ $(document)
 
 													input.parents(".quScoreOptionTr").find(".answerTag").val(1);
 													for(var j =0 ; j < +item.answserScore;j++){
-														input[0].previousElementSibling.rows[0].cells[j].style = null;
+														input[0].previousElementSibling.rows[0].cells[j].style.cssText = '';
+														console.log(123, input[0].previousElementSibling.rows[0].cells[j])
+
 													}
 													input[0].parentNode.nextElementSibling.innerText = item.answserScore + '分';
 												});
@@ -784,21 +786,11 @@ $(document)
 										},
 										type : "post",
 										success : function(msg) {
-											var userAgent = navigator.userAgent;
-											if (userAgent.indexOf("Firefox") != -1 || userAgent.indexOf("Chrome") !=-1) {
-												window.location.href="about:blank";setTimeout(function(){window.close();},0)
-											} else {
-												window.opener = null;window.open("", "_self");window.close();
-											}
+										    window.open("http://localhost:8080/Survey_war/quit.html", '_self')
 										}
 									});
 								}else{
-									var userAgent = navigator.userAgent;
-									if (userAgent.indexOf("Firefox") != -1 || userAgent.indexOf("Chrome") !=-1) {
-										window.location.href="about:blank";setTimeout(function(){window.close();},0)
-									} else {
-										window.opener = null;window.open("", "_self");window.close();
-									}
+									window.open("http://localhost:8080/Survey_war/quit.html", '_self')
 								}
 
 							});
