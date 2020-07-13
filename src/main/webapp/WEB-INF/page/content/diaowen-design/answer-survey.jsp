@@ -786,11 +786,11 @@ $(document)
 										},
 										type : "post",
 										success : function(msg) {
-										    window.open("http://localhost:8080/Survey_war/quit.html", '_self')
+										    window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
 										}
 									});
 								}else{
-									window.open("http://localhost:8080/Survey_war/quit.html", '_self')
+									window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
 								}
 
 							});
