@@ -345,7 +345,7 @@ public class ResponseAction extends ActionSupport {
 	}
 
 	public String answerMobile() throws Exception {
-		HttpServletRequest request = Struts2Utils.getRequest();
+		/*HttpServletRequest request = Struts2Utils.getRequest();
 		HttpServletResponse response = Struts2Utils.getResponse();
 		SurveyDirectory directory = directoryManager.getSurvey(surveyId);
 		if (directory != null) {
@@ -362,7 +362,8 @@ public class ResponseAction extends ActionSupport {
 			return NONE;
 		}
 
-		return NONE;
+		return NONE;*/
+		return this.execute();
 	}
 
 	public String tempSave() throws Exception {
