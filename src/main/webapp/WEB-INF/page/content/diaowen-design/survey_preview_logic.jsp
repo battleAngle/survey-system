@@ -5547,9 +5547,9 @@ $(document).ready(function(){
 													<%-- <div class="quCoNum" >${i.count }、</div> --%>
 												<div class="editAble quCoTitleEdit"
 													 style="padding-left: 15px;">
-													<c:if test= "${en.isRequired == 1 }">
-														<i style = "color:red">*</i>
-													</c:if>
+<%--													<c:if test= "${en.isRequired == 1 }">--%>
+<%--														<i style = "color:red">*</i>--%>
+<%--													</c:if>--%>
 														${en.quTitle}</div>
 											</div>
 										</div>

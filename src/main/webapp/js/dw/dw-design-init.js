@@ -2260,7 +2260,6 @@ $(document).ready(function(){
 	
    //提交保存的按钮
 	$("#saveBtn").click(function(){
-		
 		curEditCallback();
 		dwCommonDialogHide();
 		resetQuItemHover(null);
@@ -2408,9 +2407,9 @@ $(document).ready(function(){
 				data:data,
 				type:"post",
 				success:function(msg){
-					$("input[name='svyNmSaveTag']").val(1);
-					$("input[name='svyNoteSaveTag']").val(1);
-					$("input[name='svyAttrSaveTag']").val(1);
+					// $("input[name='svyNmSaveTag']").val(1);
+					// $("input[name='svyNoteSaveTag']").val(1);
+					// $("input[name='svyAttrSaveTag']").val(1);
 					var fristQuItemBody=$("#dwSurveyQuContent .li_surveyQuItemBody").first();
 
 					saveQus(fristQuItemBody,callback);
@@ -5281,7 +5280,7 @@ function savePagetag(quItemBody,callback){
 **/
 function saveParagraph(quItemBody,callback){
 	var saveTag=quItemBody.find("input[name='saveTag']").val();
-	if(saveTag==0){
+	if(saveTag==0 || saveTag ==1){
 		var url=ctx+"/design/qu-paragraph!ajaxSave.action";
 		var quType=quItemBody.find("input[name='quType']").val();
 		var quId=quItemBody.find("input[name='quId']").val();
@@ -5295,7 +5294,7 @@ function saveParagraph(quItemBody,callback){
 		data+="&isRequired="+isRequired+"&hv="+hv+"&randOrder="+randOrder+"&cellCount="+cellCount;
 		
 		var quTitleSaveTag=quItemBody.find("input[name='quTitleSaveTag']").val();
-		if(quTitleSaveTag==0){
+		if(quTitleSaveTag==0|| quTitleSaveTag==1){
 			var quTitle=quItemBody.find(".quCoTitleEdit").html();
 			quTitle=escape(encodeURIComponent(quTitle));
 			data+="&quTitle="+quTitle;

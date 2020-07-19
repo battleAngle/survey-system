@@ -4211,9 +4211,9 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 
 										<div class="editAble quCoTitleEdit"
 											style="padding-left: 15px;">
-											<c:if test= "${en.isRequired == 1 }">
-												<i style = "color:red;font-style: normal;">*</i>
-											</c:if>
+<%--											<c:if test= "${en.isRequired == 1 }">--%>
+<%--												<i style = "color:red;font-style: normal;">*</i>--%>
+<%--											</c:if>--%>
 											${en.quTitle}</div>
 									</div>
 								</div>
