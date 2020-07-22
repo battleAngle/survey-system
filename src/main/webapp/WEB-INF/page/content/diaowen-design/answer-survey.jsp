@@ -123,12 +123,7 @@ $(document)
 						$("input[name='surveyuser_username']").val(tempUserName);
 						$("input[name='surveyuser_password']").val(tempPassWord);
 					}
-					// if(!$("#surveyuser_username").val()) {
-					// 	$("#tempSaveSurvey").hide();
-					// }
-					
 					//监听关闭事件
-				
 					//设置隔行变色
 					//各种验证正则NO("无验证", 0), 
 					/* EMAIL("Email", 1), 
@@ -143,10 +138,8 @@ $(document)
 					ZIPCODE("邮政编码", 10),
 					URL("网址", 11),
 					TELE_PHONE_NUM("电话或手机号", 12); */
-
 					//right
 					var email = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-
 					//right
 					var unstrcn = /^\w+$/;
 					//right
@@ -155,14 +148,11 @@ $(document)
 					var num = /^[0-9]*$/
 					//right
 					var telenum = /0?(13|14|15|17|18|19)[0-9]{9}/
-
 					var date = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/
 					var date_2 = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
 					var identcode = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
 					var zipcode = /^[0-9]\\d{5}$/
 					var url = /^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d+)*(\/\w+\.\w+)*$/
-                       
-							
 				//table表格长度回显
 				$(".li_surveyQuItemBody ").each(function(){
 					var quType=$(this).find(".quType").val();
@@ -179,7 +169,6 @@ $(document)
 						 tdAll[i].style.width=trWidthInfoArr[i]+"%";
 					 })
 					 }
-						
 					}else if(quType=="RADIO" && isSelectType == "1"){
 						$(".dropdown_ul_"+quId).hide();
 						$(".dropdownMenu_"+quId).unbind();
@@ -191,8 +180,27 @@ $(document)
 							}
 						})
 					}
-					
 				})
+					window.addEventListener('beforeunload', function(event){
+						event.preventDefault();
+						// Chrome requires returnValue to be set.
+						var url = "${ctx}/response!tempSave.action"
+						if($("#surveyuser_username").val()) {
+							$.ajax({
+								//几个参数需要注意一下
+								type: "POST",//方法类型
+								url: url ,//url
+								data: $('#surveyForm').serialize(),
+								success: function (result) {
+								},
+								error : function() {
+									alert("异常！");
+								}
+							});
+						}
+						event.returnValue = '确定退出吗？';
+						return '确定退出吗？';
+					})
 					//分页设置 nextPage_a prevPage_a
 					$(".nextPage_a")
 							.click(
@@ -269,7 +277,6 @@ $(document)
 						$("body").css({
 							"background-color" : bodyBgColor
 						});
-
 						//surveyStyle.bodyBgImage
 						var bodyBgImage = "${surveyStyle.bodyBgImage}";
 						var bodyBgImageObj = $("input[name='bodyBgImage']");
@@ -288,11 +295,9 @@ $(document)
 							$("input[name='showBodyBi']").prop("checked",
 									true);
 						}
-
 						/** 表头样式 **/
 						//surveyStyle.showBodyBi
 						var showSurveyHbgi = "${surveyStyle.showSurveyHbgi}";
-
 						//surveyStyle.bodyBgColor
 						var surveyHeadBgColor = "${surveyStyle.surveyHeadBgColor}";
 						var surveyHeadBgColorObj = $("input[name='surveyHeadBgColor']");
@@ -305,7 +310,6 @@ $(document)
 						$("#dwSurveyHeader").css({
 							"background-color" : surveyHeadBgColor
 						});
-
 						//surveyStyle.bodyBgImage
 						var surveyHeadBgImage = "${surveyStyle.surveyHeadBgImage}";
 						var surveyHeadBgImageObj = $("input[name='surveyHeadBgImage']");
@@ -355,7 +359,6 @@ $(document)
 						$("#dwSurveyQuContentBg").css({
 							"background-color" : surveyContentBgColorMiddle
 						});
-
 						//surveyStyle.bodyBgImage
 						var surveyContentBgImageMiddle = "${surveyStyle.surveyContentBgImageMiddle}";
 						var surveyContentBgImageMiddleObj = $("input[name='surveyContentBgImageMiddle']");
@@ -378,7 +381,6 @@ $(document)
 							$("input[name='showSurveyCbim']").prop(
 									"checked", true);
 						}
-
 						/** 文本样式 **/
 						var questionTitleTextColor = "${surveyStyle.questionTitleTextColor}";
 						var questionTitleTextColorObj = $("input[name='questionTitleTextColor']");
@@ -405,7 +407,6 @@ $(document)
 						$(".quCoOptionEdit").css({
 							"color" : questionOptionTextColor
 						});
-
 						var surveyTitleTextColor = "${surveyStyle.surveyTitleTextColor}";
 						var surveyTitleTextColorObj = $("input[name='surveyTitleTextColor']");
 						var surveyTTCThemeParamObj = surveyTitleTextColorObj
@@ -417,7 +418,6 @@ $(document)
 						$("#dwSurveyTitle").css({
 							"color" : surveyTitleTextColor
 						});
-
 						var surveyNoteTextColor = "${surveyStyle.surveyNoteTextColor}";
 						var surveyNoteTextColorObj = $("input[name='surveyNoteTextColor']");
 						var surveyNTCThemeParamObj = surveyNoteTextColorObj
@@ -429,7 +429,6 @@ $(document)
 						$("#dwSurveyNoteEdit").css({
 							"color" : surveyNoteTextColor
 						});
-
 						var surveyBtnBgColor = "${surveyStyle.surveyBtnBgColor}";
 						if (surveyBtnBgColor !== "") {
 							$("#dw_body_content .sbtn24").css({
@@ -497,12 +496,6 @@ $(document)
 							  
 																if (msg === "false") {
 																	//判断
-																/* 	if($("#jcaptchaImgBody .errorItem")[0]){
-																		$("#jcaptchaImgBody .errorItem")
-																		.show();
-																	}else{
-																		$("#jcaptchaImgBody" ).find(".valid-msg fail").show();
-																	} */
 																	errorHtml = "<div class=\"errorItem\"><label for=\"\" class=\"error\">验证码错误！</label></div>";
 																	$("#jcaptchaImgBody" ).append(errorHtml);
 																} else {
@@ -536,9 +529,7 @@ $(document)
 								}
 							});
 						}
-
 					}, 180000);
-
 					if(!Array.from){
 						Array.from = function (el) {
 							return Array.apply(this, el);
@@ -551,9 +542,7 @@ $(document)
 						//方法类型
 						url: '${ctx}/ans/answer.action?surveyId=' + $('#surveyId').val() + '&surveyuser_username=' +  $("input[name='surveyuser_username']").val() + '&timestamp=' +  new Date().getTime(),//url
 						success: function (result) {
-							console.log(123, result);
 							if (result) {
-
 								if (result) {
 									result = JSON.parse(result);
 									var answerQuSize = 0;
@@ -563,9 +552,7 @@ $(document)
 											if(result[i].isSelectType == '1'){
 												if(result[i].anRadio.quItemId) {
 													var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
-													console.log(123,Array.from(inputs))
 													Array.from(inputs).forEach(function(item) {
-
 														if(item.value === result[i].anRadio.quItemId) {
 															var text = item.nextElementSibling.innerText;
 															$(".dropdownMenu_" + result[i].id)[0].firstChild.nodeValue= text;
@@ -574,18 +561,15 @@ $(document)
 													});
 													var quItemBody = $("input[name='qu_RADIO_" + result[i].id + "']").parents(".li_surveyQuItemBody ");
 													quItemBody.find(".answerTag").val(1);
-
 													answerQuSize ++ ;
 												}
 											}else{
 												if(result[i].anRadio.quItemId) {
 													var inputs = $("input[name='qu_RADIO_" + result[i].id + "']");
 													Array.from(inputs).forEach(function(item){
-
 														if(item.value === result[i].anRadio.quItemId) {
 															item.previousElementSibling.classList.add('checked');
 															item.setAttribute('checked', 'checked')
-
 														}
 													})
 													var quItemBody = $("input[name='qu_RADIO_" + result[i].id + "']").parents(".li_surveyQuItemBody ");
@@ -593,7 +577,6 @@ $(document)
 													answerQuSize ++ ;
 												}
 											}
-
 										}else if(type === 'CHECKBOX'){
 											if(result[i].anCheckboxs.length > 0) {
 												answerQuSize ++ ;
@@ -612,7 +595,6 @@ $(document)
 													}
 												})
 											}
-
 										}else if(type === 'FILLBLANK'){
 											if(result[i].anFillblank.answer) {
 												var input = $("input[name='qu_FILLBLANK_" + result[i].anFillblank.quId +"']");
@@ -620,29 +602,23 @@ $(document)
 												input.parents(".li_surveyQuItemBody ").find(".answerTag").val(1);
 												answerQuSize ++ ;
 											}
-
 										}else if(type === 'SCORE'){
 											if(result[i].anScores.length > 0) {
 												result[i].anScores.forEach(function(item){
 													var input = $("input[name='item_qu_SCORE_" + item.quId + '_' + item.quRowId +"']");
-
 													input.parents(".quScoreOptionTr").find(".answerTag").val(1);
 													for(var j =0 ; j < +item.answserScore;j++){
 														input[0].previousElementSibling.rows[0].cells[j].style.cssText = '';
-														console.log(123, input[0].previousElementSibling.rows[0].cells[j])
-
 													}
 													input[0].parentNode.nextElementSibling.innerText = item.answserScore + '分';
 												});
 												answerQuSize ++ ;
 											}
-
 										}else if(type === 'ORDERQU'){
 											if(result[i].anOrders.length > 0) {
 												result[i].anOrders.forEach(function(item){
 													var input = $("input[name='qu_ORDERQU_" + item.quId + "']");
 													input.parents(".quScoreOptionTr").find(".quOrderByLeftUl label").find(".answerTag").val(1);
-
 													var surveyQuItemBody= input[0].parentNode.parentNode;
 													let rows = surveyQuItemBody.querySelector(".quOrderByTable").rows;
 													Array.from(rows).forEach(function(r,index){
@@ -657,21 +633,16 @@ $(document)
 													})
 												});
 												answerQuSize ++ ;
-
 											}
-
 										}else if(type === 'MULTIFILLBLANK'){
 											if(result[i].anDFillblanks.length > 0) {
 												result[i].anDFillblanks.forEach(function(item){
 													var input = $("input[name='text_qu_MULTIFILLBLANK_" + item.quId + '_' + item.quItemId +"']");
 													input.parents(".mFillblankTableTr").find(".answerTag").val(1);
-
 													input[0].value = item.answer;
 												});
 												answerQuSize ++ ;
-
 											}
-
 										}else if(type === 'CHENRADIO'){
 											if(result[i].anChenRadios.length > 0) {
 												result[i].anChenRadios.forEach(function(item){
@@ -686,9 +657,7 @@ $(document)
 													})
 												});
 												answerQuSize ++ ;
-
 											}
-
 										}else if(type === 'CHENCHECKBOX'){
 											if(result[i].anChenCheckboxs.length > 0) {
 												result[i].anChenCheckboxs.forEach(function(item){
@@ -721,15 +690,11 @@ $(document)
 														input.parents(".dwQuChenFbkOptionItemContent").find(".answerTag").val(1);
 														input[0].value = item.answerValue;
 													}
-
 												});
 												answerQuSize ++ ;
-
 											}
-
 										}
 									}
-
 									var totalQuSize = $(".surveyQuItemBody .answerTag:enabled").size();
 									var answerTag1 = $(".surveyQuItemBody .answerTag[value='1']:enabled");
 									var answerQuSize = 0;
@@ -768,32 +733,44 @@ $(document)
 										}
 									});
 								}
-
 							});
 					$(".quitSurvey").click(
 							function() {
-								var url = "${ctx}/response!userLogout.action";
-								var surveyId = $("#surveyId").val();
-								var username = $("#surveyuser_username").val();
-								var password = $("#surveyuser_password").val();
-								if(username) {
+								var url = "${ctx}/response!tempSave.action"
+								if($("#surveyuser_username").val()) {
 									$.ajax({
-										url : url,
-										async:false,
-										data : {
-											"surveyId": surveyId,
-											"surveyuser_username": username,
-											"surveyuser_password": password
+										//几个参数需要注意一下
+										type: "POST",//方法类型
+										url: url ,//url
+										data: $('#surveyForm').serialize(),
+										success: function (result) {
+											var url = "${ctx}/response!userLogout.action";
+											var surveyId = $("#surveyId").val();
+											var username = $("#surveyuser_username").val();
+											var password = $("#surveyuser_password").val();
+											if(username) {
+												$.ajax({
+													url : url,
+													async:false,
+													data : {
+														"surveyId": surveyId,
+														"surveyuser_username": username,
+														"surveyuser_password": password
+													},
+													type : "post",
+													success : function(msg) {
+														window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+													}
+												});
+											}else{
+												window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+											}
 										},
-										type : "post",
-										success : function(msg) {
-										    window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+										error : function() {
+											alert("异常！");
 										}
 									});
-								}else{
-									window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
 								}
-
 							});
 					//评分题
 					$(".scoreNumTable tr td").click(
@@ -815,7 +792,6 @@ $(document)
 								$(this).css({
 									"background" : ""
 								});
-
 								quScoreOptionTr.find(".scoreNumInput").val(
 										tdText);
 								quScoreOptionTr.find(".scoreNumText").html(
@@ -827,7 +803,6 @@ $(document)
 								validateCheck($(this).parents(
 										".li_surveyQuItemBody"), false);
 							});
-                       
 					//多重输入评分题
 					 $(".isScoreInputText").change(function(){
 						 var quScoreOptionTr = $(this).parents(
