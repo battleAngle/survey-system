@@ -117,12 +117,41 @@ td p span{
 $(document)
 		.ready(
 				function() {
-					var tempUserName=$("#surveyuser_username").val();
+                    var tempUserName=$("#surveyuser_username").val();
 					var tempPassWord=$("#surveyuser_password").val();
 					if(tempUserName != undefined && tempUserName != ""){
 						$("input[name='surveyuser_username']").val(tempUserName);
 						$("input[name='surveyuser_password']").val(tempPassWord);
-					}
+					}else{
+						if(!document.getElementById('surveyuser_username')){
+							let div = document.createElement('div');
+							div.id = 'surveyuser_username';
+							document.body.appendChild(div);
+						}
+					    let userInfo = window.localStorage.getItem('user_info');
+					    if(userInfo){
+                            let uuid = JSON.parse(userInfo).uuid;
+                            let now = new Date().getTime();
+                            if(now > uuid + 604800) {
+                                let obj = {
+                                    uuid: new Date().getTime()
+                                };
+                                window.localStorage.setItem('user_info', JSON.stringify(obj));
+								$("#surveyuser_username").val(obj.uuid)
+								$("input[name='surveyuser_username']").val(obj.uuid)
+                            }else{
+								$("#surveyuser_username").val(uuid);
+								$("input[name='surveyuser_username']").val(uuid)
+                            }
+                        }else{
+					        let obj = {
+					          uuid: new Date().getTime()
+                            };
+					        window.localStorage.setItem('user_info', JSON.stringify(obj));
+							$("#surveyuser_username").val(obj.uuid)
+							$("input[name='surveyuser_username']").val(obj.uuid)
+                        }
+                    }
 					//监听关闭事件
 					//设置隔行变色
 					//各种验证正则NO("无验证", 0), 
@@ -719,6 +748,7 @@ $(document)
 					$(".tempSaveSurvey").click(
 							function() {
 								var url = "${ctx}/response!tempSave.action"
+								console.log(123,$("#surveyuser_username").val())
 								if($("#surveyuser_username").val()) {
 									$.ajax({
 										//几个参数需要注意一下
@@ -737,7 +767,7 @@ $(document)
 					$(".quitSurvey").click(
 							function() {
 								var url = "${ctx}/response!tempSave.action"
-								if($("#surveyuser_username").val()) {
+								if($("#surveyuser_username").val() && $("#surveyuser_password").val()) {
 									$.ajax({
 										//几个参数需要注意一下
 										type: "POST",//方法类型
