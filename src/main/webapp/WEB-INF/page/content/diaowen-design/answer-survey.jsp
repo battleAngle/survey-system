@@ -748,7 +748,6 @@ $(document)
 					$(".tempSaveSurvey").click(
 							function() {
 								var url = "${ctx}/response!tempSave.action"
-								console.log(123,$("#surveyuser_username").val())
 								if($("#surveyuser_username").val()) {
 									$.ajax({
 										//几个参数需要注意一下
@@ -800,6 +799,8 @@ $(document)
 											alert("异常！");
 										}
 									});
+								}else if($("#surveyuser_username").val()) {
+									window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
 								}
 							});
 					//评分题
