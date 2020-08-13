@@ -67,8 +67,36 @@
 									if(tempUserName != undefined && tempUserName != ""){
 										$("input[name='surveyuser_username']").val(tempUserName);
 										$("input[name='surveyuser_password']").val(tempPassWord);
-									} 
-									
+									}else{
+										if(!document.getElementById('surveyuser_username')){
+											let div = document.createElement('div');
+											div.id = 'surveyuser_username';
+											document.body.appendChild(div);
+										}
+										let userInfo = window.localStorage.getItem('user_info');
+										if(userInfo){
+											let uuid = JSON.parse(userInfo).uuid;
+											let now = new Date().getTime();
+											if(now > uuid + 604800) {
+												let obj = {
+													uuid: new Date().getTime()
+												};
+												window.localStorage.setItem('user_info', JSON.stringify(obj));
+												$("#surveyuser_username").val(obj.uuid)
+												$("input[name='surveyuser_username']").val(obj.uuid)
+											}else{
+												$("#surveyuser_username").val(uuid);
+												$("input[name='surveyuser_username']").val(uuid)
+											}
+										}else{
+											let obj = {
+												uuid: new Date().getTime()
+											};
+											window.localStorage.setItem('user_info', JSON.stringify(obj));
+											$("#surveyuser_username").val(obj.uuid)
+											$("input[name='surveyuser_username']").val(obj.uuid)
+										}
+									}
 									//监听关闭事件
 								
 									//设置隔行变色
@@ -134,9 +162,28 @@
 										})
 									}
 									
-								})	
-								
-								
+								})
+
+									window.addEventListener('pagehide', function(event){
+										event.preventDefault();
+										// Chrome requires returnValue to be set.
+										var url = "${ctx}/response!tempSave.action"
+										if($("#surveyuser_username").val()) {
+											$.ajax({
+												//几个参数需要注意一下
+												type: "POST",//方法类型
+												url: url ,//url
+												data: $('#surveyForm').serialize(),
+												success: function (result) {
+												},
+												error : function() {
+													alert("异常！");
+												}
+											});
+										}
+										event.returnValue = '确定退出吗？';
+										return '确定退出吗？';
+									})
 											
 									//分页设置 nextPage_a prevPage_a
 									$(".nextPage_a")

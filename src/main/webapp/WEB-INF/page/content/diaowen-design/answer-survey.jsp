@@ -210,26 +210,26 @@ $(document)
 						})
 					}
 				})
-					window.addEventListener('beforeunload', function(event){
-						event.preventDefault();
-						// Chrome requires returnValue to be set.
-						var url = "${ctx}/response!tempSave.action"
-						if($("#surveyuser_username").val()) {
-							$.ajax({
-								//几个参数需要注意一下
-								type: "POST",//方法类型
-								url: url ,//url
-								data: $('#surveyForm').serialize(),
-								success: function (result) {
-								},
-								error : function() {
-									alert("异常！");
-								}
-							});
-						}
-						event.returnValue = '确定退出吗？';
-						return '确定退出吗？';
-					})
+					<%--window.addEventListener('beforeunload', function(event){--%>
+					<%--	event.preventDefault();--%>
+					<%--	// Chrome requires returnValue to be set.--%>
+					<%--	var url = "${ctx}/response!tempSave.action"--%>
+					<%--	if($("#surveyuser_username").val()) {--%>
+					<%--		$.ajax({--%>
+					<%--			//几个参数需要注意一下--%>
+					<%--			type: "POST",//方法类型--%>
+					<%--			url: url ,//url--%>
+					<%--			data: $('#surveyForm').serialize(),--%>
+					<%--			success: function (result) {--%>
+					<%--			},--%>
+					<%--			error : function() {--%>
+					<%--				alert("异常！");--%>
+					<%--			}--%>
+					<%--		});--%>
+					<%--	}--%>
+					<%--	event.returnValue = '确定退出吗？';--%>
+					<%--	return '确定退出吗？';--%>
+					<%--})--%>
 					//分页设置 nextPage_a prevPage_a
 					$(".nextPage_a")
 							.click(
@@ -558,7 +558,7 @@ $(document)
 								}
 							});
 						}
-					}, 180000);
+					}, 10000);
 					if(!Array.from){
 						Array.from = function (el) {
 							return Array.apply(this, el);
