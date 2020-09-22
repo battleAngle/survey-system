@@ -3,6 +3,9 @@ package com.key.dwsurvey.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.key.dwsurvey.dao.SysRoleDao;
+import com.key.dwsurvey.entity.Role;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +36,7 @@ public class UserAction extends ActionSupport{
 	public final static String MYACCOUNT="myaccount";
 	@Autowired
 	private AccountManager accountManager;
-	
+
 	public String myaccount() throws Exception {
 		HttpServletRequest request=Struts2Utils.getRequest();
 		User user=accountManager.getCurUser();

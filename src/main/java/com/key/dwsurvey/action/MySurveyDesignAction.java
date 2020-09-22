@@ -18,11 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+import com.key.dwsurvey.dao.SurveyUserDao;
 import com.key.dwsurvey.entity.SurveyDetail;
-import com.key.dwsurvey.service.SurveyDirectoryManager;
+import com.key.dwsurvey.service.*;
 import com.key.dwsurvey.entity.Question;
-import com.key.dwsurvey.service.SurveyReqUrlManager;
-import com.key.dwsurvey.service.SurveyStyleManager;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ import com.key.common.utils.JspToHtml;
 import com.key.common.utils.web.Struts2Utils;
 import com.key.dwsurvey.entity.SurveyDirectory;
 import com.key.dwsurvey.entity.SurveyStyle;
-import com.key.dwsurvey.service.QuestionManager;
 import com.opensymphony.xwork2.ActionSupport;
 
 
@@ -56,7 +54,7 @@ import com.opensymphony.xwork2.ActionSupport;
 	@Result(name=MySurveyDesignAction.COLLECTSURVEY,location="my-collect.action?surveyId=${surveyId}",type=Struts2Utils.REDIRECT),
 	@Result(name=MySurveyDesignAction.RELOADDESIGN,location="/design/my-survey-design.action?surveyId=${surveyId}",type=Struts2Utils.REDIRECT)
 })
-@AllowedMethods({"previewDev","previewDevLogic","devSurvey","ajaxSave","copySurvey"})
+@AllowedMethods({"previewDev","previewDevLogic","devSurvey","ajaxSave","copySurvey","open","isOpen"})
 public class MySurveyDesignAction extends ActionSupport{
 	//发布设置
 	protected final static String PREVIEWDEV="previewDev";
@@ -74,6 +72,10 @@ public class MySurveyDesignAction extends ActionSupport{
 	private SurveyReqUrlManager surveyReqUrlManager;
 	@Autowired
 	private AccountManager accountManager;
+	@Autowired
+	private SurveyUserDao surveyUserDao;
+	@Autowired
+	private SurveyDetailManager surveyDetailManager;
 
 	private String surveyId;
 	
@@ -271,6 +273,30 @@ public class MySurveyDesignAction extends ActionSupport{
 		SurveyDirectory directory=surveyDirectoryManager.createBySurvey(fromBankId,surveyName,tag);
 		surveyId=directory.getId();
 		return RELOADDESIGN;
+	}
+
+	public String open() throws IOException {
+		HttpServletResponse response=Struts2Utils.getResponse();
+		// 删除用户密码
+		SurveyDirectory survey = surveyDirectoryManager.getSurvey(this.getSurveyId());
+		surveyUserDao.deleteByDirectoryId(survey.getId());
+		// 设置为1
+		SurveyDetail surveyDetail = survey.getSurveyDetail();
+		surveyDetail.setRule(1);
+		surveyDetailManager.save(surveyDetail);
+		response.getWriter().write("success");
+		return null;
+	}
+
+	public String isOpen() throws IOException {
+		HttpServletResponse response=Struts2Utils.getResponse();
+		// 删除用户密码
+		SurveyDirectory survey = surveyDirectoryManager.getSurvey(this.getSurveyId());
+		// 设置为1
+		SurveyDetail surveyDetail = survey.getSurveyDetail();
+		boolean isOpen = surveyDetail.getRule() == 1 && survey.getSurveyUsers().isEmpty();
+		response.getWriter().write(String.valueOf(isOpen));
+		return null;
 	}
 	
 	private void buildSurveyHtml() throws Exception{
