@@ -14,10 +14,10 @@
 <script type="text/javascript"
 	src="${ctx }/js/plugs/bootstrap-3.3.0-dist/dist/js/bootstrap.min.js"></script>
 		
-<%--<script type="text/javascript"--%>
-<%--	src="${ctx }/js/plugs/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>--%>
 <script type="text/javascript"
-        src="${ctx }/js/plugs/jquery-ui-1.9.0.custom/js/jquery-ui-1.9.0.custom.js"></script>
+	src="${ctx }/js/plugs/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+<%--<script type="text/javascript"--%>
+<%--        src="${ctx }/js/plugs/jquery-ui-1.9.0.custom/js/jquery-ui-1.9.0.custom.js"></script>--%>
 <script type="text/javascript"
 	src="${ctx }/js/plugs/jquery-ui-1.10.3.custom/js/jquery.ui.touch-punch.min.js"></script>	
 <script type="text/javascript"
@@ -1320,7 +1320,6 @@ $(document)
 					function validateCheck(quItemBody, isSubForm) {
 
 						//如果是可见的
-
 						if (quItemBody.is(":visible")) {
 
 							var quId = quItemBody.find(".quId").val();
@@ -1346,10 +1345,10 @@ $(document)
 							} else if (quType === "CHECKBOX") {
 								
 								var minNum=quItemBody.find(".minNum").val();
-								console.log(123, minNum)
-								if(minNum == "1" || minNum== undefined || minNum == ""){
+								if(minNum == "1" || minNum== undefined || minNum == "" || minNum == 'undefined'){
+
 									validateStatus = quItemBody
-									.find("input[type='checkbox']:checked")[0];
+									.find("input[type='checkbox']:checked")[0] ? true : false ;
 								}else{
 									var temp=quItemBody
 									.find("input[type='checkbox']:checked");

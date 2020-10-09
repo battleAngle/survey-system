@@ -114,6 +114,16 @@ $(document).ready(function(){
 													<td width="80" align="right"><span class="red-color">*&nbsp;</span>邮箱</td>
 													<td class="ac-input-td"><input type="text"  name="email" value="${email }" > </td>
 												</tr>
+												<tr>
+													<td width="100" align="right"><span class="red-color">*&nbsp;</span>管理员等级</td>
+													<td class="ac-input-td">
+														<input type="radio" name="roleId" value="1" style="vertical-align: 0px;">一级管理员&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="roleId" value="2" style="vertical-align: 0px;">二级管理员&nbsp;&nbsp;
+														<input type="radio" name="roleId" value="3" style="vertical-align: 0px;">三级管理员&nbsp;&nbsp;
+														<input type="radio" name="roleId" value="4" style="vertical-align: 0px;">四级管理员&nbsp;&nbsp;
+														<input type="radio" name="roleId" value="5" checked style="vertical-align: 0px;">五级管理员&nbsp;&nbsp;
+													</td>
+												</tr>
 
 												<c:if test="${empty(id) }">
 												<tr>
