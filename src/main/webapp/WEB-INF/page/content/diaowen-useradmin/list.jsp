@@ -108,6 +108,7 @@ $(document).ready(function(){
 										<!-- <th align="center" >邮箱</th> -->
 										<th align="center" >创建时间</th>
 										<th align="center" >最后登录时间</th>
+										<th align="center" >管理员等级</th>
 										<th align="center"  width="80">状态</th>
 										<th align="center" style="text-align: center;" width="160">操作</th>
 									</tr>
@@ -122,6 +123,7 @@ $(document).ready(function(){
 														<%--<td align="center">${en.email }</td>--%>
 														<td align="center"><fmt:formatDate value="${en.createTime }" pattern="yyyy年MM月dd日 HH:mm"/></td>
 														<td align="center"><fmt:formatDate value="${en.lastLoginTime eq null ? en.createTime : en.lastLoginTime }" pattern="yyyy年MM月dd日 HH:mm"/></td>
+														<td align="center">${en.roleId}</td>
 														<td align="center">${en.status eq 0 ? '不可用':'可用' }</td>
 														<td align="center">
 															<a class="btn btn-default" href="${ctx }/sy/user/nosm/user-admin!input.action?id=${en.id}" title="编辑"data-toggle="tooltip" data-placement="top" ><i class="fa fa-pencil-square-o"></i></a>

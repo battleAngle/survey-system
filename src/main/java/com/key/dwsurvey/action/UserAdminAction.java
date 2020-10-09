@@ -1,10 +1,14 @@
 package com.key.dwsurvey.action;
 
 
+import com.alibaba.fastjson.JSON;
 import com.key.common.base.action.CrudActionSupport;
 import com.key.common.base.entity.User;
+import com.key.common.base.service.AccountManager;
 import com.key.common.utils.RandomUtils;
 import com.key.common.utils.web.Struts2Utils;
+import com.key.dwsurvey.dao.SysRoleDao;
+import com.key.dwsurvey.entity.Role;
 import com.key.dwsurvey.service.UserManager;
 import org.apache.struts2.convention.annotation.*;
 import org.hibernate.criterion.Criterion;
@@ -24,11 +28,15 @@ import java.util.List;
 	@Result(name= CrudActionSupport.INPUT,location="/WEB-INF/page/content/diaowen-useradmin/input.jsp",type= Struts2Utils.DISPATCHER),
 	@Result(name= CrudActionSupport.RELOAD,location="/sy/user/user-admin.action",type= Struts2Utils.REDIRECT)
 })
-@AllowedMethods({"checkLoginNamelUn","checkEmailUn"})
+@AllowedMethods({"checkLoginNamelUn","checkEmailUn","getCurrentUserPermission"})
 public class UserAdminAction extends CrudActionSupport<User, String> {
 	protected final static String USER_ROLE="userRole";
 	@Autowired
 	private UserManager userManager;
+	@Autowired
+	private SysRoleDao sysRoleDao;
+	@Autowired
+	private AccountManager accountManager;
 
 	@Override
 	public String list() throws Exception {
@@ -116,6 +124,15 @@ public class UserAdminAction extends CrudActionSupport<User, String> {
 			result="false";
 		}
 		response.getWriter().write(result);
+	}
+
+	public String getCurrentUserPermission() throws Exception {
+		HttpServletResponse response=Struts2Utils.getResponse();
+		User user=accountManager.getCurUser();
+		Role role = sysRoleDao.findByRoleId(user.getRoleId());
+		String json = JSON.toJSONString(role);
+		response.getWriter().write(json);
+		return null;
 	}
 	
 }

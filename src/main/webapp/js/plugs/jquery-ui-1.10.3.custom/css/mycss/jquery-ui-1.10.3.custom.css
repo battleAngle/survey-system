@@ -624,7 +624,7 @@ button.ui-button::-moz-focus-inner {
 .ui-slider .ui-slider-handle {
 	position: absolute;
 	z-index: 2;
-	width: 1.2em;
+	width: 0.8em;
 	height: 1.2em;
 	cursor: default;
 }
@@ -793,7 +793,7 @@ body .ui-tooltip {
 ----------------------------------*/
 .ui-widget {
 	/* font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif; */
-	font-family: "Î¢ÈíÑÅºÚ";
+	font-family: "Î¢ï¿½ï¿½ï¿½Åºï¿½";
 	font-size: 1.1em;
 }
 .ui-widget .ui-widget {
@@ -838,9 +838,7 @@ body .ui-tooltip {
 	font-weight: bold;
 	color: #1c94c4;
 	outline: none;
-	
-	border: none;
-	background: none;
+	border-radius: 6px;
 }
 .ui-state-default a,
 .ui-state-default a:link,

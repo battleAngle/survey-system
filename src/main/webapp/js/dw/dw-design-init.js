@@ -101,8 +101,8 @@ $(document).ready(function(){
 		//添加复制click事件
 
 	});
-	
-	
+
+
 	//添加样式点击的保存事件
 	
 
@@ -2888,6 +2888,7 @@ $(".dwQuDelete_classify").click(function(){
 	//绑定题目删除事件
 	$(".dwQuDelete").unbind();
 	$(".dwQuDelete").click(function(){
+		console.log(987);
 		var quBody=$(this).parents(".surveyQuItemBody");
 		if(confirm("确认要删除此题吗？")){
 			var quId=quBody.find("input[name='quId']").val();
@@ -2907,13 +2908,56 @@ $(".dwQuDelete_classify").click(function(){
 					}
 				});
 			}else{
-				quBody.hide("slow",function(){$(this).parent().remove();resetQuItem();});
+				quBody.hide("slow",function(){console.log($(this), $(this).parent());$(this).parent().remove();resetQuItem();});
 			}
 		}
 		$(document).click();
 		return false;
 	});
-	
+	$(".dwQuDeleteAllPage").unbind();
+	$(".dwQuDeleteAllPage").click(function(){
+		var quBody=$(this).parents(".surveyQuItemBody");
+		var quLi = $(this).parents(".li_surveyQuItemBody");
+		var to_del_nodes = [];
+		var todo_nodes = [];
+		var flag = true;
+		to_del_nodes.push(quLi[0]);
+
+		quLi.prevAll().each(function(){
+			todo_nodes.push(this);
+		});
+		console.log(123,quLi.prevAll())
+		console.log(111,todo_nodes)
+
+		todo_nodes.forEach(function(node){
+			if($(node).find("input[name='quType']").val() !== 'PAGETAG' && flag) {
+				console.log($(node).find("input[name='quType']").val());
+				to_del_nodes.push(node);
+			}else{
+				flag = false;
+			}
+		});
+		console.log(321,to_del_nodes)
+
+		to_del_nodes.forEach(function(node){
+			var quId = $(node).find("input[name='quId']").val();
+			var url=ctx+"/design/question!ajaxDelete.action";
+			var data="quId="+quId;
+			$.ajax({
+				url:url,
+				data:data,
+				type:"post",
+				success:function(msg){
+					if(msg=="true"){
+						$(node).hide("slow",function(){$(node).remove();resetQuItem();});
+					}else{
+						alert("删除失败，请重试！");
+					}
+				}
+			});
+		});
+	});
+
 	$(".questionUp").unbind();
 	$(".questionUp").click(function(){
 		var nextQuBody=$(this).parents(".li_surveyQuItemBody");
@@ -6398,6 +6442,7 @@ function uploadFile() {
 		}
 	});
 }
+
 
 
 

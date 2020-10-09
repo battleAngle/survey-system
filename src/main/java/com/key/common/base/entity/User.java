@@ -57,6 +57,9 @@ public class User extends IdEntity {
 	//加点盐
 	private String salt;
 
+	// 所属角色
+	private Integer roleId;
+
 //	private Date tokenTime;
 	
 	// Hibernate自动维护的Version字段
@@ -229,9 +232,7 @@ public class User extends IdEntity {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-	
-	private String roleId;
-	
+
 	private String findPwdUrl="";
 	@Transient
 	public String getFindPwdUrl() {
@@ -241,8 +242,12 @@ public class User extends IdEntity {
 	public void setFindPwdUrl(String findPwdUrl) {
 		this.findPwdUrl = findPwdUrl;
 	}
-	
-	
-	
 
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 }

@@ -1020,6 +1020,7 @@
 								<div class="surveyQuItemLeftTools">
 										<ul class="surveyQuItemLeftToolsUl">
 											<li title="删除" class="dwQuDelete"><div class="dwQuIcon"></div></li>
+											<li title="删除本页题目" class="dwQuDeleteAllPage" style="width: 90px;padding-left: 10px;"><div>删除本页题目</div></li>
 										</ul>
 								</div>
 								<div class="surveyQuItemRightTools" style="margin-top:0px;">
@@ -2944,6 +2945,7 @@
 								<div class="surveyQuItemLeftTools" >
 										<ul class="surveyQuItemLeftToolsUl">
 											<li title="删除" class="dwQuDelete"><div class="dwQuIcon"></div></li>
+											<li title="删除本页题目" class="dwQuDeleteAllPage" style="width: 90px;padding-left: 10px;"><div>删除本页题目</div></li>
 										</ul>
 								</div>
 								
@@ -4095,8 +4097,26 @@
 	}
 	$("input[name='showShareSurvey'][value='${survey.surveyDetail.showShareSurvey}']").attr("checked",true);
 	$("input[name='showAnswerDa'][value='${survey.surveyDetail.showAnswerDa}']").attr("checked",true);
-	
+
+    //权限控制
+    $.ajax({
+        url:'${ctx }/sy/user/user-admin!getCurrentUserPermission.action',
+        type:"get",
+        success:function(msg){
+            let permissionInfo = JSON.parse(msg);
+            console.log(permissionInfo);
+            switch(permissionInfo.roleId){
+                case 4:
+                case 5:
+                    $("#publishBtn").hide();
+                    break;
+
+            }
+        }
+    });
+
 	//复制逻辑
+
 </script>
 <%@ include file="/WEB-INF/page/layouts/other.jsp"%>
 

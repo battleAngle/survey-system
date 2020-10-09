@@ -130,7 +130,7 @@ button {
 										<th align="center" >创建时间</th>
 										<th align="center" >答卷</th>
 										<th align="center" width="80">状态</th>
-										<th align="center" width="300" style="padding-left: 10px;">操作</th>
+										<th align="center" width="350" style="padding-left: 10px;">操作</th>
 									</tr>
 									<c:choose>
 									<c:when test="${page.totalItems > 0}">
@@ -150,15 +150,17 @@ button {
 										</td>
 										<td align="center">
 											<div class="btn-group surveyLeftBtnGroup">
-											  <a class="btn btn-default" href="${ctx }/design/my-survey-design.action?surveyId=${en.id}" title="设计"data-toggle="tooltip" data-placement="top" ><i class="fa fa-pencil-square-o"></i></a>
+											  <a class="btn btn-default designSurvey" href="${ctx }/design/my-survey-design.action?surveyId=${en.id}" title="设计"data-toggle="tooltip" data-placement="top" ><i class="fa fa-pencil-square-o"></i></a>
 											  <a class="btn btn-default" href="${ctx }/design/my-collect.action?surveyId=${en.id}" title="收集答卷" data-toggle="tooltip" data-placement="top" ><i class="fa fa-comments-o"></i></a>
 											  <a class="btn btn-default" href="${ctx }/da/survey-report!defaultReport.action?surveyId=${en.id}" title="分析报告" data-toggle="tooltip" data-placement="top" ><i class="fa fa-line-chart"></i></a>
 											  <a class="btn btn-default copySurvey" href="#${en.id}" title="复制一份" data-toggle="tooltip" data-placement="top" ><i class="fa fa-files-o"></i></a>
 											  <a class="btn btn-default deleteSurvey" href="${ctx}/design/my-survey!delete.action?id=${en.id}" title="删除问卷" data-toggle="tooltip" data-placement="top" ><i class="fa fa-trash-o fa-fw"></i></a>
 											  <a class="btn btn-default copytofileSurvey" href="${ctx}/design/my-survey!exportsurvey.action?id=${en.id}" title="导出问卷" data-toggle="tooltip" data-placement="top" ><i class="fa fa-download"></i></a>
-											  <c:choose>
+												<a class="btn btn-default unlockSurvey"  onclick="unlockSurvey()" sid = "${en.id}" title="开放问卷" data-toggle="tooltip" data-placement="top" ><i class="fa fa-unlock"></i></a>
+
+												<c:choose>
 												  <c:when test="${en.surveyState == 1}">
-													  <a class="btn btn-default pauseSurvey" href="${ctx}/design/my-survey!surveyState.action" title="暂停发布" data-toggle="tooltip" data-placement="top" ><i class="fa fa-pause"></i></a>
+													  <a class="btn btn-default pauseSurvey"  href="${ctx}/design/my-survey!surveyState.action" title="暂停发布" data-toggle="tooltip" data-placement="top" ><i class="fa fa-pause"></i></a>
 												  </c:when>
 												  <c:when test="${en.surveyState == 3}">
 													  <a class="btn btn-default reopenSurvey" href="${ctx}/design/my-survey!surveyState.action" title="重新发布" data-toggle="tooltip" data-placement="top" ><i class="fa fa-play"></i></a>
@@ -246,6 +248,70 @@ var options={
 		trigger:'hover' //触发tooltip的事件
 	};
 $('a[data-toggle=tooltip]').tooltip(options);
+
+
+//权限控制
+	$.ajax({
+		url:'${ctx }/sy/user/user-admin!getCurrentUserPermission.action',
+		type:"get",
+		success:function(msg){
+			let permissionInfo = JSON.parse(msg);
+			switch(permissionInfo.roleId){
+				case 2:
+					$(".deleteSurvey").hide();
+					break;
+				case 3:
+					$(".deleteSurvey").hide();
+					$(".pauseSurvey").hide();
+					break;
+				case 4:
+					$(".deleteSurvey").hide();
+					$(".pauseSurvey").hide();
+					$(".copytofileSurvey").hide();
+					break;
+				case 5:
+					$(".designSurvey").hide();
+					$(".deleteSurvey").hide();
+					$(".pauseSurvey").hide();
+					$(".copytofileSurvey").hide();
+					$("#surveyAdd-a").hide();
+					break;
+
+			}
+		}
+	});
+
+// 切换问卷开放状态
+	$(".unlockSurvey").each(function(){
+		var sid = $(this).attr('sid');
+		var node = $(this);
+		$.ajax({
+			url:'${ctx }/design/my-survey-design!isOpen.action?surveyId=' + sid,
+			type:"get",
+			success:function(msg){
+				if(msg === 'true') {
+					node.css('pointer-events', 'none');
+					node.css('opacity', 0.5);
+				}
+			}
+		});
+	});
+
+
+    $(".unlockSurvey").click(function(){
+        var sid = $(this).attr('sid');
+        $.ajax({
+            url:'${ctx}/design/my-survey-design!open.action?surveyId=' + sid,
+            type:"get",
+            success:function(msg){
+                if(msg === 'success') {
+                    window.location.reload();
+                }else{
+                    window.alert(msg);
+                }
+            }
+        });
+    });
 
 //delete
 $(".deleteSurvey").click(function(){
