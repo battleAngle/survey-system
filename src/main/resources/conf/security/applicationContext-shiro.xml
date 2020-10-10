@@ -44,7 +44,7 @@
 				/ic/** = user
 				/design/** = user
 				/da/** = user
-				/sy/** = roles[admin]
+				/sy/** = user
 			</value>
 		</property>
 	</bean>
