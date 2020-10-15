@@ -451,7 +451,9 @@ public class SurveyDirectoryManagerImpl extends BaseServiceImpl<SurveyDirectory,
 	    if(user!=null){
 			List<Criterion> criterions=new ArrayList<Criterion>();
 
-			criterions.add(Restrictions.eq("userId", user.getId()));
+			if (user.getRoleId() != 0) {
+				criterions.add(Restrictions.eq("userId", user.getId()));
+			}
 			criterions.add(Restrictions.eq("visibility", 1));
 			criterions.add(Restrictions.eq("dirType", 2));
 			criterions.add(Restrictions.eq("surveyModel", 1));
