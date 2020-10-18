@@ -2888,7 +2888,6 @@ $(".dwQuDelete_classify").click(function(){
 	//绑定题目删除事件
 	$(".dwQuDelete").unbind();
 	$(".dwQuDelete").click(function(){
-		console.log(987);
 		var quBody=$(this).parents(".surveyQuItemBody");
 		if(confirm("确认要删除此题吗？")){
 			var quId=quBody.find("input[name='quId']").val();

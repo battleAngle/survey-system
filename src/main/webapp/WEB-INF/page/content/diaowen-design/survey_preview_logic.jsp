@@ -151,19 +151,14 @@
 									$(".dropdownMenu_"+quId).unbind();
 									$(".dropdownMenu_"+quId).click(function(){
 										if($(".dropdown_ul_"+quId).is(":visible")){
-											console.log(1)
 											$(".dropdown_ul_"+quId).hide();
 										}else{
-											console.log(2)
-
 											$(".dropdown_ul_"+quId).show();
 										}
 									})
 								}
 
 							})
-
-
 
 							//分页设置 nextPage_a prevPage_a
 							$(".nextPage_a")
@@ -216,7 +211,41 @@
 												})
 												return false;
 											});
+							$(".jumpToPageNo")
+									.change(
+											function() {
+												var min = 1;
+											    var max = $("html,body").find("input[value='PAGETAG']").length + 1;
+												var toPageNo = +$(this).val();
+												if( toPageNo < min ){
+													toPageNo = min;
+                                                }
+												if( toPageNo > max ){
+													toPageNo = max;
+                                                }
+												var fromPageNo = +$(this).parent().find(
+														"input[name='nextPageNo']")
+														.val();
+												//判断本页验证
+												if(toPageNo > fromPageNo){
+													if (!validateForms_2()) {
+														return false;
+													}
+												}
 
+												$(".li_surveyQuItemBody").hide();
+												$(".surveyQu_" + toPageNo)
+														.fadeIn("slow");
+												$(window).scrollTop(10);
+
+												//这里需要做逻辑判断
+
+												$.each($(".li_surveyQuItemBody"),function(){
+													var quInputCase=$(this).find(".quInputCase");
+													runlogic_2(quInputCase);
+												})
+												return false;
+											});
 							//var prevHost="http://file.diaowen.net";
 							var prevHost = $("#prevHost").val();
 							//初始化弹出窗口参数
@@ -3311,7 +3340,35 @@ $(document).ready(function(){
 		$(window).scrollTop(10);
 		return false;
 	});
-	
+	$(".jumpToPageNo")
+			.change(
+					function() {
+						var min = 1;
+						var max = $("html,body").find("input[value='PAGETAG']").length + 1;
+						var toPageNo = +$(this).val();
+						if( toPageNo < min ){
+							toPageNo = min;
+						}
+						if( toPageNo > max ){
+							toPageNo = max;
+						}
+						var fromPageNo = +$(this).parent().find(
+								"input[name='nextPageNo']")
+								.val();
+						//判断本页验证
+						if(toPageNo > fromPageNo){
+							if (!validateForms_2()) {
+								return false;
+							}
+						}
+
+						$(".li_surveyQuItemBody").hide();
+						$(".surveyQu_" + toPageNo)
+								.fadeIn("slow");
+						$(window).scrollTop(10);
+
+						return false;
+					});
 	$("#saveStyleDev").click(function(){
 		var url="${ctx}/design/my-survey-style!save.action";
 		var surveyId=$("#id").val();
@@ -5508,6 +5565,8 @@ $(document).ready(function(){
 											<a href="#" class="sbtn24 sbtn24_0 nextPage_a">下一页</a>&nbsp;&nbsp;
 											<c:set var="pageNo" value="${pageNo+1 }"></c:set>
 											<input type="hidden" name="nextPageNo" value="${pageNo }">
+											<span> 跳转到第 <input type="number" min="1" class="jumpToPageNo" name="jumpToPageNo" style='width: 40px' value="${pageNo - 1 }"> 页 </span>
+
 										</div>
 									</div>
 								</div>

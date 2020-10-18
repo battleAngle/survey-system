@@ -136,7 +136,6 @@ public class MySurveyDesignAction extends ActionSupport{
 				Struts2Utils.setReqAttribute("survey", surveyDirectory);
 				SurveyStyle surveyStyle=surveyStyleManager.getBySurveyId(surveyId);
 				Struts2Utils.setReqAttribute("surveyStyle", surveyStyle);
-				
 				Struts2Utils.setReqAttribute("prevHost", DiaowenProperty.STORAGE_URL_PREFIX);
 			}else{
 				Struts2Utils.setReqAttribute("msg", "未登录或没有相应数据权限");

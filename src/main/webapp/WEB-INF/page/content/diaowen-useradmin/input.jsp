@@ -117,6 +117,7 @@ $(document).ready(function(){
 												<tr>
 													<td width="100" align="right"><span class="red-color">*&nbsp;</span>管理员等级</td>
 													<td class="ac-input-td">
+														<input type="radio" name="roleId" value="0" style="vertical-align: 0px;">超级管理员&nbsp;&nbsp;&nbsp;
 														<input type="radio" name="roleId" value="1" style="vertical-align: 0px;">一级管理员&nbsp;&nbsp;&nbsp;
 														<input type="radio" name="roleId" value="2" style="vertical-align: 0px;">二级管理员&nbsp;&nbsp;
 														<input type="radio" name="roleId" value="3" style="vertical-align: 0px;">三级管理员&nbsp;&nbsp;
