@@ -101,6 +101,7 @@ button {
 								&nbsp;&nbsp;
 								<a href="javascript:;" class="exportFile" style="outline: none;text-decoration: none;cursor:pointer"><i class="fa fa-upload" id="exportI"></i><span>&nbsp;上传问卷</span><input type="file" name="surveyfile" id="surveyfile" ></a>
 								<input type="button" id="submitButton" value="确定上传" class="sbtn25 sbtn25_1"/>
+								<input type="button" id="importButton" style="width: 156px;background-image: none;background-color: #599fd1;" value="导入问卷（无逻辑）" class="sbtn25 sbtn25_1"/>
 							</div>
 
 							<form action="${ctx}/design/my-survey.action" method="post" >
@@ -378,6 +379,113 @@ $(".reopenSurvey").click(function(){
 	}
 	return false;
 });
+
+$("#importButton").click(function(){
+	var ctxpath=$("#ctxpath").val();
+	var url="${ctx}/design/my-survey!tonewSurvey.action";
+	var filename=$("#surveyfile").val().replace('C:\\fakepath\\',"");
+	if(filename==""){
+		alert("请选择导入文件");
+		return false;
+	}
+	$.ajax({
+		url:url,
+		type:"get",
+		datatype:"json",
+		data:{"filename":filename},
+		success:function(result){
+
+			if(result != "error"){
+				tonewSurveyWithoutLogic(result);
+				$("#exportI").attr({"class":"fa fa-upload"});
+				$("#surveyfile").val("");
+			}else{
+				alert("上传文件有误");
+			}
+
+
+		}
+
+	})
+})
+	function  tonewSurveyWithoutLogic(surveyId){
+
+		var titleValue="导入问卷";
+
+		$("body").append("<div id=\"myDialogRoot\"><div class='dialogMessage' style='padding-top:40px;margin-left:20px;padding-bottom:0px;'>"+
+				"<div>导入标题：<input id='surTitleTemp' type='text' style='padding:3px;width:320px;color:rgb(14, 136, 158);' value=''></div></div></div>");
+
+		var myDialog=$( "#myDialogRoot" ).dialog({
+			width:500,
+			height:220,
+			autoOpen: true,
+			modal:true,
+			position:["center","center"],
+			title:"导入问卷、表单",
+			resizable:false,
+			draggable:false,
+			closeOnEscape:false,
+			show: {effect:"blind",direction:"up",duration: 500},
+			hide: {effect:"blind",direction:"left",duration: 200},
+			buttons: {
+				"OK":{
+					text: "确认导入",
+					addClass:'dialogMessageButton dialogBtn1',
+					click: function() {
+						//执行发布
+						var surveyName=$("#surTitleTemp").val();
+						var surveyNameReal = $("#surTitleTemp").val();
+						surveyName=optionValue=escape(encodeURIComponent(surveyName));
+
+						var params="surveyName="+surveyName;
+						params+="&fromBankId="+surveyId;
+
+						var url="${ctx}/design/my-survey-create!checkSurveyName.action";
+						if(surveyName == "" || surveyName == undefined){
+							alert("问卷标题不能为空");
+							return false;
+						}
+
+						if(surveyNameReal.replace(/[\u4e00-\u9fa5]/g,"a").length > 80){
+							alert("问卷标题字符过长");
+							return false;
+						}
+						//验证标题的不可重复
+						$.ajax({
+							url:url,
+							type:"post",
+							datatype:"json",
+							data:{"surveyName":surveyNameReal},
+							success:function(msg){
+								if(msg == "1"){
+									window.location.href="${ctx}/design/my-survey-design!copySurveyWithoutLogic.action?"+params;
+								}else{
+									alert("该问卷标题已存在");
+									return false;
+								}
+							}
+						})
+
+					}
+
+				},
+				"CENCEL":{
+					text: "取消",
+					addClass:"dialogBtn1 dialogBtn1Cencel",
+					click: function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			},
+			open:function(event,ui){
+				$(".ui-dialog-titlebar-close").hide();
+				$("#surTitleTemp").val(titleValue+"－副本");
+			},
+			close:function(event,ui){
+				$("#myDialogRoot").remove();
+			}
+		});
+	}
 
 $(".copySurvey").click(function(){
 

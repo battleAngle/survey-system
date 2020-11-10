@@ -4190,7 +4190,8 @@ $(document).ready(function(){
 			<ul id="dwSurveyQuContentAppUl">
 				<!-- 题目内容123 -->
 				<c:forEach items="${survey.questions }" var="en" varStatus="i">
-				<li class="li_surveyQuItemBody surveyQu_${pageNo }"  style="${pageNo gt 1 ?'display: none':''}">
+
+					<li class="li_surveyQuItemBody surveyQu_${pageNo }"  style="${pageNo gt 1 ?'display: none':''}">
 <%--				<c:choose>--%>
 <%--					<c:when test="${en.quType eq 'RADIO' }">--%>
 <%--						<div class="surveyQuItemBody">--%>
@@ -5602,7 +5603,7 @@ $(document).ready(function(){
 									<div class="surveyQuItem">
 										<div class="surveyQuItemContent" style="min-height: 35px;">
 											<div class="quCoTitle"
-												 style="background: rgb(243, 247, 247);">
+												 style="">
 													<%-- <div class="quCoNum" >${i.count }、</div> --%>
 												<div class="editAble quCoTitleEdit"
 													 style="padding-left: 15px;">

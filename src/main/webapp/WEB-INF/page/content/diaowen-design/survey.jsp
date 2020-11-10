@@ -555,6 +555,53 @@
 						</div>
 				</div>
 			</li>
+				<li id="textQuModel">
+					<%--段落说明 --%>
+					<div class="dwToolbar_icon"><span>文本题</span></div>
+					<div class="dwQuTypeModel">
+						<div class="surveyQuItemBody paragraphQuItemBody quDragBody">
+							<div class="initLine"></div>
+							<div class="quInputCase" style="display: none;">
+								<input type="hidden" name="quType" value="PARAGRAPH" >
+								<input type="hidden" name="quId" value="">
+								<input type="hidden" name="orderById" value="0"/>
+								<input type="hidden" name="saveTag" value="0">
+								<input type="hidden" name="hoverTag" value="0">
+								<input type="hidden" name="isRequired" value="1">
+								<input type="hidden" name="hv" value="2">
+								<input type="hidden" name="randOrder" value="0">
+								<input type="hidden" name="cellCount" value="0">
+								<div class="quLogicInputCase">
+									<input type="hidden" name="quLogicItemNum" value="0">
+								</div>
+							</div>
+							<div class="surveyQuItem">
+								<div class="surveyQuItemLeftTools">
+									<ul class="surveyQuItemLeftToolsUl">
+										<!--<li title="移动排序" class="dwQuMove"><div class="dwQuIcon"></div></li>
+                                        <li title="设置" class="dwQuSet"><div class=dwQuIcon></div></li>
+                                        <li title="逻辑" class="dwQuLogic"><div class="dwQuIcon"><div class="quLogicInfo"></div></div></li> -->
+										<li title="复制分段" class="dwQuCopy_paragraph ui-draggable"><div class="dwQuIcon"></div></li>
+										<li title="删除" class="dwQuDelete"><div class="dwQuIcon"></div></li>
+									</ul>
+								</div>
+								<div class="surveyQuItemRightTools">
+									<ul class="surveyQuItemRightToolsUl">
+										<li class="questionUp"><div class="dwQuIcon"></div></li>
+										<li class="questionDown"><div class="dwQuIcon"></div></li>
+									</ul>
+								</div>
+								<div class="surveyQuItemContent" style="min-height: 45px;">
+									<div class="quCoTitle">
+										<div class="quCoNum" style="display: none;">1、</div>
+										<div class="editAble quCoTitleEdit" ><p>文本标记</p></div>
+										<input type="hidden" name="quTitleSaveTag" value="0">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
 		    </ul>
 		</div>
 		<div class="tooltext">基本题型</div>

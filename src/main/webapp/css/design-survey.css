@@ -298,11 +298,24 @@ textarea{
 }
 
 #textQuModel .dwToolbar_icon{
-    background-position: -397px -6px;
+	background-position: -113px -6px;
+	position: relative;
+}
+#textQuModel .dwToolbar_icon span{
+	position: absolute;
+	bottom: 0;
+	left: 5px;
+	background: #f7f7f7;
+	font-size: 14px;
 }
 #textQuModel:hover .dwToolbar_icon,#textQuModel.hover .dwToolbar_icon{
-    background-position: -397px -74px;
+    background-position: -113px -74px;
 }
+
+#textQuModel:hover .dwToolbar_icon span,#textQuModel.hover .dwToolbar_icon span{
+	background: #e0e6e9;
+}
+
 /** 矩阵题 **/
 #chenRadioQuModel .dwToolbar_icon{
 	background-position: -454px -6px;

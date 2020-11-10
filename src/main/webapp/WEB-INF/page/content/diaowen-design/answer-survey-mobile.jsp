@@ -3791,7 +3791,7 @@
 																<div class="surveyQuItem">
 																	<div class="surveyQuItemContent" style="min-height: 35px;">
 																		<div class="quCoTitle"
-																			style="background: rgb(243, 247, 247);">
+																			style="">
 																			 <c:if test= "${en.isRequired == 1 }">
 										 <i style = "color:red;font-style: normal;">*</i>
 										 </c:if>

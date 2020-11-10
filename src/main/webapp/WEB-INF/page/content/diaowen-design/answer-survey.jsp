@@ -4211,7 +4211,7 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 							<div class="surveyQuItem">
 								<div class="surveyQuItemContent" style="min-height: 35px;">
 									<div class="quCoTitle"
-										style="background: rgb(243, 247, 247);">
+										style="">
 										 <div class="quCoNum" >${i.count }、</div>
 
 										<div class="editAble quCoTitleEdit"
