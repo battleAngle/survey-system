@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.text.pdf.hyphenation.TernaryTree.Iterator;
+import com.key.dwsurvey.entity.Question;
 import com.key.dwsurvey.service.SurveyDirectoryManager;
 
 import net.sf.json.JSONObject;
@@ -175,6 +177,8 @@ public class MySurveyAction extends CrudActionSupport<SurveyDirectory, String>{
 		try{
 			
 			SurveyDirectory survey=surveyDirectoryManager.getSurvey(id);
+			// 2020-11-10 导出的问卷不要带逻辑跳转
+			clearQuestionLogic(survey.getQuestions());
 			String contextPath=request.getContextPath().replace("/", File.separator);
 			String savePath = request.getSession().getServletContext().getRealPath("/").replace(contextPath,"");
 			System.out.println(savePath);
@@ -186,6 +190,12 @@ public class MySurveyAction extends CrudActionSupport<SurveyDirectory, String>{
 		}
 		
 		return null;
+	}
+
+	private void clearQuestionLogic(List<Question> questions) {
+		for (Question question : questions) {
+			question.setQuestionLogics(Collections.EMPTY_LIST);
+		}
 	}
 	
 	public String tonewSurvey() throws Exception{
