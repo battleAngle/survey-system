@@ -46,7 +46,7 @@ import com.key.dwsurvey.entity.SurveyDirectory;
     @Result(name=MySurveyAction.SUCCESS,location="/WEB-INF/page/content/diaowen-design/list.jsp",type=Struts2Utils.DISPATCHER),
     @Result(name="design",location="/design/my-survey-design.action?surveyId=${id}",type=Struts2Utils.REDIRECT),
 })
-@AllowedMethods({"surveyState","attrs","exportsurvey","exportsurveywithoutlogic","tonewSurvey"})
+@AllowedMethods({"surveyState","attrs","exportsurvey","tonewSurvey"})
 public class MySurveyAction extends CrudActionSupport<SurveyDirectory, String>{
 	
 	@Autowired
@@ -188,33 +188,6 @@ public class MySurveyAction extends CrudActionSupport<SurveyDirectory, String>{
 		}
 		
 		return null;
-	}
-	public String exportsurveywithoutlogic() throws Exception{
-		HttpServletRequest request=Struts2Utils.getRequest();
-		HttpServletResponse response=Struts2Utils.getResponse();
-
-		try{
-
-			SurveyDirectory survey=surveyDirectoryManager.getSurvey(id);
-			// 2020-11-10 导出的问卷不要带逻辑跳转
-			clearQuestionLogic(survey.getQuestions());
-			String contextPath=request.getContextPath().replace("/", File.separator);
-			String savePath = request.getSession().getServletContext().getRealPath("/").replace(contextPath,"");
-			System.out.println(savePath);
-			savePath=exportpath(savePath,survey);
-			response.setHeader("content-disposition", "attachment;filename="+URLEncoder.encode(request.getContextPath()+savePath,"UTF-8"));
-			response.sendRedirect(savePath);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	private void clearQuestionLogic(List<Question> questions) {
-		for (Question question : questions) {
-			question.setQuestionLogics(Collections.EMPTY_LIST);
-		}
 	}
 	
 	public String tonewSurvey() throws Exception{

@@ -31,7 +31,7 @@ public interface QuestionManager extends BaseService<Question, String>{
 	//交接排序位置--前台交换
 	public boolean upsort(String prevId, String nextId);
 	
-	public void saveBySurvey(String belongId  ,int tag, List<Question> questions);
+	public void saveBySurvey(String belongId  ,int tag, List<Question> questions,boolean withLogic);
 	
 	public void saveChangeQu(String belongId, int tag, String[] quIds);
 

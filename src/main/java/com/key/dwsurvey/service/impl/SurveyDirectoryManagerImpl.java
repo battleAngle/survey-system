@@ -2,6 +2,7 @@ package com.key.dwsurvey.service.impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -555,7 +556,7 @@ public class SurveyDirectoryManagerImpl extends BaseServiceImpl<SurveyDirectory,
 
 	@Override
 	public SurveyDirectory createBySurvey(String fromBankId, String surveyName,
-										  String tag) {//new
+										  String tag,boolean withLogic) {//new
 		
 		//拿到一个新的SurveyDirectory对象
 		SurveyDirectory surveyDirectory = buildCopyObj(fromBankId, surveyName,
@@ -564,7 +565,7 @@ public class SurveyDirectoryManagerImpl extends BaseServiceImpl<SurveyDirectory,
 		saveUserSurvey(surveyDirectory);
 		String belongId=surveyDirectory.getId();
 		List<Question> questions=questionManager.find(fromBankId, tag);
-		questionManager.saveBySurvey(belongId, 2 , questions);
+		questionManager.saveBySurvey(belongId, 2 , questions,withLogic);
 		return surveyDirectory;
 	}
 

@@ -79,6 +79,6 @@ public interface SurveyDirectoryManager extends BaseService<SurveyDirectory, Str
 			SurveyDirectory entity);
 
 	public SurveyDirectory createBySurvey(String fromBankId, String surveyName,
-										  String tag);
+										  String tag,boolean withLogic);
 
 }

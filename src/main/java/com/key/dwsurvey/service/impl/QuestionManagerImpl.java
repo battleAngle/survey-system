@@ -244,9 +244,9 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 		return findList(filters);
 	}
 	
-	public void saveBySurvey(String belongId  ,int tag, List<Question> questions) {
+	public void saveBySurvey(String belongId  ,int tag, List<Question> questions,boolean withLogic) {
 		for (Question question : questions) {
-			copyQu(belongId, tag, question);
+			copyQu(belongId, tag, question,withLogic);
 		}
 		IdMapThreadLocal.clear();
 	}
@@ -257,11 +257,11 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 	public void saveChangeQu(String belongId,int tag, String[] quIds) {
 		for (String quId : quIds) {
 			Question changeQuestion=findUnById(quId);
-			copyQu(belongId, tag, changeQuestion);
+			copyQu(belongId, tag, changeQuestion,true);
 		}
 	}
 
-	private void copyQu(String belongId, int tag, Question changeQuestion) {
+	private void copyQu(String belongId, int tag, Question changeQuestion,Boolean withLogic) {
 		String quId=changeQuestion.getId();
 		if(changeQuestion.getQuType()==QuType.BIGQU){
 			Question question=new Question();
@@ -295,10 +295,10 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 			question.setQuestions(qulits);
 			save(question);
 		}else{
-			copyroot(belongId, tag, changeQuestion);	
+			copyroot(belongId, tag, changeQuestion, withLogic);
 		}
 	}
-	private void copyroot(String belongId,Integer tag, Question changeQuestion) {
+	private void copyroot(String belongId,Integer tag, Question changeQuestion,Boolean withLogic) {
 		//拷贝先中的问题属性值到新对象中
 		Question question=new Question();
 		ReflectionUtils.copyAttr(changeQuestion,question);
@@ -310,9 +310,14 @@ public class QuestionManagerImpl extends BaseServiceImpl<Question, String> imple
 		question.setCopyFromId(changeQuestion.getId());
 		
 		getQuestionOption(changeQuestion);
+
 		copyItems(belongId,changeQuestion, question);
-		List<QuestionLogic> questionLogics = changeQuestion.getQuestionLogics();
-		question.setQuestionLogics(questionLogics);
+		if (withLogic) {
+			List<QuestionLogic> questionLogics = changeQuestion.getQuestionLogics();
+			question.setQuestionLogics(questionLogics);
+		} else {
+			question.setQuestionLogics(Collections.<QuestionLogic>emptyList());
+		}
 		save(question);
 	}
 
