@@ -290,7 +290,7 @@ function buildPieChart(resultJson,quId){
 									<a href="${ctx }/da/survey-report!lineChart.action?surveyId=${surveyId }" class="dw_btn025 linepic active" style="margin-left: 10px;"><i class="fa fa-bar-chart"></i>&nbsp;柱状图</a>
 									<a href="${ctx }/da/survey-report!pieChart.action?surveyId=${surveyId }" class="dw_btn025 piepic " style="margin-left: 10px;"><i class="fa fa-pie-chart"></i>&nbsp;饼状图</a></div>
 								<div style="float: right;" >
-									<a href="" class="dw_btn025"><i class="fa fa-download"></i>下载报告</a>
+									<a href="" class="dw_btn025" id="download_report"><i class="fa fa-download"></i>下载报告</a>
 									<a href="" class="dw_btn025"><i class="fa fa-share"></i>分享</a></div>
 							</div>
 							<div style="padding-top:8px;">
@@ -547,7 +547,24 @@ function buildPieChart(resultJson,quId){
 		</div>
 	</div>
 <script type="text/javascript">
+	//权限控制
+	$.ajax({
+		url:'${ctx }/sy/user/user-admin!getCurrentUserPermission.action',
+		type:"get",
+		success:function(msg){
+			let permissionInfo = JSON.parse(msg);
+			switch(permissionInfo.roleId){
 
+				case 4:
+					$("#download_report").hide();
+					break;
+				case 5:
+					$("#download_report").hide();
+					break;
+
+			}
+		}
+	});
 </script>
 </body>
 </html>

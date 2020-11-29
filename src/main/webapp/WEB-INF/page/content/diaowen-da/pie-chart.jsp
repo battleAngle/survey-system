@@ -290,7 +290,7 @@ function substring(json) {
 								<div style="float: left;" >
 									<a href="${ctx }/da/survey-report!defaultReport.action?surveyId=${surveyId }" class="dw_btn025 tabpic"><i class="fa fa-tasks"></i>&nbsp;表格</a>
 								<div style="float: right;" >
-									<a href="" class="dw_btn025"><i class="fa fa-download"></i>下载报告</a>
+									<a href="" class="dw_btn025" id="download_report"><i class="fa fa-download"></i>下载报告</a>
 									<a href="" class="dw_btn025"><i class="fa fa-share"></i>分享</a></div>
 							</div>
 							<div style="padding-top:8px;">
@@ -547,7 +547,24 @@ function substring(json) {
 		</div>
 	</div>
 <script type="text/javascript">
+	//权限控制
+	$.ajax({
+		url:'${ctx }/sy/user/user-admin!getCurrentUserPermission.action',
+		type:"get",
+		success:function(msg){
+			let permissionInfo = JSON.parse(msg);
+			switch(permissionInfo.roleId){
 
+				case 4:
+					$("#download_report").hide();
+					break;
+				case 5:
+					$("#download_report").hide();
+					break;
+
+			}
+		}
+	});
 </script>
 </body>
 </html>

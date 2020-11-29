@@ -200,9 +200,9 @@ $(document).ready(function(){
 		
 		if(scrollTop>=headerHeight && scrollTop<=100){
 			//console.debug("(135+(30-(100-scrollTop)))+px:"+(135+(30-(100-scrollTop)))+"px,scrollTop"+scrollTop);
-			$("#dw_body").css({"margin-top":(135+((100-headerHeight)-(100-scrollTop)))+"px"});
+			$("#dw_body").css({"margin-top":(200+((100-headerHeight)-(100-scrollTop)))+"px"});
 		}else{
-			$("#dw_body").css({"margin-top":"135px"});
+			$("#dw_body").css({"margin-top":"200px"});
 		}
 		
 		//修正当前编辑的浮动编辑区位置 

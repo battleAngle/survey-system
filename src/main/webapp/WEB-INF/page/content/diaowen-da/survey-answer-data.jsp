@@ -108,8 +108,8 @@
 						<div style="" >
 							<div style="overflow: auto;">
 								<div style="float: right;" >
-									<div class="btn-group">
-									<a href="${ctx }/da/my-survey-answer!exportXLS.action?surveyId=${survey.id }" class="dw_btn025 btn btn-default"><i class="fa fa-download"></i>&nbsp;导出数据</a>
+									<div class="btn-group" >
+									<a id="export_data" href="${ctx }/da/my-survey-answer!exportXLS.action?surveyId=${survey.id }" class="dw_btn025 btn btn-default"><i class="fa fa-download"></i>&nbsp;导出数据</a>
 									</div>
 								</div>
 							</div>
@@ -191,7 +191,28 @@
 	</div>
 <script type="text/javascript">
 
-$(".scmcSurveySNSShare textarea").focus(function(){
+	//权限控制
+	$.ajax({
+		url:'${ctx }/sy/user/user-admin!getCurrentUserPermission.action',
+		type:"get",
+		success:function(msg){
+			let permissionInfo = JSON.parse(msg);
+			switch(permissionInfo.roleId){
+
+				case 4:
+					$("#export_data").hide();
+					break;
+				case 5:
+					$("#export_data").hide();
+					break;
+
+			}
+		}
+	});
+
+
+
+	$(".scmcSurveySNSShare textarea").focus(function(){
 	$(this).css({"background-color":"#FDF9CD","border-color":"#98C5C3"});
 });
 $(".scmcSurveySNSShare textarea").blur(function(){

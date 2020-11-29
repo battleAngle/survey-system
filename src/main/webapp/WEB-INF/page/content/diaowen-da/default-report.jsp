@@ -864,7 +864,7 @@ function substring(json) {
 									<a href="${ctx }/da/survey-report!pieChart.action?surveyId=${surveyId }" class="dw_btn025 piepic " style="margin-left: 10px;"><i class="fa fa-pie-chart"></i>&nbsp;饼状图</a> --%> 
 								</div>
 								<div style="float: right;" >
-									<a href="${ctx }/da/my-survey-answer!exportXLS.action?surveyId=${surveyId }" class="dw_btn025"><i class="fa fa-download"></i>下载数据</a>
+									<a href="${ctx }/da/my-survey-answer!exportXLS.action?surveyId=${surveyId }" id="download_report" class="dw_btn025"><i class="fa fa-download"></i>下载数据</a>
 									<!-- <a href="" class="dw_btn025"><i class="fa fa-share"></i>分享</a>-->
 									</div> 
 							</div>
@@ -1461,6 +1461,24 @@ function substring(json) {
 <script type="text/javascript">
 $(document).ready(function(){
 	//.quTrOptions  td
+	//权限控制
+	$.ajax({
+		url:'${ctx }/sy/user/user-admin!getCurrentUserPermission.action',
+		type:"get",
+		success:function(msg){
+			let permissionInfo = JSON.parse(msg);
+			switch(permissionInfo.roleId){
+
+				case 4:
+					$("#download_report").hide();
+					break;
+				case 5:
+					$("#download_report").hide();
+					break;
+
+			}
+		}
+	});
 });
 </script>
 </body>

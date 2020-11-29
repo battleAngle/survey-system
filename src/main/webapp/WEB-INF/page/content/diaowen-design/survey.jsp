@@ -578,10 +578,11 @@
 							<div class="surveyQuItem">
 								<div class="surveyQuItemLeftTools">
 									<ul class="surveyQuItemLeftToolsUl">
-										<!--<li title="移动排序" class="dwQuMove"><div class="dwQuIcon"></div></li>
-                                        <li title="设置" class="dwQuSet"><div class=dwQuIcon></div></li>
-                                        <li title="逻辑" class="dwQuLogic"><div class="dwQuIcon"><div class="quLogicInfo"></div></div></li> -->
-										<li title="复制分段" class="dwQuCopy_paragraph ui-draggable"><div class="dwQuIcon"></div></li>
+										<li title="移动排序" class="dwQuMove"><div class="dwQuIcon"></div></li>
+<%--										<li title="设置" class="dwQuSet"><div class=dwQuIcon></div></li>--%>
+										<li title="逻辑" class="dwQuLogic"><div class="dwQuIcon"><div class="quLogicInfo"></div></div></li>
+										<li title="逻辑复制" class="dwQuLogicCopy"><div class="dwQuIcon"></div></li>
+										<li title="复制" class="dwQuCopy"><div class="dwQuIcon fa fa-files-o"></div></li>
 										<li title="删除" class="dwQuDelete"><div class="dwQuIcon"></div></li>
 									</ul>
 								</div>
@@ -2222,7 +2223,7 @@
 			</div>
 			<h2 class=""><a href="" class="ellipsis">结束页</a></h2>
 		</div>
-	</div>
+	</div>n
 	<div id="dw_body_right" style="display: none;"><div class="dw_body_title">题目推荐</div></div>
 	<div id="dw_body_content">
 		<%-- <div id="dwSurveyTitle" contenteditable="true">${survey.surveyName }</div> --%>
