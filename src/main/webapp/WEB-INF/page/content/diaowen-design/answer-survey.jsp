@@ -4196,15 +4196,11 @@ name="sid" value="${survey.sid }"> <input type="hidden"
 									class="isRequired" value="${en.isRequired }">
 								<div class="quLogicInputCase">
 									<c:forEach items="${en.questionLogics }" var="quLogicEn"
-										varStatus="logicSts">
-										<div class="quLogicItem quLogicItem_${logicSts.count }">
-											<input type="hidden" class="cgQuItemId"
-												value="${quLogicEn.cgQuItemId }" /> <input
-												type="hidden" class="ckQuItemId"
-												value="${quLogicEn.ckQuItemId }" /> <input
-												type="hidden" class="skQuId"
-												value="${quLogicEn.skQuId }" />
-										</div>
+											   varStatus="logicSts"><div class="quLogicItem quLogicItem_${logicSts.count }"><input type="hidden" class="cgQuItemId" value="${quLogicEn.cgQuItemId }" /> <input type="hidden" class="ckQuItemId" value="${quLogicEn.ckQuItemId }" /> <input type="hidden" class="skQuId" value="${quLogicEn.skQuId }" /> <input type="hidden" class="logicId" value="${quLogicEn.id }" />
+										<input type="hidden" class="eqAndNq" value="${quLogicEn.eqAndNq }" />
+										<input type="hidden" class="geLe" value="${quLogicEn.geLe }" />
+										<input type="hidden" class="scoreNum" value="${quLogicEn.scoreNum }" /> <input type="hidden" class="logicType" value="${quLogicEn.logicType }" />
+									</div>
 									</c:forEach>
 								</div>
 							</div>

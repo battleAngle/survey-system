@@ -5344,6 +5344,7 @@ function saveParagraph(quItemBody,callback){
 		}
 		//逻辑选项
 		var quLogicItems=quItemBody.find(".quLogicItem");
+		console.log(1111, quItemBody)
 		$.each(quLogicItems,function(i){
 			var thClass=$(this).attr("class");
 			thClass=thClass.replace("quLogicItem quLogicItem_","");
@@ -5355,6 +5356,7 @@ function saveParagraph(quItemBody,callback){
 			var visibility=$(this).find("input[name='visibility']").val();
 			var logicType=$(this).find("input[name='logicType']").val();
 			var itemIndex=thClass;
+			console.log(12333,quLogicId)
 			if(logicSaveTag==0){
 				data+="&quLogicId_"+itemIndex+"="+quLogicId;
 				data+="&cgQuItemId_"+itemIndex+"="+cgQuItemId;

@@ -3049,9 +3049,9 @@
 							<div class="surveyQuItem">
 								<div class="surveyQuItemLeftTools">
 										<ul class="surveyQuItemLeftToolsUl">
-											<!-- <li title="移动排序" class="dwQuMove"><div class="dwQuIcon"></div></li>
+											<li title="移动排序" class="dwQuMove"><div class="dwQuIcon"></div></li>
 											<li title="设置" class="dwQuSet"><div class="dwQuIcon"></div></li>
-											<li title="逻辑" class="dwQuLogic"><div class="dwQuIcon"><div class="quLogicInfo">${fn:length(en.questionLogics) > 0?fn:length(en.questionLogics) :'' }</div></div></li> -->
+											<li title="逻辑" class="dwQuLogic"><div class="dwQuIcon"><div class="quLogicInfo">${fn:length(en.questionLogics) > 0?fn:length(en.questionLogics) :'' }</div></div></li>
 											<li title="复制" class="dwQuCopy_paragraph"><div class="dwQuIcon fa fa-files-o"></div></li>
 											<li title="删除" class="dwQuDelete"><div class="dwQuIcon"></div></li>
 										</ul>
