@@ -2223,7 +2223,7 @@
 			</div>
 			<h2 class=""><a href="" class="ellipsis">结束页</a></h2>
 		</div>
-	</div>n
+	</div>
 	<div id="dw_body_right" style="display: none;"><div class="dw_body_title">题目推荐</div></div>
 	<div id="dw_body_content">
 		<%-- <div id="dwSurveyTitle" contenteditable="true">${survey.surveyName }</div> --%>
@@ -3564,9 +3564,9 @@
 					
 				</c:choose>
 				</li>
-	</c:forEach>				
-				
-				<%-- 
+	</c:forEach>
+
+				<%--
 				<li>
 				<div id="defaultAppQuObj" class="surveyQuItemBody"  style="height: 100px;">
 					<div class="initLine"></div>
