@@ -97,7 +97,11 @@ public class QuParagraphAction extends ActionSupport{
 		List<QuestionLogic> quLogics=new ArrayList<QuestionLogic>();
 		for (String key : quLogicIdMap.keySet()) {
 			String cgQuItemId=request.getParameter("cgQuItemId_"+key);
+			String ckQuItemId=request.getParameter("ckQuItemId_"+key);
 			String skQuId=request.getParameter("skQuId_"+key);
+			String geLe=request.getParameter("geLe_"+key);
+			String eqAndNq=request.getParameter("eqAndNq_"+key);
+			String scoreNum=request.getParameter("scoreNum_"+key);
 			String visibility=request.getParameter("visibility_"+key);
 			String logicType=request.getParameter("logicType_"+key);
 			Object quLogicId=quLogicIdMap.get(key);
@@ -109,10 +113,16 @@ public class QuParagraphAction extends ActionSupport{
 			}
 			quLogic.setId(quLogicIdValue);
 			quLogic.setCgQuItemId(cgQuItemId);
+			if(ckQuItemId != null && ckQuItemId != ""){
+				quLogic.setCkQuItemId(ckQuItemId);
+			}
 			quLogic.setSkQuId(skQuId);
+			quLogic.setGeLe(geLe);
+			quLogic.setScoreNum(scoreNum);
 			quLogic.setVisibility(Integer.parseInt(visibility));
 			quLogic.setTitle(key);
 			quLogic.setLogicType(logicType);
+			quLogic.setEqAndNq(eqAndNq);
 			quLogics.add(quLogic);
 		}
 		entity.setQuestionLogics(quLogics);
