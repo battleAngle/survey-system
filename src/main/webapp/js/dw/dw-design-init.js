@@ -5348,21 +5348,38 @@ function saveParagraph(quItemBody,callback){
 		$.each(quLogicItems,function(i){
 			var thClass=$(this).attr("class");
 			thClass=thClass.replace("quLogicItem quLogicItem_","");
-			
 			var quLogicId=$(this).find("input[name='quLogicId']").val();
+			console.log('quLogicId',this,$(this).find("input[name='quLogicId']")[0].getAttribute('value'));
 			var cgQuItemId=$(this).find("input[name='cgQuItemId']").val();
+			var ckQuId=$(this).find("input[name='ckQuId']").val();
+			var ckQuItemId=$(this).find("input[name='ckQuItemId']").val();
 			var skQuId=$(this).find("input[name='skQuId']").val();
 			var logicSaveTag=$(this).find("input[name='logicSaveTag']").val();
+			var geLe=$(this).find("input[name='geLe']").val();
+			var scoreNum=$(this).find("input[name='scoreNum']").val();
 			var visibility=$(this).find("input[name='visibility']").val();
+			var eqAndNq=$(this).find("input[name='eqAndNq']").val();
 			var logicType=$(this).find("input[name='logicType']").val();
+			// var quLogicId=$(this).find("input[name='quLogicId']").val();
+			// var cgQuItemId=$(this).find("input[name='cgQuItemId']").val();
+			// var skQuId=$(this).find("input[name='skQuId']").val();
+			// var logicSaveTag=$(this).find("input[name='logicSaveTag']").val();
+			// var visibility=$(this).find("input[name='visibility']").val();
+			// var logicType=$(this).find("input[name='logicType']").val();
 			var itemIndex=thClass;
 			console.log(12333,quLogicId)
 			if(logicSaveTag==0){
 				data+="&quLogicId_"+itemIndex+"="+quLogicId;
 				data+="&cgQuItemId_"+itemIndex+"="+cgQuItemId;
 				data+="&skQuId_"+itemIndex+"="+skQuId;
+				data+="&geLe_"+itemIndex+"="+geLe;
+				data+="&scoreNum_"+itemIndex+"="+scoreNum;
 				data+="&visibility_"+itemIndex+"="+visibility;
+				data+="&eqAndNq_"+itemIndex+"="+eqAndNq;
 				data+="&logicType_"+itemIndex+"="+logicType;
+				if(ckQuItemId !=undefined && ckQuItemId !=""){
+					data+="&ckQuItemId_"+itemIndex+"="+ckQuItemId;
+				}
 			}
 			
 		});
