@@ -11,6 +11,7 @@ import com.key.dwsurvey.dao.SurveyUserDao;
 import com.key.dwsurvey.entity.*;
 import com.key.dwsurvey.service.*;
 
+import com.key.dwsurvey.support.UserSupport;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,8 @@ public class SurveyDirectoryManagerImpl extends BaseServiceImpl<SurveyDirectory,
 	private SurveyUserDao surveyuserdao;
 	@Autowired
 	private QuestionLogicManager questionLogicManager;
+	@Autowired
+	private UserSupport userSupport;
 	
 	@Override
 	public void setBaseDao() {
@@ -151,11 +154,19 @@ public class SurveyDirectoryManagerImpl extends BaseServiceImpl<SurveyDirectory,
 	
 	public SurveyDirectory getSurveyByUser(String id,String userId) {
 		SurveyDirectory directory=get(id);
-		if(userId.equals(directory.getUserId())){
+		if (userSupport.isAdminRole()) {
+			// 如果是管理员，可以查看
 			getSurveyDetail(id,directory);
-		    return directory;
+			return directory;
+		} else {
+			// 否则只有本人才能查看
+			if(userId.equals(directory.getUserId())){
+				getSurveyDetail(id,directory);
+				return directory;
+			}
+			return null;
 		}
-		return null;
+
 	}
 
 	public void getSurveyDetail(String id,SurveyDirectory directory) {
@@ -452,7 +463,7 @@ public class SurveyDirectoryManagerImpl extends BaseServiceImpl<SurveyDirectory,
 	    if(user!=null){
 			List<Criterion> criterions=new ArrayList<Criterion>();
 
-			if (user.getRoleId() != 0) {
+			if (!userSupport.isAdminRole()) {
 				criterions.add(Restrictions.eq("userId", user.getId()));
 			}
 			criterions.add(Restrictions.eq("visibility", 1));
