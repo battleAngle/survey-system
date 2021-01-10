@@ -788,11 +788,15 @@ $(document)
 													},
 													type : "post",
 													success : function(msg) {
-														window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+														console.log()
+														// window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+														window.open(location.origin + "/quit.html", '_self')
+
 													}
 												});
 											}else{
-												window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+												// window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+												window.open(location.origin + "/quit.html", '_self')
 											}
 										},
 										error : function() {
@@ -800,7 +804,8 @@ $(document)
 										}
 									});
 								}else if($("#surveyuser_username").val()) {
-									window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+									// window.open("http://pi.aizaozao.xyz:8088/quit.html", '_self')
+									window.open(location.origin + "/quit.html", '_self')
 								}
 							});
 					//评分题

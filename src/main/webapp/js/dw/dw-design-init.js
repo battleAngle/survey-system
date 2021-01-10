@@ -1767,6 +1767,7 @@ $(document).ready(function(){
 	$("#dwDialogUeOk").click(function(){
 		var myeditorContent=myeditor.getContent();
 		curEditObj=ueEditObj;
+		console.log(123,ueEditObj,curEditObj, myeditorContent)
 		setCurEditContent(myeditorContent);
 		curEditCallback();
 		ueDialog.dialog("close");
@@ -1777,6 +1778,7 @@ $(document).ready(function(){
 	
 	//设置窗口保存事件
 	$("#dwDialogQuSetSave").click(function(){
+
 		if(dwDialogObj!=null){
 			var quItemBody=$(dwDialogObj).parents(".surveyQuItemBody");
 			//var quType=quItemBody.find("input[name='quType']").val();
@@ -3555,12 +3557,11 @@ function curEditCallback(){
 }
 
 function setCurEditContent(dwEditHtml){
-	
 	var thClass=$(curEditObj).attr("class");
 	var dwEditHtmlTrim=trimStr(dwEditHtml);
 	var regx = /<[^>]*>|<\/[^>]*>/gm;
 	dwEditHtmlTrim=dwEditHtmlTrim.replace(/<[^>]*>|<\/[^>]*>/gm,"");
-	if(dwEditHtmlTrim =="" && thClass.indexOf("dwSvyNoteEdit")<0){
+	if(dwEditHtmlTrim =="" && thClass.indexOf("dwSvyNoteEdit")<0 && dwEditHtml.indexOf("img")<0){
 		deleteDwOption();
 	}else if(dwEditHtml!=curEditObjOldHtml){
 		//更新值
